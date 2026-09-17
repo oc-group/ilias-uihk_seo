@@ -118,9 +118,8 @@ class ilSeoPlugin extends ilUserInterfaceHookPlugin implements ilCronJobProvider
     }
 
     /**
-     * Procedure that is called when uninstalling the plugin. Drops only this
-     * plugin's own two tables (see the drop loop below for why the other four
-     * are deliberately left alone).
+     * Procedure that is called when uninstalling the plugin. Drops the tables
+     * this plugin owns.
      * @return void
      */
     protected function afterUninstall(): void
@@ -133,17 +132,6 @@ class ilSeoPlugin extends ilUserInterfaceHookPlugin implements ilCronJobProvider
 
         (new ilSetting(ilSeoSettings::MODULE))->deleteAll();
 
-        /**
-         * Only this plugin's own two tables. The hit tables and the graph
-         * table belong to a companion plugin and must never be dropped from
-         * here: they hold hit history that cannot be reconstructed, and this
-         * plugin must not be able to destroy data it does not own. Note that a
-         * table name is not proof of ownership -- on some installations those
-         * three still carry a name beginning with this plugin's own prefix,
-         * and they are still not this plugin's to drop. The companion plugin
-         * drops its own four tables, under their own names, from its own
-         * afterUninstall().
-         */
         $tables = [
             self::TABLE_DATA,
             self::TABLE_HISTORY,

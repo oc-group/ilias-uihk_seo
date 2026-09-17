@@ -1,0 +1,15 @@
+/vendor
+/node_modules
+/package-lock.json
+
+# Generated at runtime by ilSeoRewriteRules on this branch; never shipped as source.
+/assets/apache.conf
+
+# Generated at runtime by ilSeoSitemapBuilderCronJob (see storageDir()); never shipped as source.
+/assets/sitemap.xml
+/assets/sitemap-index.xml
+/assets/robots.txt
+
+# Python bytecode cache, created by any local run of .github/scripts/*.py
+__pycache__/
+*.pyc

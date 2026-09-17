@@ -1,0 +1,134 @@
+advanced_actions_label#:#Options
+advanced_content_type_blog#:#Article de blog
+advanced_content_type_dcl#:#Enregistrement de la collecte de données
+advanced_content_type_frm#:#Sujet de forum
+advanced_content_type_label#:#Type de contenu
+advanced_content_type_lm#:#Page de module d'apprentissage
+advanced_content_type_wiki#:#Page wiki
+advanced_settings#:#Afficher les options avancées
+advanced_switch_to_object#:#Modifier plutôt l'objet %s
+advanced_switch_to_page#:#Modifier plutôt ce %s
+delete_permalink#:#Supprimer le permalien
+delete_permalink_mass_message#:#Voulez-vous vraiment supprimer %s permalien(s) ? Cette action est irréversible.
+delete_permalink_message#:#Voulez-vous vraiment supprimer ce permalien ? Cette action est irréversible.
+description#:#Description
+description_info#:#Elle doit compter entre 150 et 160 caractères et fournir un résumé clair et concis du contenu de la page afin d'inciter les internautes à cliquer sur le résultat de recherche.
+duplicate_metadata#:#Métadonnées dupliquées
+duplicate_metadata_both#:#Titre et description dupliqués
+duplicate_metadata_description#:#Description dupliquée
+duplicate_metadata_title#:#Titre dupliqué
+enabled#:#Les métadonnées SEO sont actives.
+err_gone#:#Désolé, cette page n'est plus disponible.
+err_internal#:#Une erreur inattendue s'est produite.
+err_no_permission#:#Désolé, vous n'êtes pas autorisé à accéder à cette page.
+err_not_found#:#Désolé, la page que vous recherchez est introuvable.
+err_redirection#:#Les règles de redirection n'ont pas pu être écrites dans le fichier .htaccess d'ILIAS. Les permaliens ne fonctionneront pas tant que ce problème n'est pas résolu. Vérifiez que le fichier existe et qu'il est modifiable par le serveur web.
+field_required#:#Ce champ est obligatoire.
+follow#:#Follow
+follow_links#:#Suivre
+follow_links_info#:#Indique si les moteurs de recherche doivent suivre les liens présents sur cette page.
+frequency#:#Fréquence
+frequency_always#:#Toujours
+frequency_daily#:#Quotidienne
+frequency_hourly#:#Horaire
+frequency_info#:#La fréquence à laquelle la page est mise à jour. Elle indique aux robots à quelle fréquence ils doivent l'analyser.
+frequency_monthly#:#Mensuelle
+frequency_never#:#Jamais
+frequency_weekly#:#Hebdomadaire
+frequency_yearly#:#Annuelle
+homepage_already_exists#:#Une autre page est déjà définie comme page d'accueil.
+homepage_confirm_action#:#Oui, utiliser comme page d'accueil
+homepage_confirm_expired#:#Rien n'est en attente de confirmation pour cette page. Si vous vouliez la définir comme page d'accueil, modifiez à nouveau ses métadonnées SEO et laissez le permalien vide.
+homepage_confirm_message#:#Utiliser « %s » comme page d'accueil de votre site, servie à l'adresse racine (par ex. example.com/) plutôt que sur un permalien ? Une seule page peut être la page d'accueil à la fois.
+homepage_confirm_title#:#Utiliser comme page d'accueil
+homepage_pending_notice#:#Ces valeurs ne sont pas enregistrées. Vous avez laissé une modification de page d'accueil sans confirmation ; enregistrez à nouveau pour revenir à la confirmation, ou saisissez un permalien pour l'abandonner.
+index#:#Index
+index_page#:#Indexer
+index_page_info#:#Indique si la page est visible pour les moteurs de recherche (indexée). Si activé, vous pouvez définir les valeurs de fréquence et de priorité, qui ne concernent que le <b>plan du site</b>.
+language#:#Langues
+mass_edit#:#Tout modifier
+mass_edit_rows_skipped#:#%s page(s) sélectionnée(s) n'existaient plus et ont été ignorées ; les autres ont été mises à jour.
+mass_edit_unchanged#:#Laisser inchangé
+mass_edit_unchanged_info#:#Laissez vide pour conserver la valeur actuelle de chaque page sélectionnée.
+metadata#:#Métadonnées activées
+metadata_deleted#:#Métadonnées SEO supprimées en %s.
+metadata_not_saved#:#Impossible d'enregistrer les métadonnées SEO.
+metadata_not_saved_invalid#:#Impossible d'enregistrer les métadonnées SEO. %s
+metadata_saved#:#Métadonnées SEO enregistrées.
+not_enabled#:#Les métadonnées SEO ne sont pas encore actives.
+page_not_public#:#Cette page n'est pas accessible publiquement.
+page_public#:#Cette page est accessible publiquement.
+permalink#:#Permalien
+permalink_already_exists#:#Ce permalien est déjà utilisé par une autre page.
+permalink_deleted#:#Permalien supprimé avec succès
+permalink_info#:#Le slug est le permalien de la page : la partie d'une URL qui identifie une page précise, comme <u>a-propos/</u> dans <u>example.com/a-propos/</u>.<br/>Gardez-le court, descriptif et facile à lire pour les utilisateurs comme pour les moteurs de recherche.
+permalink_reserved#:#Le permalien choisi est réservé.
+permalink_suggested#:#Rien n'est encore enregistré pour cette page : la valeur ci-dessus n'est donc qu'une suggestion construite à partir de son propre titre. Ajustez-la comme vous le souhaitez avant d'enregistrer.
+permalink_suggested_inherited#:#Rien n'est encore enregistré pour cette page : la valeur ci-dessus n'est donc qu'une suggestion, à savoir son propre titre placé sous le permalien déjà utilisé par son conteneur. Ajustez-la comme vous le souhaitez avant d'enregistrer.
+permalink_suggested_numbered#:#Rien n'est encore enregistré pour cette page, et ce contenu n'a pas de titre propre : la valeur ci-dessus se contente donc de placer son numéro sous le permalien déjà utilisé par son conteneur. Ajustez-la comme vous le souhaitez avant d'enregistrer.
+permalink_too_long#:#Le permalien est trop long. Une fois le « / » final ajouté, il ne peut pas dépasser %s caractères : veuillez le raccourcir et enregistrer à nouveau.
+plugin_description#:#Ajoute des fonctionnalités SEO à ILIAS
+plugin_title#:#ILIAS SEO
+priority#:#Priorité
+priority_info#:#L'importance relative de la page pour les moteurs de recherche.
+request_not_processed#:#Cette action n'a pas été effectuée et rien n'a été modifié. Veuillez rouvrir les paramètres SEO et réessayer.
+reset_metadata#:#Supprimer les métadonnées SEO
+reset_metadata_message#:#Supprimer les métadonnées SEO de cette page en %s ? Seule cette langue est supprimée ; la page conserve ses métadonnées dans toutes les autres langues. Son permalien cesse aussitôt de fonctionner et cette action est irréversible.
+rewrite_status_apache_content_summary#:#Contenu actuel du fichier (à titre indicatif)
+rewrite_status_apache_heading#:#Apache
+rewrite_status_apache_instructions#:#Le contenu actuel de ce fichier, affiché à titre indicatif (vous ne le collez jamais vous-même une fois l'étape unique ci-dessus effectuée). Apache ne relit ce fichier qu'au redémarrage, pas à chaque requête ; rechargez-le donc (par ex. avec apache2ctl graceful) chaque fois que ce contenu change, y compris après avoir enregistré à nouveau ce formulaire.
+rewrite_status_apache_missing#:#La configuration Apache n'a pas pu être écrite sur le disque. Vérifiez que %s est modifiable par le serveur web, puis enregistrez à nouveau ce formulaire.
+rewrite_status_apache_onetime_instructions#:#Étape unique, nécessaire seulement si vous ne l'avez pas déjà effectuée (voir le README) : ajoutez ces deux lignes à l'intérieur du bloc Directory du vhost Apache de cette installation, en utilisant le chemin absolu indiqué. IncludeOptional résout un chemin relatif par rapport au ServerRoot d'Apache, et non par rapport à ce répertoire, et échoue silencieusement si le chemin indiqué ici n'est pas absolu.
+rewrite_status_caveat#:#Ceci ne peut confirmer que la configuration ci-dessous a bien été générée sur le disque, pas qu'un administrateur système l'a effectivement collée dans le serveur web et l'a rechargé.
+rewrite_status_nginx_detected#:#Cette installation semble être servie par nginx.
+rewrite_status_nginx_heading#:#nginx
+rewrite_status_nginx_instructions#:#Collez le bloc ci-dessous à l'intérieur du bloc server {}, en remplaçant la directive par défaut « location / », puis rechargez nginx (nginx -s reload).
+rewrite_status_nginx_missing#:#La configuration nginx n'a pas pu être écrite sur le disque. Vérifiez que %s est modifiable par le serveur web, puis enregistrez à nouveau ce formulaire.
+rewrite_status_nginx_not_detected#:#Cette installation ne semble pas être servie par nginx (Apache est supposé). Les deux configurations ci-dessous sont générées à chaque enregistrement dans tous les cas, au cas où cette détection serait erronée derrière un proxy inverse.
+rewrite_status_nginx_port_instructions#:#Certains paquets nginx définissent HTTP_HOST à partir du seul nom d'hôte, en omettant le port. ILIAS construit les URL de connexion et de redirection à partir de HTTP_HOST : sur un port non standard, ces URL perdent donc le port. Ajoutez la ligne ci-dessous à votre bloc location php-fpm, après include fastcgi_params, puis rechargez nginx.
+rewrite_status_nginx_port_summary#:#Exécution sur un port non standard ? (cliquez pour développer)
+rewrite_status_title#:#Routage des permaliens
+robots#:#Robots
+robots_index_follow#:#Index, Follow
+robots_index_nofollow#:#Index, Nofollow
+robots_noindex_follow#:#Noindex, Follow
+robots_noindex_nofollow#:#Noindex, Nofollow
+screen_config_desc#:#Les paramètres SEO de l'installation : le titre du site, la soumission du plan du site, et pour quelles langues les métadonnées SEO sont publiées.
+screen_config_title#:#Configuration SEO
+screen_overview_desc#:#Toutes les pages connues du plugin, avec le permalien, les métadonnées et les directives pour moteurs de recherche enregistrés pour chacune.
+screen_overview_title#:#Vue d'ensemble SEO
+section_languages#:#Langue
+section_languages_info#:#Les langues installées pour lesquelles le plugin publie des métadonnées SEO. Cochez une langue pour l'activer ; la note sous chacune compte les pages qui ont déjà des métadonnées dans cette langue.
+section_settings#:#Paramètres
+seo#:#SEO
+seo_default_language#:#Langue par défaut
+seo_default_language_info#:#Toujours active, quel que soit l'état de sa propre case ci-dessous.
+seo_edit#:#Modifier les métadonnées SEO
+seo_lang_pages_info#:#Métadonnées SEO enregistrées pour %s pages sur %s (%s%%).
+sitemap_builder#:#Générateur de plan du site
+sitemap_builder_info#:#Construit le plan du site de l'espace public.
+sitemap_exclusion#:#Exclusion du plan du site
+sitemap_status#:#Statut dans le plan du site
+sitemap_status_in_no_date#:#Dans le plan du site (aucune date)
+sitemap_status_in_object_date#:#Dans le plan du site (date de l'objet)
+sitemap_status_in_page_date#:#Dans le plan du site (date de la page)
+sitemap_status_out_lang_inactive#:#Exclue (langue inactive)
+sitemap_status_out_no_object#:#Exclue (objet supprimé)
+sitemap_status_out_noindex#:#Exclue (noindex)
+sitemap_status_out_not_public#:#Exclue (non publique)
+sitemap_status_out_unreachable#:#Exclue (inaccessible)
+slug#:#Slug
+status_indexed#:#SEO : actif
+status_no_access#:#SEO : aucun accès public
+status_noindex#:#SEO : exclu de l'index
+status_unsaved#:#SEO : métadonnées non enregistrées
+submit_sitemap#:#Soumettre le plan du site
+submit_sitemap_info#:#Envoie un ping du plan du site généré à Yandex (le seul moteur contacté, car la bibliothèque de plan du site ne fournit aucun autre point d'accès). Ce point d'accès n'est pas documenté et son effet ne peut pas être vérifié ; laissez donc cette option désactivée sauf si vous le souhaitez expressément. Les moteurs de recherche trouvent le plan du site grâce à la ligne « Sitemap: » que le plugin maintient dans robots.txt, ce qui fonctionne même avec cette option désactivée.
+target_missing#:#N'est plus disponible dans le répertoire. Ses données SEO peuvent toujours être modifiées ou supprimées ici.
+target_missing_label#:#Objet du répertoire
+title#:#Titre
+title_admin_overview_count#:#Vue d'ensemble SEO (%s pages)
+title_info#:#Il doit compter entre 50 et 60 caractères, afin de rester entièrement visible dans les résultats de recherche sans être tronqué.
+update#:#Mettre à jour
+web_title#:#Titre du site web
+web_title_info#:#Titre du site web à utiliser dans les métadonnées des pages. Par défaut : %s.

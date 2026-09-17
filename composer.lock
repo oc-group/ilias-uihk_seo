@@ -1,0 +1,92 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "dffcd896a3834a746321a1b83e8bb6d7",
+    "packages": [
+        {
+            "name": "icamys/php-sitemap-generator",
+            "version": "5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/icamys/php-sitemap-generator.git",
+                "reference": "18bab7bb96fe278486da9c6efea6b865bd6de58b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/icamys/php-sitemap-generator/zipball/18bab7bb96fe278486da9c6efea6b865bd6de58b",
+                "reference": "18bab7bb96fe278486da9c6efea6b865bd6de58b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-dom": "*",
+                "ext-mbstring": "*",
+                "ext-simplexml": "*",
+                "ext-spl": "*",
+                "ext-xml": "*",
+                "ext-xmlwriter": "*",
+                "ext-zlib": "*",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "php-mock/php-mock-phpunit": "^2.7",
+                "phpunit/phpunit": "^9.6",
+                "vimeo/psalm": "^5.15"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Icamys\\SitemapGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitrii Prisacari",
+                    "email": "prisacari.dmitrii@gmail.com",
+                    "homepage": "https://github.com/icamys/"
+                }
+            ],
+            "description": "Simple PHP sitemap generator.",
+            "homepage": "https://github.com/icamys/php-sitemap-generator",
+            "keywords": [
+                "PSR-1",
+                "PSR-2",
+                "PSR-4",
+                "Sitemap",
+                "generator",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/icamys/php-sitemap-generator/issues",
+                "source": "https://github.com/icamys/php-sitemap-generator/tree/5.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/icamys",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/icamys",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2023-10-23T20:29:53+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
+}

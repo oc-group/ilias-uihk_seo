@@ -1,0 +1,134 @@
+advanced_actions_label#:#Options
+advanced_content_type_blog#:#Blog posting
+advanced_content_type_dcl#:#Data collection record
+advanced_content_type_frm#:#Forum thread
+advanced_content_type_label#:#Content type
+advanced_content_type_lm#:#Learning module page
+advanced_content_type_wiki#:#Wiki page
+advanced_settings#:#Show advanced
+advanced_switch_to_object#:#Edit the %s itself instead
+advanced_switch_to_page#:#Edit this %s instead
+delete_permalink#:#Delete permalink
+delete_permalink_mass_message#:#Are you sure you want to delete %s permalink(s)? This action cannot be undone.
+delete_permalink_message#:#Are you sure you want to delete this permalink? This action cannot be undone.
+description#:#Description
+description_info#:#It should be between 150 and 160 characters, providing a clear and concise summary of the page content to encourage users to click on the search result.
+duplicate_metadata#:#Duplicate metadata
+duplicate_metadata_both#:#Duplicate title and description
+duplicate_metadata_description#:#Duplicate description
+duplicate_metadata_title#:#Duplicate title
+enabled#:#SEO metadata are active.
+err_gone#:#Sorry, this page is no longer available.
+err_internal#:#An unexpected error occurred.
+err_no_permission#:#Sorry, you cannot access this page.
+err_not_found#:#Sorry, cannot find the page you are looking for.
+err_redirection#:#The redirection rules could not be written to the ILIAS .htaccess file. Permalinks will not work until this is fixed. Check that the file exists and is writable by the web server.
+field_required#:#This field is mandatory.
+follow#:#Follow
+follow_links#:#Follow
+follow_links_info#:#Indicates whether search engines should follow the links on this page.
+frequency#:#Frequency
+frequency_always#:#Always
+frequency_daily#:#Daily
+frequency_hourly#:#Hourly
+frequency_info#:#The frequency at which the page is updated. It indicates to crawlers how often they should scan the page.
+frequency_monthly#:#Monthly
+frequency_never#:#Never
+frequency_weekly#:#Weekly
+frequency_yearly#:#Yearly
+homepage_already_exists#:#Another page is already set as the homepage.
+homepage_confirm_action#:#Yes, use as homepage
+homepage_confirm_expired#:#Nothing is waiting to be confirmed for this page. If you meant to set it as the homepage, edit its SEO metadata again and leave the permalink empty.
+homepage_confirm_message#:#Use "%s" as your site's homepage, served at the root address (e.g. example.com/) instead of a permalink? Only one page may be the homepage at a time.
+homepage_confirm_title#:#Use as homepage
+homepage_pending_notice#:#These values are not saved. You left a homepage change unconfirmed; save again to return to the confirmation, or enter a permalink to abandon it.
+index#:#Index
+index_page#:#Index
+index_page_info#:#Indicates whether the page is visible to search engines (indexed). If enabled, you can choose to set the frequency and priority values, which are part of the <b>sitemap</b> only.
+language#:#Languages
+mass_edit#:#Edit All
+mass_edit_rows_skipped#:#%s selected page(s) no longer existed and were skipped; the rest were updated.
+mass_edit_unchanged#:#Leave unchanged
+mass_edit_unchanged_info#:#Leave empty to keep each selected page's current value.
+metadata#:#Metadata enabled
+metadata_deleted#:#SEO metadata deleted in %s.
+metadata_not_saved#:#Could not save SEO metadata.
+metadata_not_saved_invalid#:#Could not save SEO metadata. %s
+metadata_saved#:#SEO metadata saved.
+not_enabled#:#SEO metadata are not yet active.
+page_not_public#:#This page is not public accessible.
+page_public#:#This page is public accessible.
+permalink#:#Permalink
+permalink_already_exists#:#This permalink is already used by another page.
+permalink_deleted#:#Permalink deleted successfully
+permalink_info#:#The slug is the page's permalink: the part of a URL that identifies a specific page, like <u>about-us/</u> in <u>example.com/about-us/</u>.<br/>Keep it short, descriptive, and readable for both users and search engines.
+permalink_reserved#:#The chosen permalink is reserved.
+permalink_suggested#:#Nothing is saved for this page yet, so the value above is only a suggestion built from its own title. Adjust it as you like before saving.
+permalink_suggested_inherited#:#Nothing is saved for this page yet, so the value above is only a suggestion: its own title, placed under the permalink its container already uses. Adjust it as you like before saving.
+permalink_suggested_numbered#:#Nothing is saved for this page yet, and this content has no title of its own, so the value above only places its number under the permalink its container already uses. Adjust it as you like before saving.
+permalink_too_long#:#The permalink is too long. Once the closing "/" is added it may not exceed %s characters, so please shorten it and save again.
+plugin_description#:#Add SEO functionalities to ILIAS
+plugin_title#:#ILIAS SEO
+priority#:#Priority
+priority_info#:#The relative importance of the page for search engines.
+request_not_processed#:#That action was not carried out and nothing was changed. Please reopen the SEO settings and try again.
+reset_metadata#:#Delete SEO metadata
+reset_metadata_message#:#Delete the SEO metadata of this page in %s? Only that language goes; the page keeps its metadata in every other language. Its permalink stops working at once and this cannot be undone.
+rewrite_status_apache_content_summary#:#Current file content (for reference)
+rewrite_status_apache_heading#:#Apache
+rewrite_status_apache_instructions#:#This file's own current content, shown for reference (you never paste it anywhere yourself once the one-time step above is in place). Apache only re-reads it on reload, not on every request, so reload it (e.g. apache2ctl graceful) whenever this content changes, including after saving this form again.
+rewrite_status_apache_missing#:#The Apache configuration could not be written to disk. Check that %s is writable by the web server, then save this form again.
+rewrite_status_apache_onetime_instructions#:#One-time step, needed only if you have not already done it (see README): add these two lines inside your Apache vhost's Directory block for this installation, using the absolute path shown. IncludeOptional resolves a relative path against Apache's own ServerRoot, not against this directory, and fails silently if the path here is not absolute.
+rewrite_status_caveat#:#This can only confirm that the configuration below was generated on disk, not that a system administrator has actually pasted it into the web server and reloaded it.
+rewrite_status_nginx_detected#:#This installation appears to be served by nginx.
+rewrite_status_nginx_heading#:#nginx
+rewrite_status_nginx_instructions#:#Paste the block below inside the server {} block, replacing the default "location /" directive, then reload nginx (nginx -s reload).
+rewrite_status_nginx_missing#:#The nginx configuration could not be written to disk. Check that %s is writable by the web server, then save this form again.
+rewrite_status_nginx_not_detected#:#This installation does not appear to be served by nginx (Apache is assumed). Both configurations below are generated on every save regardless, in case this detection is wrong behind a reverse proxy.
+rewrite_status_nginx_port_instructions#:#Some nginx packages set HTTP_HOST from the host name alone, dropping the port. ILIAS builds login and redirect URLs from HTTP_HOST, so on a non-default port those URLs lose it. Add the line below to your php-fpm location block, after include fastcgi_params, then reload nginx.
+rewrite_status_nginx_port_summary#:#Running on a non-standard port? (click to expand)
+rewrite_status_title#:#Permalink routing
+robots#:#Robots
+robots_index_follow#:#Index, Follow
+robots_index_nofollow#:#Index, Nofollow
+robots_noindex_follow#:#Noindex, Follow
+robots_noindex_nofollow#:#Noindex, Nofollow
+screen_config_desc#:#The installation's SEO settings: the website title, sitemap submission, and which languages SEO metadata is published for.
+screen_config_title#:#SEO Configuration
+screen_overview_desc#:#Every page the plugin knows about, with the permalink, metadata and search-engine directives saved for it.
+screen_overview_title#:#SEO Overview
+section_languages#:#Language
+section_languages_info#:#Which of the installed languages the plugin publishes SEO metadata for. Tick a language to activate it; the note under each one counts the pages that already carry metadata in it.
+section_settings#:#Settings
+seo#:#SEO
+seo_default_language#:#Default language
+seo_default_language_info#:#Always active, whichever way its own checkbox below is set.
+seo_edit#:#Edit SEO metadata
+seo_lang_pages_info#:#SEO metadata saved for %s of %s pages (%s%%).
+sitemap_builder#:#Sitemap builder
+sitemap_builder_info#:#Build the website sitemap of the public area.
+sitemap_exclusion#:#Sitemap exclusion
+sitemap_status#:#Sitemap status
+sitemap_status_in_no_date#:#In sitemap (no date)
+sitemap_status_in_object_date#:#In sitemap (object date)
+sitemap_status_in_page_date#:#In sitemap (page date)
+sitemap_status_out_lang_inactive#:#Excluded (inactive language)
+sitemap_status_out_no_object#:#Excluded (deleted object)
+sitemap_status_out_noindex#:#Excluded (noindex)
+sitemap_status_out_not_public#:#Excluded (not public)
+sitemap_status_out_unreachable#:#Excluded (not reachable)
+slug#:#Slug
+status_indexed#:#SEO: active
+status_no_access#:#SEO: no public access
+status_noindex#:#SEO: excluded from index
+status_unsaved#:#SEO: metadata not saved
+submit_sitemap#:#Submit sitemap
+submit_sitemap_info#:#Pings the generated sitemap to Yandex (the only engine contacted, as the sitemap library ships no other endpoint). That endpoint is undocumented and its effect cannot be verified, so leave this off unless you specifically want it. Search engines find the sitemap through the "Sitemap:" line the plugin maintains in robots.txt, which works with this setting disabled.
+target_missing#:#No longer available in the repository. Its SEO data can still be edited or deleted here.
+target_missing_label#:#Repository object
+title#:#Title
+title_admin_overview_count#:#SEO overview (%s pages)
+title_info#:#It should be between 50 and 60 characters, ensuring that it is fully visible in search results without being truncated.
+update#:#Update
+web_title#:#Website title
+web_title_info#:#Website title to use in the pages metadata. Default is %s.

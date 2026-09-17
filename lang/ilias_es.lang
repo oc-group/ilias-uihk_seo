@@ -1,0 +1,134 @@
+advanced_actions_label#:#Opciones
+advanced_content_type_blog#:#Entrada del blog
+advanced_content_type_dcl#:#Registro de la colección de datos
+advanced_content_type_frm#:#Tema del foro
+advanced_content_type_label#:#Tipo de contenido
+advanced_content_type_lm#:#Página del módulo de aprendizaje
+advanced_content_type_wiki#:#Página wiki
+advanced_settings#:#Mostrar opciones avanzadas
+advanced_switch_to_object#:#Editar en su lugar el propio %s
+advanced_switch_to_page#:#Editar en su lugar esta %s
+delete_permalink#:#Eliminar permalink
+delete_permalink_mass_message#:#¿Seguro que desea eliminar %s permalink(s)? Esta acción no se puede deshacer.
+delete_permalink_message#:#¿Seguro que desea eliminar este permalink? Esta acción no se puede deshacer.
+description#:#Descripción
+description_info#:#Debería tener entre 150 y 160 caracteres y ofrecer un resumen claro y conciso del contenido de la página para animar a los usuarios a hacer clic en el resultado de búsqueda.
+duplicate_metadata#:#Metadatos duplicados
+duplicate_metadata_both#:#Título y descripción duplicados
+duplicate_metadata_description#:#Descripción duplicada
+duplicate_metadata_title#:#Título duplicado
+enabled#:#Los metadatos SEO están activos.
+err_gone#:#Lo sentimos, esta página ya no está disponible.
+err_internal#:#Se ha producido un error inesperado.
+err_no_permission#:#Lo sentimos, no tiene permiso para acceder a esta página.
+err_not_found#:#Lo sentimos, no se ha encontrado la página que busca.
+err_redirection#:#No se han podido escribir las reglas de redirección en el archivo .htaccess de ILIAS. Los permalinks no funcionarán hasta que se solucione esto. Compruebe que el archivo existe y que el servidor web tiene permisos de escritura sobre él.
+field_required#:#Este campo es obligatorio.
+follow#:#Follow
+follow_links#:#Seguir
+follow_links_info#:#Indica si los motores de búsqueda deben seguir los enlaces de esta página.
+frequency#:#Frecuencia
+frequency_always#:#Siempre
+frequency_daily#:#Diaria
+frequency_hourly#:#Cada hora
+frequency_info#:#La frecuencia con la que se actualiza la página. Indica a los rastreadores cada cuánto tiempo deben analizarla.
+frequency_monthly#:#Mensual
+frequency_never#:#Nunca
+frequency_weekly#:#Semanal
+frequency_yearly#:#Anual
+homepage_already_exists#:#Ya hay otra página establecida como página de inicio.
+homepage_confirm_action#:#Sí, usar como página de inicio
+homepage_confirm_expired#:#No hay nada pendiente de confirmar para esta página. Si su intención era establecerla como página de inicio, edite de nuevo sus metadatos SEO y deje el permalink vacío.
+homepage_confirm_message#:#¿Usar "%s" como página de inicio de su sitio, servida en la dirección raíz (por ejemplo, example.com/) en lugar de un permalink? Solo una página puede ser la página de inicio a la vez.
+homepage_confirm_title#:#Usar como página de inicio
+homepage_pending_notice#:#Estos valores no están guardados. Dejó sin confirmar un cambio de página de inicio; guarde de nuevo para volver a la confirmación, o introduzca un permalink para descartarlo.
+index#:#Index
+index_page#:#Indexar
+index_page_info#:#Indica si la página es visible para los motores de búsqueda (indexada). Si se activa, puede establecer los valores de frecuencia y prioridad, que forman parte únicamente del <b>mapa del sitio</b>.
+language#:#Idiomas
+mass_edit#:#Editar todo
+mass_edit_rows_skipped#:#%s página(s) seleccionada(s) ya no existían y se omitieron; el resto se actualizaron.
+mass_edit_unchanged#:#Dejar sin cambios
+mass_edit_unchanged_info#:#Déjelo vacío para mantener el valor actual de cada página seleccionada.
+metadata#:#Metadatos activados
+metadata_deleted#:#Metadatos SEO eliminados en %s.
+metadata_not_saved#:#No se han podido guardar los metadatos SEO.
+metadata_not_saved_invalid#:#No se han podido guardar los metadatos SEO. %s
+metadata_saved#:#Metadatos SEO guardados.
+not_enabled#:#Los metadatos SEO todavía no están activos.
+page_not_public#:#Esta página no es de acceso público.
+page_public#:#Esta página es de acceso público.
+permalink#:#Permalink
+permalink_already_exists#:#Este permalink ya lo utiliza otra página.
+permalink_deleted#:#Permalink eliminado correctamente
+permalink_info#:#El slug es el permalink de la página: la parte de una URL que identifica una página concreta, como <u>sobre-nosotros/</u> en <u>example.com/sobre-nosotros/</u>.<br/>Manténgalo breve, descriptivo y legible tanto para los usuarios como para los motores de búsqueda.
+permalink_reserved#:#El permalink elegido está reservado.
+permalink_suggested#:#Todavía no hay nada guardado para esta página, por lo que el valor de arriba es solo una sugerencia elaborada a partir de su propio título. Ajústelo como desee antes de guardar.
+permalink_suggested_inherited#:#Todavía no hay nada guardado para esta página, por lo que el valor de arriba es solo una sugerencia: su propio título, colocado bajo el permalink que ya utiliza su contenedor. Ajústelo como desee antes de guardar.
+permalink_suggested_numbered#:#Todavía no hay nada guardado para esta página, y este contenido no tiene título propio, por lo que el valor de arriba se limita a colocar su número bajo el permalink que ya utiliza su contenedor. Ajústelo como desee antes de guardar.
+permalink_too_long#:#El permalink es demasiado largo. Una vez añadida la "/" final, no puede superar los %s caracteres; acórtelo y guarde de nuevo.
+plugin_description#:#Añade funcionalidades SEO a ILIAS
+plugin_title#:#ILIAS SEO
+priority#:#Prioridad
+priority_info#:#La importancia relativa de la página para los motores de búsqueda.
+request_not_processed#:#Esa acción no se ha llevado a cabo y no se ha modificado nada. Vuelva a abrir la configuración SEO e inténtelo de nuevo.
+reset_metadata#:#Eliminar metadatos SEO
+reset_metadata_message#:#¿Eliminar los metadatos SEO de esta página en %s? Solo se elimina ese idioma; la página conserva sus metadatos en todos los demás idiomas. Su permalink deja de funcionar de inmediato y esta acción no se puede deshacer.
+rewrite_status_apache_content_summary#:#Contenido actual del archivo (a título informativo)
+rewrite_status_apache_heading#:#Apache
+rewrite_status_apache_instructions#:#El contenido actual de este archivo, mostrado a título informativo (nunca tiene que pegarlo usted mismo en ningún sitio una vez realizado el paso único anterior). Apache solo lo vuelve a leer al recargarse, no en cada solicitud, así que recárguelo (por ejemplo, con apache2ctl graceful) cada vez que este contenido cambie, también después de volver a guardar este formulario.
+rewrite_status_apache_missing#:#No se ha podido escribir la configuración de Apache en disco. Compruebe que %s tiene permisos de escritura para el servidor web y vuelva a guardar este formulario.
+rewrite_status_apache_onetime_instructions#:#Paso único, necesario solo si todavía no lo ha realizado (consulte el README): añada estas dos líneas dentro del bloque Directory del vhost de Apache de esta instalación, usando la ruta absoluta mostrada. IncludeOptional resuelve una ruta relativa respecto al propio ServerRoot de Apache, no respecto a este directorio, y falla silenciosamente si la ruta indicada aquí no es absoluta.
+rewrite_status_caveat#:#Esto solo puede confirmar que la configuración de abajo se generó en disco, no que un administrador del sistema la haya pegado realmente en el servidor web y lo haya recargado.
+rewrite_status_nginx_detected#:#Esta instalación parece estar servida por nginx.
+rewrite_status_nginx_heading#:#nginx
+rewrite_status_nginx_instructions#:#Pegue el bloque de abajo dentro del bloque server {}, sustituyendo la directiva predeterminada "location /", y después recargue nginx (nginx -s reload).
+rewrite_status_nginx_missing#:#No se ha podido escribir la configuración de nginx en disco. Compruebe que %s tiene permisos de escritura para el servidor web y vuelva a guardar este formulario.
+rewrite_status_nginx_not_detected#:#Esta instalación no parece estar servida por nginx (se asume Apache). En cualquier caso, ambas configuraciones de abajo se generan en cada guardado, por si esta detección fuera incorrecta detrás de un proxy inverso.
+rewrite_status_nginx_port_instructions#:#Algunos paquetes de nginx establecen HTTP_HOST solo a partir del nombre de host, descartando el puerto. ILIAS construye las URL de inicio de sesión y de redirección a partir de HTTP_HOST, por lo que en un puerto no predeterminado esas URL lo pierden. Añada la línea de abajo a su bloque location de php-fpm, después de include fastcgi_params, y después recargue nginx.
+rewrite_status_nginx_port_summary#:#¿Se ejecuta en un puerto no estándar? (haga clic para expandir)
+rewrite_status_title#:#Enrutamiento de permalinks
+robots#:#Robots
+robots_index_follow#:#Index, Follow
+robots_index_nofollow#:#Index, Nofollow
+robots_noindex_follow#:#Noindex, Follow
+robots_noindex_nofollow#:#Noindex, Nofollow
+screen_config_desc#:#La configuración SEO de la instalación: el título del sitio web, el envío del mapa del sitio, y para qué idiomas se publican los metadatos SEO.
+screen_config_title#:#Configuración SEO
+screen_overview_desc#:#Todas las páginas que conoce el plugin, con el permalink, los metadatos y las directivas para motores de búsqueda guardados para cada una.
+screen_overview_title#:#Resumen SEO
+section_languages#:#Idioma
+section_languages_info#:#Para cuáles de los idiomas instalados publica el plugin metadatos SEO. Marque un idioma para activarlo; la nota bajo cada uno cuenta las páginas que ya tienen metadatos en ese idioma.
+section_settings#:#Configuración
+seo#:#SEO
+seo_default_language#:#Idioma predeterminado
+seo_default_language_info#:#Siempre activo, sea cual sea el estado de su propia casilla de abajo.
+seo_edit#:#Editar metadatos SEO
+seo_lang_pages_info#:#Metadatos SEO guardados para %s de %s páginas (%s%%).
+sitemap_builder#:#Generador del mapa del sitio
+sitemap_builder_info#:#Genera el mapa del sitio del área pública.
+sitemap_exclusion#:#Exclusión del mapa del sitio
+sitemap_status#:#Estado del mapa del sitio
+sitemap_status_in_no_date#:#En el mapa del sitio (sin fecha)
+sitemap_status_in_object_date#:#En el mapa del sitio (fecha del objeto)
+sitemap_status_in_page_date#:#En el mapa del sitio (fecha de la página)
+sitemap_status_out_lang_inactive#:#Excluida (idioma inactivo)
+sitemap_status_out_no_object#:#Excluida (objeto eliminado)
+sitemap_status_out_noindex#:#Excluida (noindex)
+sitemap_status_out_not_public#:#Excluida (no pública)
+sitemap_status_out_unreachable#:#Excluida (no accesible)
+slug#:#Slug
+status_indexed#:#SEO: activo
+status_no_access#:#SEO: sin acceso público
+status_noindex#:#SEO: excluido del índice
+status_unsaved#:#SEO: metadatos no guardados
+submit_sitemap#:#Enviar mapa del sitio
+submit_sitemap_info#:#Envía un ping del mapa del sitio generado a Yandex (el único motor contactado, ya que la biblioteca del mapa del sitio no incluye ningún otro endpoint). Ese endpoint no está documentado y su efecto no se puede verificar, así que déjelo desactivado a menos que lo desee expresamente. Los motores de búsqueda encuentran el mapa del sitio a través de la línea "Sitemap:" que el plugin mantiene en robots.txt, lo cual funciona aunque esta opción esté desactivada.
+target_missing#:#Ya no está disponible en el repositorio. Sus datos SEO todavía se pueden editar o eliminar aquí.
+target_missing_label#:#Objeto del repositorio
+title#:#Título
+title_admin_overview_count#:#Resumen SEO (%s páginas)
+title_info#:#Debería tener entre 50 y 60 caracteres, para garantizar que se muestre completo en los resultados de búsqueda sin ser truncado.
+update#:#Actualizar
+web_title#:#Título del sitio web
+web_title_info#:#Título del sitio web que se usará en los metadatos de las páginas. Predeterminado: %s.

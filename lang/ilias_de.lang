@@ -1,0 +1,134 @@
+advanced_actions_label#:#Optionen
+advanced_content_type_blog#:#Blogbeitrag
+advanced_content_type_dcl#:#Datensammlung-Eintrag
+advanced_content_type_frm#:#Forumsthread
+advanced_content_type_label#:#Inhaltstyp
+advanced_content_type_lm#:#Lernmodul-Seite
+advanced_content_type_wiki#:#Wiki-Seite
+advanced_settings#:#Erweiterte Einstellungen anzeigen
+advanced_switch_to_object#:#Stattdessen %s selbst bearbeiten
+advanced_switch_to_page#:#Stattdessen diese %s bearbeiten
+delete_permalink#:#Permalink löschen
+delete_permalink_mass_message#:#Möchten Sie wirklich %s Permalink(s) löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.
+delete_permalink_message#:#Möchten Sie diesen Permalink wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.
+description#:#Beschreibung
+description_info#:#Sie sollte zwischen 150 und 160 Zeichen umfassen und eine klare, prägnante Zusammenfassung des Seiteninhalts liefern, um Nutzer zum Klick auf das Suchergebnis zu bewegen.
+duplicate_metadata#:#Doppelte Metadaten
+duplicate_metadata_both#:#Doppelter Titel und doppelte Beschreibung
+duplicate_metadata_description#:#Doppelte Beschreibung
+duplicate_metadata_title#:#Doppelter Titel
+enabled#:#Die SEO-Metadaten sind aktiv.
+err_gone#:#Entschuldigung, diese Seite ist nicht mehr verfügbar.
+err_internal#:#Es ist ein unerwarteter Fehler aufgetreten.
+err_no_permission#:#Entschuldigung, Sie haben keinen Zugriff auf diese Seite.
+err_not_found#:#Entschuldigung, die gesuchte Seite konnte nicht gefunden werden.
+err_redirection#:#Die Weiterleitungsregeln konnten nicht in die .htaccess-Datei von ILIAS geschrieben werden. Permalinks funktionieren erst, wenn dies behoben ist. Prüfen Sie, ob die Datei existiert und vom Webserver beschreibbar ist.
+field_required#:#Dieses Feld ist ein Pflichtfeld.
+follow#:#Follow
+follow_links#:#Folgen
+follow_links_info#:#Gibt an, ob Suchmaschinen den Links auf dieser Seite folgen sollen.
+frequency#:#Häufigkeit
+frequency_always#:#Immer
+frequency_daily#:#Täglich
+frequency_hourly#:#Stündlich
+frequency_info#:#Die Häufigkeit, mit der die Seite aktualisiert wird. Sie gibt Crawlern an, wie oft sie die Seite scannen sollten.
+frequency_monthly#:#Monatlich
+frequency_never#:#Nie
+frequency_weekly#:#Wöchentlich
+frequency_yearly#:#Jährlich
+homepage_already_exists#:#Eine andere Seite ist bereits als Startseite festgelegt.
+homepage_confirm_action#:#Ja, als Startseite verwenden
+homepage_confirm_expired#:#Für diese Seite wartet nichts auf Bestätigung. Wenn Sie sie als Startseite festlegen wollten, bearbeiten Sie ihre SEO-Metadaten erneut und lassen Sie den Permalink leer.
+homepage_confirm_message#:#"%s" als Startseite Ihrer Website verwenden, ausgeliefert unter der Root-Adresse (z. B. example.com/) statt unter einem Permalink? Es kann jeweils nur eine Seite die Startseite sein.
+homepage_confirm_title#:#Als Startseite verwenden
+homepage_pending_notice#:#Diese Werte werden nicht gespeichert. Sie haben eine Änderung an der Startseite unbestätigt gelassen; speichern Sie erneut, um zur Bestätigung zurückzukehren, oder geben Sie einen Permalink ein, um sie zu verwerfen.
+index#:#Index
+index_page#:#Indexieren
+index_page_info#:#Gibt an, ob die Seite für Suchmaschinen sichtbar ist (indexiert). Wenn aktiviert, können Sie die Werte für Häufigkeit und Priorität festlegen, die ausschließlich Teil der <b>Sitemap</b> sind.
+language#:#Sprachen
+mass_edit#:#Alle bearbeiten
+mass_edit_rows_skipped#:#%s ausgewählte Seite(n) existierten nicht mehr und wurden übersprungen; die übrigen wurden aktualisiert.
+mass_edit_unchanged#:#Unverändert lassen
+mass_edit_unchanged_info#:#Leer lassen, um den aktuellen Wert jeder ausgewählten Seite beizubehalten.
+metadata#:#Metadaten aktiv
+metadata_deleted#:#SEO-Metadaten in %s gelöscht.
+metadata_not_saved#:#Die SEO-Metadaten konnten nicht gespeichert werden.
+metadata_not_saved_invalid#:#Die SEO-Metadaten konnten nicht gespeichert werden. %s
+metadata_saved#:#SEO-Metadaten gespeichert.
+not_enabled#:#Die SEO-Metadaten sind noch nicht aktiv.
+page_not_public#:#Diese Seite ist nicht öffentlich zugänglich.
+page_public#:#Diese Seite ist öffentlich zugänglich.
+permalink#:#Permalink
+permalink_already_exists#:#Dieser Permalink wird bereits von einer anderen Seite verwendet.
+permalink_deleted#:#Permalink erfolgreich gelöscht
+permalink_info#:#Der Slug ist der Permalink der Seite: der Teil einer URL, der eine bestimmte Seite identifiziert, wie <u>ueber-uns/</u> in <u>example.com/ueber-uns/</u>.<br/>Halten Sie ihn kurz, beschreibend und sowohl für Nutzer als auch für Suchmaschinen gut lesbar.
+permalink_reserved#:#Der gewählte Permalink ist reserviert.
+permalink_suggested#:#Für diese Seite ist noch nichts gespeichert, der obige Wert ist daher nur ein aus ihrem eigenen Titel gebildeter Vorschlag. Passen Sie ihn nach Belieben an, bevor Sie speichern.
+permalink_suggested_inherited#:#Für diese Seite ist noch nichts gespeichert, der obige Wert ist daher nur ein Vorschlag: ihr eigener Titel, platziert unter dem Permalink, den ihr Container bereits verwendet. Passen Sie ihn nach Belieben an, bevor Sie speichern.
+permalink_suggested_numbered#:#Für diese Seite ist noch nichts gespeichert, und dieser Inhalt hat keinen eigenen Titel, daher platziert der obige Wert lediglich seine Nummer unter dem Permalink, den sein Container bereits verwendet. Passen Sie ihn nach Belieben an, bevor Sie speichern.
+permalink_too_long#:#Der Permalink ist zu lang. Nach Anfügen des abschließenden "/" darf er %s Zeichen nicht überschreiten. Bitte kürzen Sie ihn und speichern Sie erneut.
+plugin_description#:#Fügt ILIAS SEO-Funktionen hinzu
+plugin_title#:#ILIAS SEO
+priority#:#Priorität
+priority_info#:#Die relative Wichtigkeit der Seite für Suchmaschinen.
+request_not_processed#:#Diese Aktion wurde nicht ausgeführt und nichts wurde geändert. Bitte öffnen Sie die SEO-Einstellungen erneut und versuchen Sie es noch einmal.
+reset_metadata#:#SEO-Metadaten löschen
+reset_metadata_message#:#SEO-Metadaten dieser Seite in %s löschen? Es wird nur diese Sprache gelöscht; die Seite behält ihre Metadaten in allen anderen Sprachen. Ihr Permalink funktioniert sofort nicht mehr, und dies kann nicht rückgängig gemacht werden.
+rewrite_status_apache_content_summary#:#Aktueller Dateiinhalt (zur Information)
+rewrite_status_apache_heading#:#Apache
+rewrite_status_apache_instructions#:#Der aktuelle Inhalt dieser Datei, zur Information angezeigt (Sie fügen ihn nirgendwo selbst ein, sobald der oben beschriebene einmalige Schritt erledigt ist). Apache liest diese Datei nur beim Neuladen erneut ein, nicht bei jeder Anfrage; laden Sie sie also neu (z. B. mit apache2ctl graceful), wann immer sich dieser Inhalt ändert, auch nachdem Sie dieses Formular erneut gespeichert haben.
+rewrite_status_apache_missing#:#Die Apache-Konfiguration konnte nicht auf die Festplatte geschrieben werden. Prüfen Sie, ob %s vom Webserver beschreibbar ist, und speichern Sie dieses Formular dann erneut.
+rewrite_status_apache_onetime_instructions#:#Einmaliger Schritt, nur erforderlich, wenn Sie ihn nicht bereits durchgeführt haben (siehe README): Fügen Sie diese beiden Zeilen innerhalb des Directory-Blocks Ihres Apache-vhost für diese Installation ein, unter Verwendung des angezeigten absoluten Pfads. IncludeOptional löst einen relativen Pfad gegenüber der ServerRoot von Apache auf, nicht gegenüber diesem Verzeichnis, und schlägt stillschweigend fehl, wenn der hier angegebene Pfad nicht absolut ist.
+rewrite_status_caveat#:#Dies kann nur bestätigen, dass die untenstehende Konfiguration auf der Festplatte erzeugt wurde, nicht dass ein Systemadministrator sie tatsächlich in den Webserver eingefügt und diesen neu geladen hat.
+rewrite_status_nginx_detected#:#Diese Installation scheint von nginx bereitgestellt zu werden.
+rewrite_status_nginx_heading#:#nginx
+rewrite_status_nginx_instructions#:#Fügen Sie den untenstehenden Block innerhalb des server {}-Blocks ein und ersetzen Sie die standardmäßige "location /"-Direktive, laden Sie dann nginx neu (nginx -s reload).
+rewrite_status_nginx_missing#:#Die nginx-Konfiguration konnte nicht auf die Festplatte geschrieben werden. Prüfen Sie, ob %s vom Webserver beschreibbar ist, und speichern Sie dieses Formular dann erneut.
+rewrite_status_nginx_not_detected#:#Diese Installation scheint nicht von nginx bereitgestellt zu werden (es wird Apache angenommen). Beide untenstehenden Konfigurationen werden bei jedem Speichern trotzdem erzeugt, falls diese Erkennung hinter einem Reverse-Proxy falsch liegt.
+rewrite_status_nginx_port_instructions#:#Einige nginx-Pakete setzen HTTP_HOST nur aus dem Hostnamen und lassen dabei den Port weg. ILIAS baut Login- und Weiterleitungs-URLs aus HTTP_HOST auf, sodass diese URLs auf einem nicht standardmäßigen Port den Port verlieren. Fügen Sie die untenstehende Zeile zu Ihrem php-fpm-location-Block hinzu, nach include fastcgi_params, und laden Sie nginx dann neu.
+rewrite_status_nginx_port_summary#:#Läuft auf einem nicht standardmäßigen Port? (zum Erweitern klicken)
+rewrite_status_title#:#Permalink-Routing
+robots#:#Robots
+robots_index_follow#:#Index, Follow
+robots_index_nofollow#:#Index, Nofollow
+robots_noindex_follow#:#Noindex, Follow
+robots_noindex_nofollow#:#Noindex, Nofollow
+screen_config_desc#:#Die SEO-Einstellungen der Installation: der Website-Titel, die Sitemap-Übermittlung und für welche Sprachen SEO-Metadaten veröffentlicht werden.
+screen_config_title#:#SEO-Konfiguration
+screen_overview_desc#:#Alle dem Plugin bekannten Seiten, mit dem für sie gespeicherten Permalink, den Metadaten und den Suchmaschinen-Direktiven.
+screen_overview_title#:#SEO-Übersicht
+section_languages#:#Sprache
+section_languages_info#:#Für welche der installierten Sprachen das Plugin SEO-Metadaten veröffentlicht. Aktivieren Sie eine Sprache, um sie einzuschalten; der Hinweis unter jeder Sprache zählt die Seiten, die bereits Metadaten in dieser Sprache haben.
+section_settings#:#Einstellungen
+seo#:#SEO
+seo_default_language#:#Standardsprache
+seo_default_language_info#:#Immer aktiv, unabhängig davon, wie ihr eigenes Kontrollkästchen unten gesetzt ist.
+seo_edit#:#SEO-Metadaten bearbeiten
+seo_lang_pages_info#:#SEO-Metadaten gespeichert für %s von %s Seiten (%s%%).
+sitemap_builder#:#Sitemap-Generator
+sitemap_builder_info#:#Erstellt die Website-Sitemap des öffentlichen Bereichs.
+sitemap_exclusion#:#Sitemap-Ausschluss
+sitemap_status#:#Sitemap-Status
+sitemap_status_in_no_date#:#In der Sitemap (kein Datum)
+sitemap_status_in_object_date#:#In der Sitemap (Objektdatum)
+sitemap_status_in_page_date#:#In der Sitemap (Seitendatum)
+sitemap_status_out_lang_inactive#:#Ausgeschlossen (Sprache inaktiv)
+sitemap_status_out_no_object#:#Ausgeschlossen (Objekt gelöscht)
+sitemap_status_out_noindex#:#Ausgeschlossen (Noindex)
+sitemap_status_out_not_public#:#Ausgeschlossen (nicht öffentlich)
+sitemap_status_out_unreachable#:#Ausgeschlossen (nicht erreichbar)
+slug#:#Slug
+status_indexed#:#SEO: aktiv
+status_no_access#:#SEO: kein öffentlicher Zugriff
+status_noindex#:#SEO: von der Indexierung ausgeschlossen
+status_unsaved#:#SEO: Metadaten nicht gespeichert
+submit_sitemap#:#Sitemap übermitteln
+submit_sitemap_info#:#Sendet einen Ping der erzeugten Sitemap an Yandex (die einzige kontaktierte Suchmaschine, da die Sitemap-Bibliothek keinen anderen Endpunkt bereitstellt). Dieser Endpunkt ist nicht dokumentiert, und seine Wirkung lässt sich nicht überprüfen; lassen Sie dies daher deaktiviert, sofern Sie es nicht ausdrücklich wünschen. Suchmaschinen finden die Sitemap über die vom Plugin gepflegte "Sitemap:"-Zeile in robots.txt, was auch bei deaktivierter Einstellung funktioniert.
+target_missing#:#Im Repository nicht mehr verfügbar. Die SEO-Daten können hier weiterhin bearbeitet oder gelöscht werden.
+target_missing_label#:#Repository-Objekt
+title#:#Titel
+title_admin_overview_count#:#SEO-Übersicht (%s Seiten)
+title_info#:#Er sollte zwischen 50 und 60 Zeichen liegen, damit er in den Suchergebnissen vollständig sichtbar ist, ohne abgeschnitten zu werden.
+update#:#Aktualisieren
+web_title#:#Website-Titel
+web_title_info#:#Website-Titel für die Verwendung in den Metadaten der Seiten. Standard ist %s.

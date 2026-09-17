@@ -131,14 +131,14 @@ class ilSeoPlugin extends ilUserInterfaceHookPlugin implements ilCronJobProvider
         (new ilSetting(ilSeoSettings::MODULE))->deleteAll();
 
         /**
-         * Only this plugin's own two tables. The hit tables and the graph table
-         * departed to a companion plugin in the open-source split and must
-         * never be dropped from here again: on an installation where the
-         * operator has not yet run the operational RENAME TABLE migration,
-         * those three hit tables still carry their old ui_uihk_seo_* names and
-         * hold hit history that cannot be reconstructed. Uninstalling this base
-         * plugin must not be able to destroy it. The companion plugin drops its
-         * own four tables, under their own names, from its own
+         * Only this plugin's own two tables. The hit tables and the graph
+         * table belong to a companion plugin and must never be dropped from
+         * here: they hold hit history that cannot be reconstructed, and this
+         * plugin must not be able to destroy data it does not own. Note that a
+         * table name is not proof of ownership -- on some installations those
+         * three still carry a name beginning with this plugin's own prefix,
+         * and they are still not this plugin's to drop. The companion plugin
+         * drops its own four tables, under their own names, from its own
          * afterUninstall().
          */
         $tables = [

@@ -1,0 +1,4 @@
+* text=auto eol=lf
+
+# Verbatim artifact: CRLF would break its recorded SHA-256. Keep last, a later rule wins.
+assets/referers/referers.json -text

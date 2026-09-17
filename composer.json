@@ -1,0 +1,10 @@
+{
+    "name": "oc-group/seo",
+    "license": "GPL-3.0-or-later",
+    "require": {
+        "icamys/php-sitemap-generator": "^5.0"
+    },
+    "config": {
+        "autoloader-suffix": "OcSeo"
+    }
+}

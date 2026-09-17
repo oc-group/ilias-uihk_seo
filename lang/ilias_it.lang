@@ -1,0 +1,120 @@
+advanced_actions_label#:#Opzioni
+advanced_content_type_blog#:#Articolo del blog
+advanced_content_type_dcl#:#Record della raccolta dati
+advanced_content_type_frm#:#Discussione del forum
+advanced_content_type_label#:#Tipo di contenuto
+advanced_content_type_lm#:#Pagina del modulo didattico
+advanced_content_type_wiki#:#Pagina wiki
+advanced_settings#:#Mostra avanzate
+advanced_switch_to_object#:#Modifica invece l'oggetto %s
+advanced_switch_to_page#:#Modifica invece %s
+delete_permalink#:#Elimina permalink
+delete_permalink_mass_message#:#Sei sicuro di voler eliminare %s permalink? Questa azione non può essere annullata.
+delete_permalink_message#:#Sei sicuro di voler eliminare questo permalink? Questa azione non può essere annullata.
+description#:#Descrizione
+description_info#:#Dovrebbe essere compresa tra 150 e 160 caratteri, fornendo un riepilogo chiaro e conciso del contenuto della pagina per incoraggiare gli utenti a cliccare sul risultato di ricerca.
+duplicate_metadata#:#Metadati duplicati
+duplicate_metadata_both#:#Titolo e descrizione duplicati
+duplicate_metadata_description#:#Descrizione duplicata
+duplicate_metadata_title#:#Titolo duplicato
+enabled#:#Matadati SEO attivi.
+err_gone#:#Spiacente, questa pagina non è più disponibile.
+err_internal#:#Si è verificato un errore inatteso.
+err_no_permission#:#Spiacente, non puoi accedere a questo contenuto.
+err_not_found#:#Spiacente, la pagina che cerchi non è stata trovata.
+err_redirection#:#Non è stato possibile scrivere le regole di reindirizzamento nel file .htaccess di ILIAS. I permalink non funzioneranno finché il problema non sarà risolto. Verifica che il file esista e sia scrivibile dal web server.
+field_required#:#Questo campo è obbligatorio.
+follow#:#Follow
+follow_links#:#Segui
+follow_links_info#:#Indica se i motori di ricerca dovrebbero seguire i link presenti sulla pagina.
+frequency#:#Frequenza
+frequency_always#:#Sempre
+frequency_daily#:#Giornaliera
+frequency_hourly#:#Oraria
+frequency_info#:#La frequenza con cui la pagina viene aggiornata. Indica ai crawler ogni quanto tempo devono scansionare la pagina.
+frequency_monthly#:#Mensile
+frequency_never#:#Mai
+frequency_weekly#:#Settimanale
+frequency_yearly#:#Annuale
+homepage_already_exists#:#Un'altra pagina è già impostata come homepage.
+homepage_confirm_action#:#Sì, usa come homepage
+homepage_confirm_expired#:#Non c'è nulla in attesa di conferma per questa pagina. Se volevi impostarla come homepage, modifica di nuovo i suoi dati SEO e lascia vuoto il campo permalink.
+homepage_confirm_message#:#Usare "%s" come homepage del sito, pubblicata all'indirizzo radice (ad es. example.com/) invece che su un permalink? Solo una pagina alla volta può essere la homepage.
+homepage_confirm_title#:#Usa come homepage
+homepage_pending_notice#:#Questi valori non sono salvati. Hai lasciato senza risposta una modifica per impostare questa pagina come homepage; salva di nuovo per tornare alla conferma, oppure inserisci un permalink per annullarla.
+index#:#Index
+index_page#:#Indicizza
+index_page_info#:#Indica se la pagina è visibile ai motori di ricerca (indicizzata). Se abilitata, puoi scegliere di impostare i valori di frequenza e priorità, che fanno parte solo della <b>sitemap</b>.
+language#:#Lingue
+mass_edit#:#Modificare massive
+mass_edit_rows_skipped#:#%s pagina(e) selezionata(e) sono state saltate perché non esistono più; le altre sono state aggiornate.
+mass_edit_unchanged#:#Lascia invariato
+mass_edit_unchanged_info#:#Lascia vuoto per mantenere il valore attuale di ogni pagina selezionata.
+metadata#:#Metadata attivi
+metadata_deleted#:#Dati SEO eliminati in %s.
+metadata_not_saved#:#Non è stato possibile salvare i metadati SEO.
+metadata_not_saved_invalid#:#Non è stato possibile salvare i metadati SEO. %s
+metadata_saved#:#Metadati SEO salvati.
+not_enabled#:#Matadati SEO non ancora attivi.
+page_not_public#:#Questa pagina non è accessibile senza login.
+page_public#:#Questa pagina è accessibile senza login.
+permalink#:#Permalink
+permalink_already_exists#:#Questo permalink è già utilizzato da un'altra pagina.
+permalink_deleted#:#Permalink eliminato con successo
+permalink_info#:#Lo slug è il permalink della pagina: la parte dell'indirizzo che identifica una pagina specifica, come <u>chi-siamo/</u> in <u>example.com/chi-siamo/</u>.<br/>Mantienilo breve, descrittivo e leggibile sia per gli utenti che per i motori di ricerca.
+permalink_reserved#:#Il permalink scelto è riservato.
+permalink_suggested#:#Per questa pagina non è ancora stato salvato nulla: il valore qui sopra è solo un suggerimento costruito a partire dal suo titolo. Modificalo come preferisci prima di salvare.
+permalink_suggested_inherited#:#Per questa pagina non è ancora stato salvato nulla: il valore qui sopra è solo un suggerimento, ossia il suo titolo collocato sotto il permalink che il suo contenitore usa già. Modificalo come preferisci prima di salvare.
+permalink_suggested_numbered#:#Per questa pagina non è ancora stato salvato nulla e questo contenuto non ha un titolo proprio: il valore qui sopra si limita quindi a collocarne il numero sotto il permalink che il suo contenitore usa già. Modificalo come preferisci prima di salvare.
+permalink_too_long#:#Il permalink è troppo lungo. Con la "/" finale non può superare %s caratteri: accorcialo e salva di nuovo.
+plugin_description#:#Funzionalità SEO in ILIAS
+plugin_title#:#ILIAS SEO
+priority#:#Priorità
+priority_info#:#L'importanza relativa della pagina per i motori di ricerca.
+request_not_processed#:#L'operazione non è stata eseguita e nulla è stato modificato. Riapri le impostazioni SEO e riprova.
+reset_metadata#:#Elimina i dati SEO
+reset_metadata_message#:#Eliminare i dati SEO di questa pagina in %s? Viene eliminata solo quella lingua; la pagina conserva i dati in tutte le altre. Il suo permalink smette subito di funzionare e l'operazione non è reversibile.
+robots#:#Robots
+robots_index_follow#:#Index, Follow
+robots_index_nofollow#:#Index, Nofollow
+robots_noindex_follow#:#Noindex, Follow
+robots_noindex_nofollow#:#Noindex, Nofollow
+screen_config_desc#:#Le impostazioni SEO dell'installazione: il titolo del sito, la pubblicazione della sitemap e le lingue per cui vengono pubblicati i metadati SEO.
+screen_config_title#:#Configurazione SEO
+screen_overview_desc#:#Tutte le pagine note al plugin, con il permalink, i metadati e le direttive per i motori di ricerca salvati per ciascuna.
+screen_overview_title#:#Panoramica SEO
+section_languages#:#Lingue
+section_languages_info#:#Quali delle lingue installate il plugin pubblica con i metadati SEO. Spunta una lingua per attivarla; la nota sotto ciascuna conta le pagine che hanno già i metadati in quella lingua.
+section_settings#:#Impostazioni
+seo#:#SEO
+seo_default_language#:#Lingua predefinita
+seo_default_language_info#:#Sempre attiva, indipendentemente da come è impostata la sua casella qui sotto.
+seo_edit#:#Modifica metadati SEO
+seo_lang_pages_info#:#Metadati SEO salvati per %s pagine su %s (%s%%).
+sitemap_builder#:#Generatore della sitemap
+sitemap_builder_info#:#Crea la sitemap del sito web per l'area pubblica.
+sitemap_exclusion#:#Esclusione dalla sitemap
+sitemap_status#:#Stato sitemap
+sitemap_status_in_no_date#:#Nella sitemap (nessuna data)
+sitemap_status_in_object_date#:#Nella sitemap (data dell'oggetto)
+sitemap_status_in_page_date#:#Nella sitemap (data della pagina)
+sitemap_status_out_lang_inactive#:#Esclusa (lingua non attiva)
+sitemap_status_out_no_object#:#Esclusa (oggetto eliminato)
+sitemap_status_out_noindex#:#Esclusa (noindex)
+sitemap_status_out_not_public#:#Esclusa (non pubblica)
+sitemap_status_out_unreachable#:#Esclusa (non raggiungibile)
+slug#:#Slug
+status_indexed#:#SEO: attivo
+status_no_access#:#SEO: nessun accesso pubblico
+status_noindex#:#SEO: escluso dall'indice
+status_unsaved#:#SEO: metadati non salvati
+submit_sitemap#:#Pubblica sitemap
+submit_sitemap_info#:#Invia un ping della sitemap generata a Yandex. È l'unico motore contattato, perché la libreria della sitemap non prevede altri endpoint. Quell'endpoint non è documentato e il suo effetto non è verificabile, quindi conviene lasciare l'opzione disattivata se non serve espressamente. I motori di ricerca trovano la sitemap tramite la riga "Sitemap:" che il plugin mantiene in robots.txt, e questo funziona anche con l'impostazione disattivata.
+target_missing#:#Non più disponibile nel repository. I dati SEO possono comunque essere modificati o eliminati da qui.
+target_missing_label#:#Oggetto del repository
+title#:#Titolo
+title_admin_overview_count#:#Panoramica SEO (%s pagine)
+title_info#:#Dovrebbe essere compreso tra 50 e 60 caratteri, assicurando che sia completamente visibile nei risultati di ricerca senza essere troncato.
+update#:#Aggiorna
+web_title#:#Titolo del sito
+web_title_info#:#Titolo del sito utilizzato nei metadati delle pagine web. Predefinito: %s.

@@ -1,0 +1,16 @@
+# BEGIN ilias-uihk_seo
+# Do not edit manually.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  DirectoryIndex Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Seo/go.php index.php
+  ErrorDocument 404 {ILIAS_HTTP_PATH}/404/
+
+  # Avoid rewriting existing files and directories.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+  # Check permalink and rewrite to the plugin.
+  RewriteRule (.*) /Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Seo/go.php?page=$1 [L]
+</IfModule>
+# END ilias-uihk_seo

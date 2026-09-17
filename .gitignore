@@ -1,0 +1,7 @@
+/vendor
+/node_modules
+/package-lock.json
+
+# Python bytecode cache, created by any local run of .github/scripts/*.py
+__pycache__/
+*.pyc

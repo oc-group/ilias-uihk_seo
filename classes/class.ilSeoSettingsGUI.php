@@ -267,7 +267,7 @@ class ilSeoSettingsGUI implements ilCtrlSecurityInterface
 
         return $this->factory->panel()->secondary()->legacy(
             ilSeoEscape::html($this->plugin->txt("rewrite_status_title")),
-            $this->factory->legacy(implode("", $parts))
+            $this->factory->legacy()->content(implode("", $parts))
         );
     }
 

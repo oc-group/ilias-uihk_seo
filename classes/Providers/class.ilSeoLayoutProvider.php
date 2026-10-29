@@ -64,8 +64,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
      * Modify the page content.
      * @see ILIAS\Data\Meta\Html\OpenGraph\Factory::website
      *
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ContentModification|null
      */
     public function getContentModification(CalledContexts $screen_context_stack): ?ContentModification
@@ -131,8 +130,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
      * Ensure that the context matches the repository.
      * @see ILIAS\Repository\Provider\RepositoryOpenGraphExposer::ensureRepoContext
      *
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
      */
     protected function ensureRepoContext(CalledContexts $screen_context_stack): CalledContexts
@@ -193,7 +191,10 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
             $resolved_lang = ilSeoLanguage::getDefaultLang();
         }
 
-        if ($data == null) {
+        // A permalink an active shortlink shadows is no address of this object:
+        // the page is treated as one without a row, so no canonical, og:url or
+        // history rewrite points at the shortlink target.
+        if ($data == null || ilSeoPermalink::outgoing($data) === null) {
             $meta_tags = $this->generateNoFollowMetadata();
             $this->globalScreen()->layout()->meta()->addOpenGraphMetaDatum($meta_tags);
             return;
@@ -270,10 +271,11 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
             // Map stays keyed by the literal ISO code (matched by
             // extractLangFromAction()); only the DB lookup is normalized.
             $data = $seo->fetchById($ref_id, $secondary_id, ilSeoLanguage::toDbLang($lang));
-            $permalink = $data !== null ? (string) $data["permalink"] : null;
+            $permalink = ilSeoPermalink::outgoing($data);
             // !empty() misreads a stored homepage row (permalink "") as "none
-            // configured", falling back to "?lang="; isValid() knows better.
-            $permalinks[$lang] = ($permalink !== null && ilSeoPermalink::isValid($permalink, $permalink === ""))
+            // configured", falling back to "?lang="; outgoing() knows better,
+            // and also withholds a permalink an active shortlink shadows.
+            $permalinks[$lang] = $permalink !== null
                 ? ILIAS_HTTP_PATH . "/" . $permalink
                 : ILIAS_HTTP_PATH . "/?lang=" . $lang;
         }
@@ -320,9 +322,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
      * @param array{title: string, description: string, robots: string,
      *     is_publishable: bool} $row_values values read from this page's SEO
      *     row; "is_publishable" is whether that row clears the sitemap gate
-     * @param array{default_locale: string, alternative_locales: string[],
-     *     hreflang_alternates: array<int, array{hreflang: string, href:
-     *     string}>} $language_context
+     * @param array{default_locale: string, alternative_locales: string[], hreflang_alternates: array<int, array{hreflang: string, href: string}>} $language_context
      * @param \ILIAS\Data\Meta\Html\Tag[] $additional_resources
      * @return ilSeoTagCollection
      */
@@ -518,7 +518,11 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
             // x-default reuses this URL, but only while the sitemap publishes
             // this row.
             $current_row = $seo->fetchById($ref_id, $secondary_id, ilSeoLanguage::toDbLang($current_lang));
-            if ($current_row !== null && ilSeoSitemapStatus::isPublishableRow($current_row)) {
+            if (
+                $current_row !== null
+                && ilSeoSitemapStatus::isPublishableRow($current_row)
+                && ilSeoPermalink::outgoing($current_row) !== null
+            ) {
                 $alternates[] = ["hreflang" => "x-default", "href" => $canonical_url];
             }
         }
@@ -529,7 +533,12 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
                 continue;
             }
 
-            $href = ILIAS_HTTP_PATH . "/" . $data["permalink"];
+            $permalink = ilSeoPermalink::outgoing($data);
+            if ($permalink === null) {
+                continue;
+            }
+
+            $href = ILIAS_HTTP_PATH . "/" . $permalink;
             $alternates[] = ["hreflang" => $lang, "href" => $href];
 
             if ($lang === $default_lang) {
@@ -542,8 +551,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
 
     /**
      * Replace standard logo link with website link.
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification
      */
     public function getLogoModification(CalledContexts $screen_context_stack): ?LogoModification
@@ -566,8 +574,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
 
     /**
      * Replace mobile logo link with website link.
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification
      */
     public function getResponsiveLogoModification(CalledContexts $screen_context_stack): ?LogoModification
@@ -589,8 +596,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
      * internal "?lang=" one.
      * @see ILIAS\Init\Provider\StartUpMetaBarProvider::getMetaBarItems
      *
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification|null
      */
     public function getMetaBarModification(CalledContexts $screen_context_stack): ?MetaBarModification
@@ -683,8 +689,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
      * Edit the breadcrumbs using SEO permalinks.
      * @see ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\StandardPagePartProvider::getBreadCrumbs
      *
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification
      */
     public function getBreadCrumbsModification(CalledContexts $screen_context_stack): ?BreadCrumbsModification
@@ -695,8 +700,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
 
     /**
      * Edit the page footer.
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification|null
      */
     public function getFooterModification(CalledContexts $screen_context_stack): ?FooterModification
@@ -714,8 +718,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
 
     /**
      * Edit the ILIAS main title.
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification|null
      */
     public function getTitleModification(CalledContexts $screen_context_stack): ?TitleModification
@@ -733,10 +736,8 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
 
     /**
      * Edit the first part of the ILIAS page title.
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
-     * @return
-     *     ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification|null
+     * @param CalledContexts $screen_context_stack
+     * @return ViewTitleModification|null
      */
     public function getViewTitleModification(CalledContexts $screen_context_stack): ?ViewTitleModification
     {

@@ -11,10 +11,10 @@
  */
 
 $id = "seo";
-$version = "10.2.0";
+$version = "11.2.0";
 
-$ilias_min_version = "10.0";
-$ilias_max_version = "10.999";
+$ilias_min_version = "11.0";
+$ilias_max_version = "11.999";
 
 $responsible = "OC Open Consulting SB Srl";
 $responsible_mail = "plugins@oc-group.eu";

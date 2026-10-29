@@ -13,7 +13,7 @@
 use ilSeo\ObjectHandlers\HandlerFactory;
 
 // The plugin's install path is 8 segments below the true ILIAS root:
-// public/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Seo. ILIAS 10 nests
+// public/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Seo. ILIAS nests
 // the webserver docroot under public/, while vendor/ and ilias.ini.php stay one level above it.
 $ilias_root = realpath(dirname(__DIR__, 8));
 if ($ilias_root === false || !is_file($ilias_root . "/ilias.ini.php")) {
@@ -29,8 +29,14 @@ require_once "./vendor/composer/vendor/autoload.php";
 // permalink requests only.
 define("IL_SEO_PERMALINK_REQUEST", true);
 
-// Convert PHP errors to exceptions so the handler below catches them all.
+// Convert PHP errors to exceptions so the handler below catches them all. Deprecations are
+// left to PHP's default handling: core and vendored libraries loaded before ILIAS installs its
+// own handler may still carry them, and they are no reason to fail a request.
 set_error_handler(static function (int $errno, string $errstr, string $errfile, int $errline): bool {
+    if (($errno & (E_DEPRECATED | E_USER_DEPRECATED)) !== 0) {
+        return false;
+    }
+
     throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 });
 
@@ -46,7 +52,7 @@ set_exception_handler(static function (Throwable $e) use ($ilias_root): never {
         // Same cwd restore as the main path below, in case the exception fired before that
         // line ran; chdir() is harmless to repeat.
         chdir($ilias_root . "/public");
-        ilInitialisation::initILIAS();
+        ilSeoInitialisation::bootIlias($ilias_root);
         ilSeoInitialisation::respondInternalError($e);
     } catch (Throwable) {
         http_response_code(500);
@@ -78,7 +84,7 @@ $GLOBALS["COOKIE_PATH"] = $path;
 // Do not initialize ILIAS yet. Only the database is required.
 ilSeoInitialisation::initDatabase();
 
-// Restore cwd to public/ before initILIAS(): core resolves some asset paths cwd-relatively
+// Restore cwd to public/ before bootIlias(): core resolves some asset paths cwd-relatively
 // (e.g. ilUtil::getNewContentStyleSheetLocation()), and chdir() above left it one level up.
 chdir($ilias_root . "/public");
 
@@ -95,13 +101,24 @@ if ($static_file !== null) {
     ilSeoInitialisation::respondStaticFile($static_file);
 }
 
+// An active core shortlink with this one-segment address wins over any
+// permalink; the lookup needs only the database, which is available here.
+$shortlink_segment = ilSeoShortlinks::singleSegment($page);
+if ($shortlink_segment !== null) {
+    $shortlink_alias = (new ilSeoShortlinks($DIC->database()))->findActiveAlias($shortlink_segment);
+    if ($shortlink_alias !== null) {
+        header("Location: {$http_path}/goto.php/shortlink/{$shortlink_alias}", true, 302);
+        exit;
+    }
+}
+
 if (!empty($page) && !preg_match("/\/$/", $page)) {
     header("Location: {$http_path}/{$page}/", true, 301);
     exit;
 }
 
 if (!empty($page) && !preg_match("/^([a-z0-9][a-z0-9-]*\/)*$/s", $page)) {
-    ilInitialisation::initILIAS();
+    ilSeoInitialisation::bootIlias($ilias_root);
     ilSeoInitialisation::respondNotFound();
     exit;
 }
@@ -109,7 +126,7 @@ if (!empty($page) && !preg_match("/^([a-z0-9][a-z0-9-]*\/)*$/s", $page)) {
 $special_handler = HandlerFactory::forPermalink($page);
 if ($special_handler !== null) {
     $special_handler->prepareEarlyDispatch();
-    ilInitialisation::initILIAS();
+    ilSeoInitialisation::bootIlias($ilias_root);
     $DIC->globalScreen()->layout()->meta()->addMetaDatum(new ilSeoBaseTag());
     $DIC->ctrl()->callBaseClass($_GET["baseClass"]);
     $DIC["ilBench"]->save();
@@ -127,7 +144,7 @@ if ($data == null) {
         exit;
     }
 
-    ilInitialisation::initILIAS();
+    ilSeoInitialisation::bootIlias($ilias_root);
 
     if (empty($page)) {
         ilInitialisation::redirectToStartingPage();
@@ -152,7 +169,7 @@ $handler = isset(ilSeo::SECONDARY_ID_KEYS[$data["type"]])
 if ($handler !== null) {
     $handler->prepareGotoDispatch((int) $data["secondary_id"]);
     // ilCtrlContext::adoptRequestParameters() reads $_GET["cmdNode"] only once, while
-    // ilInitialisation::initILIAS() below is building the ilCtrl context; priming it any
+    // ilSeoInitialisation::bootIlias() below is building the ilCtrl context; priming it any
     // later has no effect. finalizeGotoDispatch() (blog/dcl) sets it here for that reason.
     $handler->finalizeGotoDispatch((int) $data["secondary_id"]);
 } else {
@@ -181,7 +198,7 @@ if ($handler !== null) {
     }
 }
 
-ilInitialisation::initILIAS();
+ilSeoInitialisation::bootIlias($ilias_root);
 
 // The lookup needs the repository tree, which exists only once ILIAS is initialised; no
 // dispatch has happened yet here, so the request can still be answered with a status.

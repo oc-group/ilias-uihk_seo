@@ -18,33 +18,42 @@ responsible for them.
 Permalink routing works under both Apache and nginx, but the two are handled differently. On
 activation, and again every time you save the configuration, the plugin writes an Apache block into
 `assets/apache.conf`, inside its own plugin directory. It does **not** write into
-`public/.htaccess`: ILIAS 10's own setup regenerates that file on every build, which would silently
+`public/.htaccess`: ILIAS's own setup regenerates that file on every build, which would silently
 discard a block written there. nginx has no equivalent managed file; its block is only generated in
 memory, for the Configuration screen's permalink-routing panel to show, and an administrator pastes
 it in by hand.
 
 #### Apache
 
-- **A one-time vhost directive is required**, added once by an administrator to the Apache vhost
-  configuration (not `public/.htaccess`). The Configuration screen's permalink-routing panel shows
-  this exact snippet, built from this installation's own absolute path:
+- **A vhost directive is required, once per installation**, added by an administrator to the
+  Apache vhost configuration (not `public/.htaccess`). Place it directly inside the `<VirtualHost>`
+  block, **outside** any `<Directory>` block. If your vhost already has this line inside a
+  `<Directory>` block together with `RewriteOptions Inherit` (the placement used up to ILIAS 10),
+  it is not in place for ILIAS 11: move it to the `<VirtualHost>` block and delete the
+  `RewriteOptions Inherit` line. The Configuration screen's permalink-routing panel shows this
+  exact line, built from this installation's own absolute path:
 
   ```apache
-  <Directory "/path/to/ilias/public">
+  <VirtualHost *:80>
+      # ... DocumentRoot, <Directory> and the rest of your vhost ...
       IncludeOptional /path/to/ilias/public/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Seo/assets/apache.conf
-      RewriteOptions Inherit
-  </Directory>
+  </VirtualHost>
   ```
+
+  Placement matters. `public/.htaccess` ends with a catch-all shortlink rule that answers every
+  one-segment path (`/my-page/`) with an empty 404 before anything declared inside a `<Directory>`
+  block gets a chance to run. Rules at vhost level run first, so every permalink, one segment or
+  many, reaches the plugin.
 
   Use the **absolute** path shown by the panel, not a path relative to your ILIAS root:
   `IncludeOptional` resolves a relative path against Apache's `ServerRoot`, not against the
-  enclosing `<Directory>`, so a relative path here loads nothing and fails silently. This is the
+  vhost, so a relative path here loads nothing and fails silently. This is the
   only step to repeat by hand: once it is in place, every later regeneration of
   `assets/apache.conf` applies automatically on the next Apache reload.
 - **`mod_rewrite` must be enabled.** The block is wrapped in `<IfModule mod_rewrite.c>`, so without
   the module it is silently skipped and every permalink 404s.
 - **A regenerated `assets/apache.conf` is not picked up until Apache is reloaded**, since
-  `IncludeOptional` sits inside a `<Directory>` block, parsed at startup/reload rather than on every
+  `IncludeOptional` is parsed at startup/reload rather than on every
   request. This applies to any content change to the file, including an ordinary configuration save.
   The permalink-routing panel states this explicitly.
 - `assets/apache.conf` is owned entirely by the plugin and rewritten in full on every activation and
@@ -52,15 +61,25 @@ it in by hand.
 
 #### nginx
 
-An administrator must:
+The plugin's block takes over the server's `location /`, and nginx accepts only one
+`location /` per server, so the block replaces what is there today. An administrator must:
 
 1. Open `Administration` -> `Plugins` -> `Seo` -> `Configure` -> `Configuration`, and copy the
    generated block shown behind the panel's nginx button.
-2. Paste it inside the site's `server {}` block, replacing the default
-   `location / { try_files $uri $uri/ =404; }` directive.
-3. Reload nginx.
-4. Repeat these steps whenever `ILIAS_HTTP_PATH` changes, or after any plugin update that changes
+2. In the site's `server {}` block, remove the existing `location /` and anything that only serves
+   it:
+   - on a default server, that is `location / { try_files $uri $uri/ =404; }`;
+   - on ILIAS 11 with the shortlink block from ILIAS's own documentation
+     (`components/ILIAS/StaticURL/CONFIGURATION.md`), remove both its `location /` and its
+     `location @shortlink`, and **keep** its `location ^~ /go/`.
+3. Paste the copied block in their place.
+4. Check and reload nginx (`nginx -t`, then `nginx -s reload`). A leftover `location /` makes
+   `nginx -t` fail with `duplicate location "/"`.
+5. Repeat these steps whenever `ILIAS_HTTP_PATH` changes, or after any plugin update that changes
    the generated block.
+
+ILIAS 11 shortlinks keep working without their own nginx block: the plugin forwards a one segment
+address that matches an active shortlink to `goto.php/shortlink/<alias>`.
 
 This requires the standard ILIAS PHP-FPM location already present in the server block. Because that
 is a regex location and the SEO block is a plain prefix location, nginx checks the regex location
@@ -83,7 +102,7 @@ From the ILIAS directory, run:
 ```sh
 mkdir -p public/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook
 cd public/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook
-git clone -b release_10 https://github.com/oc-group/ilias-uihk_seo Seo
+git clone -b release_11 https://github.com/oc-group/ilias-uihk_seo Seo
 ```
 
 ### Install Composer dependencies
@@ -153,6 +172,11 @@ composer du
 - `Languages` -> `Refresh Languages`, whenever a release renames or adds translation keys. `composer du`
   does not do this. Without it the affected screens display raw key names such as
   `screen_overview_title` instead of their labels.
+
+When the update comes with a move from ILIAS 10 to ILIAS 11, also check the web server wiring
+under [Web Server Requirements](#web-server-requirements): on Apache the `IncludeOptional` line
+moves out of the `<Directory>` block, and on nginx a shortlink block from the ILIAS documentation
+has to give way to the plugin's block.
 
 ## Administration
 

@@ -55,8 +55,9 @@ class ilSeoOverviewDataRetrieval implements DataRetrieval
      * @param string[] $visible_column_ids
      * @param Range $range
      * @param Order $order
-     * @param ?array<string,mixed> $filter_data
-     * @param ?array<string,mixed> $additional_parameters
+     * @param mixed $additional_viewcontrol_data unused; the table has no extra view controls
+     * @param mixed $filter_data unused; the filter arrives through the constructor
+     * @param mixed $additional_parameters unused
      * @return \Generator
      */
     public function getRows(
@@ -64,8 +65,9 @@ class ilSeoOverviewDataRetrieval implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         [$where, $types, $params] = $this->buildWhere();
 
@@ -98,10 +100,24 @@ class ilSeoOverviewDataRetrieval implements DataRetrieval
             ? (new ilSeoOverviewDuplicates($this->db))->classify($rows)
             : [];
 
+        // One read of the shortlink table per page, never one per row.
+        $shortlinks = in_array(ilSeoOverviewTableGUI::COL_SHORTLINK, $visible_column_ids, true)
+            ? (new ilSeoShortlinks($this->db))->collisions(array_map(
+                static fn (array $row): string => (string) $row["permalink"],
+                $rows
+            ))
+            : [];
+
         foreach ($rows as $index => $row) {
+            $shortlink = $shortlinks[(string) $row["permalink"]] ?? null;
             yield $row_builder->buildDataRow(
                 self::encodeRowId((int) $row["ref_id"], (int) ($row["secondary_id"] ?? 0), (string) $row["lang"]),
-                $this->toRecord($row, $verdicts[$index]["status"] ?? null, $duplicates[$index] ?? ilSeoOverviewDuplicates::NONE)
+                $this->toRecord(
+                    $row,
+                    $verdicts[$index]["status"] ?? null,
+                    $duplicates[$index] ?? ilSeoOverviewDuplicates::NONE,
+                    $shortlink
+                )
             );
         }
     }
@@ -136,12 +152,16 @@ class ilSeoOverviewDataRetrieval implements DataRetrieval
     }
 
     /**
-     * @param ?array<string,mixed> $filter_data
-     * @param ?array<string,mixed> $additional_parameters
+     * @param mixed $additional_viewcontrol_data unused; the table has no extra view controls
+     * @param mixed $filter_data unused; the filter arrives through the constructor
+     * @param mixed $additional_parameters unused
      * @return int
      */
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): int {
         [$where, $types, $params] = $this->buildWhere();
 
         $sql = "SELECT COUNT(*) cnt FROM " . ilSeoPlugin::TABLE_DATA . " s" . $where;
@@ -161,9 +181,11 @@ class ilSeoOverviewDataRetrieval implements DataRetrieval
      *     is hidden
      * @param string $duplicate ilSeoOverviewDuplicates verdict, NONE while the
      *     column is hidden
+     * @param bool|null $shortlink null without a colliding core shortlink,
+     *     otherwise whether that shortlink is active (and so shadows the row)
      * @return array<string,mixed>
      */
-    private function toRecord(array $row, ?string $status, string $duplicate): array
+    private function toRecord(array $row, ?string $status, string $duplicate, ?bool $shortlink): array
     {
         $freq = (string) ($row["frequency"] ?? "");
         // "-" is the DB-only default-language sentinel; resolve to the real
@@ -184,6 +206,11 @@ class ilSeoOverviewDataRetrieval implements DataRetrieval
             ilSeoOverviewTableGUI::COL_DUPLICATE => $duplicate !== ilSeoOverviewDuplicates::NONE
                 ? $this->plugin->txt(ilSeoOverviewDuplicates::langKey($duplicate))
                 : "",
+            ilSeoOverviewTableGUI::COL_SHORTLINK => match ($shortlink) {
+                true => $this->plugin->txt("shortlink_shadowed"),
+                false => $this->plugin->txt("shortlink_inactive"),
+                null => "",
+            },
         ];
     }
 

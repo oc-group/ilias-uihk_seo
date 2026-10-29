@@ -63,6 +63,9 @@ permalink_already_exists#:#This permalink is already used by another page.
 permalink_deleted#:#Permalink deleted successfully
 permalink_info#:#The slug is the page's permalink: the part of a URL that identifies a specific page, like <u>about-us/</u> in <u>example.com/about-us/</u>.<br/>Keep it short, descriptive, and readable for both users and search engines.
 permalink_reserved#:#The chosen permalink is reserved.
+permalink_shortlink_inactive#:#An inactive ILIAS shortlink uses the alias "%s". It does not redirect this address right now, but the alias stays reserved: it cannot be given to another page while the shortlink exists.
+permalink_shortlink_reserved#:#This address is reserved by an ILIAS shortlink.
+permalink_shortlink_shadowed#:#An active ILIAS shortlink uses the alias "%s": visitors to this address are sent to the shortlink, not to this page. Choose a different permalink.
 permalink_suggested#:#Nothing is saved for this page yet, so the value above is only a suggestion built from its own title. Adjust it as you like before saving.
 permalink_suggested_inherited#:#Nothing is saved for this page yet, so the value above is only a suggestion: its own title, placed under the permalink its container already uses. Adjust it as you like before saving.
 permalink_suggested_numbered#:#Nothing is saved for this page yet, and this content has no title of its own, so the value above only places its number under the permalink its container already uses. Adjust it as you like before saving.
@@ -78,11 +81,11 @@ rewrite_status_apache_content_summary#:#Current file content (for reference)
 rewrite_status_apache_heading#:#Apache
 rewrite_status_apache_instructions#:#This file's own current content, shown for reference (you never paste it anywhere yourself once the one-time step above is in place). Apache only re-reads it on reload, not on every request, so reload it (e.g. apache2ctl graceful) whenever this content changes, including after saving this form again.
 rewrite_status_apache_missing#:#The Apache configuration could not be written to disk. Check that %s is writable by the web server, then save this form again.
-rewrite_status_apache_onetime_instructions#:#One-time step, needed only if you have not already done it (see README): add these two lines inside your Apache vhost's Directory block for this installation, using the absolute path shown. IncludeOptional resolves a relative path against Apache's own ServerRoot, not against this directory, and fails silently if the path here is not absolute.
+rewrite_status_apache_onetime_instructions#:#Needed once per installation (see README): add this line directly inside your Apache vhost's VirtualHost block for this installation, outside any Directory block, using the absolute path shown. If the line is already in your vhost but inside a Directory block together with RewriteOptions Inherit (the placement used up to ILIAS 10), move it to the VirtualHost block and delete the RewriteOptions Inherit line: inside a Directory block the .htaccess shipped with ILIAS answers one-segment permalinks before the plugin sees them. IncludeOptional resolves a relative path against Apache's own ServerRoot, not against the vhost, and fails silently if the path here is not absolute.
 rewrite_status_caveat#:#This can only confirm that the configuration below was generated on disk, not that a system administrator has actually pasted it into the web server and reloaded it.
 rewrite_status_nginx_detected#:#This installation appears to be served by nginx.
 rewrite_status_nginx_heading#:#nginx
-rewrite_status_nginx_instructions#:#Paste the block below inside the server {} block, replacing the default "location /" directive, then reload nginx (nginx -s reload).
+rewrite_status_nginx_instructions#:#The block below takes over the "location /" of your server {} block, and nginx accepts only one "location /" per server. Remove the existing one: on a default server, the stock "location /" ending in =404; on ILIAS 11 with the shortlink block from the ILIAS documentation, its "location /" and its "location @shortlink", keeping its "location ^~ /go/". Paste the block below in their place, then check and reload nginx (nginx -t, then nginx -s reload). Shortlinks keep working without their own block.
 rewrite_status_nginx_missing#:#The nginx configuration could not be written to disk. Check that %s is writable by the web server, then save this form again.
 rewrite_status_nginx_not_detected#:#This installation does not appear to be served by nginx (Apache is assumed). Both configurations below are generated on every save regardless, in case this detection is wrong behind a reverse proxy.
 rewrite_status_nginx_port_instructions#:#Some nginx packages set HTTP_HOST from the host name alone, dropping the port. ILIAS builds login and redirect URLs from HTTP_HOST, so on a non-default port those URLs lose it. Add the line below to your php-fpm location block, after include fastcgi_params, then reload nginx.
@@ -105,6 +108,9 @@ seo_default_language#:#Default language
 seo_default_language_info#:#Always active, whichever way its own checkbox below is set.
 seo_edit#:#Edit SEO metadata
 seo_lang_pages_info#:#SEO metadata saved for %s of %s pages (%s%%).
+shortlink_column#:#Shortlink
+shortlink_inactive#:#Shortlink alias (inactive)
+shortlink_shadowed#:#Shadowed by shortlink
 sitemap_builder#:#Sitemap builder
 sitemap_builder_info#:#Build the website sitemap of the public area.
 sitemap_exclusion#:#Sitemap exclusion

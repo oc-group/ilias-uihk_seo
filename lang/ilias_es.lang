@@ -63,6 +63,9 @@ permalink_already_exists#:#Este permalink ya lo utiliza otra página.
 permalink_deleted#:#Permalink eliminado correctamente
 permalink_info#:#El slug es el permalink de la página: la parte de una URL que identifica una página concreta, como <u>sobre-nosotros/</u> en <u>example.com/sobre-nosotros/</u>.<br/>Manténgalo breve, descriptivo y legible tanto para los usuarios como para los motores de búsqueda.
 permalink_reserved#:#El permalink elegido está reservado.
+permalink_shortlink_inactive#:#Un shortlink inactivo de ILIAS usa el alias "%s". Ahora no redirige esta dirección, pero el alias sigue reservado: no se puede asignar a otra página mientras exista el shortlink.
+permalink_shortlink_reserved#:#Esta dirección está reservada por un shortlink de ILIAS.
+permalink_shortlink_shadowed#:#Un shortlink activo de ILIAS usa el alias "%s": los visitantes de esta dirección son enviados al shortlink, no a esta página. Elija otro permalink.
 permalink_suggested#:#Todavía no hay nada guardado para esta página, por lo que el valor de arriba es solo una sugerencia elaborada a partir de su propio título. Ajústelo como desee antes de guardar.
 permalink_suggested_inherited#:#Todavía no hay nada guardado para esta página, por lo que el valor de arriba es solo una sugerencia: su propio título, colocado bajo el permalink que ya utiliza su contenedor. Ajústelo como desee antes de guardar.
 permalink_suggested_numbered#:#Todavía no hay nada guardado para esta página, y este contenido no tiene título propio, por lo que el valor de arriba se limita a colocar su número bajo el permalink que ya utiliza su contenedor. Ajústelo como desee antes de guardar.
@@ -78,11 +81,11 @@ rewrite_status_apache_content_summary#:#Contenido actual del archivo (a título 
 rewrite_status_apache_heading#:#Apache
 rewrite_status_apache_instructions#:#El contenido actual de este archivo, mostrado a título informativo (nunca tiene que pegarlo usted mismo en ningún sitio una vez realizado el paso único anterior). Apache solo lo vuelve a leer al recargarse, no en cada solicitud, así que recárguelo (por ejemplo, con apache2ctl graceful) cada vez que este contenido cambie, también después de volver a guardar este formulario.
 rewrite_status_apache_missing#:#No se ha podido escribir la configuración de Apache en disco. Compruebe que %s tiene permisos de escritura para el servidor web y vuelva a guardar este formulario.
-rewrite_status_apache_onetime_instructions#:#Paso único, necesario solo si todavía no lo ha realizado (consulte el README): añada estas dos líneas dentro del bloque Directory del vhost de Apache de esta instalación, usando la ruta absoluta mostrada. IncludeOptional resuelve una ruta relativa respecto al propio ServerRoot de Apache, no respecto a este directorio, y falla silenciosamente si la ruta indicada aquí no es absoluta.
+rewrite_status_apache_onetime_instructions#:#Necesario una vez por instalación (consulte el README): añada esta línea directamente dentro del bloque VirtualHost del vhost de Apache de esta instalación, fuera de cualquier bloque Directory, usando la ruta absoluta mostrada. Si la línea ya está en su vhost pero dentro de un bloque Directory junto con RewriteOptions Inherit (la posición usada hasta ILIAS 10), muévala al bloque VirtualHost y elimine la línea RewriteOptions Inherit: dentro de un bloque Directory el .htaccess de ILIAS responde a los enlaces permanentes de un solo segmento antes de que el plugin los vea. IncludeOptional resuelve una ruta relativa respecto al propio ServerRoot de Apache, no respecto al vhost, y falla silenciosamente si la ruta indicada aquí no es absoluta.
 rewrite_status_caveat#:#Esto solo puede confirmar que la configuración de abajo se generó en disco, no que un administrador del sistema la haya pegado realmente en el servidor web y lo haya recargado.
 rewrite_status_nginx_detected#:#Esta instalación parece estar servida por nginx.
 rewrite_status_nginx_heading#:#nginx
-rewrite_status_nginx_instructions#:#Pegue el bloque de abajo dentro del bloque server {}, sustituyendo la directiva predeterminada "location /", y después recargue nginx (nginx -s reload).
+rewrite_status_nginx_instructions#:#El bloque de abajo sustituye el "location /" de su bloque server {}, y nginx acepta un solo "location /" por servidor. Elimine el existente: en un servidor estándar, el "location /" predeterminado que termina en =404; en ILIAS 11 con el bloque de shortlinks de la documentación de ILIAS, su "location /" y su "location @shortlink", conservando su "location ^~ /go/". Pegue el bloque de abajo en su lugar y después compruebe y recargue nginx (nginx -t, luego nginx -s reload). Los shortlinks siguen funcionando sin un bloque propio.
 rewrite_status_nginx_missing#:#No se ha podido escribir la configuración de nginx en disco. Compruebe que %s tiene permisos de escritura para el servidor web y vuelva a guardar este formulario.
 rewrite_status_nginx_not_detected#:#Esta instalación no parece estar servida por nginx (se asume Apache). En cualquier caso, ambas configuraciones de abajo se generan en cada guardado, por si esta detección fuera incorrecta detrás de un proxy inverso.
 rewrite_status_nginx_port_instructions#:#Algunos paquetes de nginx establecen HTTP_HOST solo a partir del nombre de host, descartando el puerto. ILIAS construye las URL de inicio de sesión y de redirección a partir de HTTP_HOST, por lo que en un puerto no predeterminado esas URL lo pierden. Añada la línea de abajo a su bloque location de php-fpm, después de include fastcgi_params, y después recargue nginx.
@@ -105,6 +108,9 @@ seo_default_language#:#Idioma predeterminado
 seo_default_language_info#:#Siempre activo, sea cual sea el estado de su propia casilla de abajo.
 seo_edit#:#Editar metadatos SEO
 seo_lang_pages_info#:#Metadatos SEO guardados para %s de %s páginas (%s%%).
+shortlink_column#:#Shortlink
+shortlink_inactive#:#Alias de shortlink (inactivo)
+shortlink_shadowed#:#Ocultado por shortlink
 sitemap_builder#:#Generador del mapa del sitio
 sitemap_builder_info#:#Genera el mapa del sitio del área pública.
 sitemap_exclusion#:#Exclusión del mapa del sitio

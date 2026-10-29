@@ -12,12 +12,14 @@
 
 declare(strict_types=1);
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\CronJob;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
 
 /**
  * Cronjob that builds the sitemap in background.
  */
-class ilSeoSitemapBuilderCronJob extends ilCronJob
+class ilSeoSitemapBuilderCronJob extends CronJob
 {
     /** @var string */
     public const CRON_JOB_ID = ilSeoPlugin::PLUGIN_ID . "_sitemap_builder";
@@ -80,11 +82,11 @@ class ilSeoSitemapBuilderCronJob extends ilCronJob
 
     /**
      * Cron Job schedule type.
-     * @return CronJobScheduleType
+     * @return JobScheduleType
      */
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS;
+        return JobScheduleType::IN_DAYS;
     }
 
     /**
@@ -134,9 +136,9 @@ class ilSeoSitemapBuilderCronJob extends ilCronJob
 
     /**
      * Run the cron job
-     * @return ilCronJobResult
+     * @return JobResult
      */
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
         global $DIC;
 
@@ -159,12 +161,12 @@ class ilSeoSitemapBuilderCronJob extends ilCronJob
             $generator->updateRobots();
         } catch (Throwable $e) {
             $this->plugin->logger->error("Sitemap generation failed: " . $e->getMessage());
-            return $this->result(ilCronJobResult::STATUS_FAIL, "Cannot create the sitemap. Check logs for details.");
+            return $this->result(JobResult::STATUS_FAIL, "Cannot create the sitemap. Check logs for details.");
         }
 
         $pages_count = count($pages);
         if (!$settings->isSubmitSitemap()) {
-            return $this->result(ilCronJobResult::STATUS_OK, "Sitemap successfully generated with {$pages_count} urls.");
+            return $this->result(JobResult::STATUS_OK, "Sitemap successfully generated with {$pages_count} urls.");
         }
 
         return $this->submitSitemap($generator, $pages_count);
@@ -194,9 +196,17 @@ class ilSeoSitemapBuilderCronJob extends ilCronJob
             $candidates[] = $page;
         }
 
+        $shortlinks = new ilSeoShortlinks($this->db);
         $pages = [];
         foreach ((new ilSeoSitemapStatus($this->seo))->classify($candidates) as $index => $verdict) {
             if (!ilSeoSitemapStatus::isInSitemap($verdict["status"])) {
+                continue;
+            }
+
+            // An active shortlink answers a shadowed permalink's address, so
+            // listing it would publish the shortlink target under this page.
+            $shadowed = (string) $candidates[$index]["permalink"];
+            if ($shortlinks->isShadowed($shadowed)) {
                 continue;
             }
 
@@ -362,9 +372,9 @@ class ilSeoSitemapBuilderCronJob extends ilCronJob
      * work performed, and engines discover the sitemap from robots.txt anyway.
      * @param \Icamys\SitemapGenerator\SitemapGenerator $generator
      * @param int $pages_count
-     * @return ilCronJobResult
+     * @return JobResult
      */
-    protected function submitSitemap(\Icamys\SitemapGenerator\SitemapGenerator $generator, int $pages_count): ilCronJobResult
+    protected function submitSitemap(\Icamys\SitemapGenerator\SitemapGenerator $generator, int $pages_count): JobResult
     {
         $message = "Sitemap successfully generated with {$pages_count} urls.";
 
@@ -374,14 +384,14 @@ class ilSeoSitemapBuilderCronJob extends ilCronJob
             $submission_results = $generator->submitSitemap();
         } catch (Throwable $e) {
             $this->plugin->logger->notice("Sitemap ping could not be sent: " . $e->getMessage());
-            return $this->result(ilCronJobResult::STATUS_OK, $message . " " . self::PING_UNCONFIRMED_NOTE);
+            return $this->result(JobResult::STATUS_OK, $message . " " . self::PING_UNCONFIRMED_NOTE);
         }
 
         if (!$this->isSubmissionConfirmed($submission_results)) {
-            return $this->result(ilCronJobResult::STATUS_OK, $message . " " . self::PING_UNCONFIRMED_NOTE);
+            return $this->result(JobResult::STATUS_OK, $message . " " . self::PING_UNCONFIRMED_NOTE);
         }
 
-        return $this->result(ilCronJobResult::STATUS_OK, $message);
+        return $this->result(JobResult::STATUS_OK, $message);
     }
 
     /**
@@ -421,9 +431,9 @@ class ilSeoSitemapBuilderCronJob extends ilCronJob
     /**
      * Remove the generated sitemap and stop announcing it in robots.txt. Having
      * no publishable page is a legitimate configuration, not a failure.
-     * @return ilCronJobResult
+     * @return JobResult
      */
-    protected function deleteSitemap(): ilCronJobResult
+    protected function deleteSitemap(): JobResult
     {
         // Removed, not emptied: a zero-byte file at the well-known URL is
         // invalid XML.
@@ -435,7 +445,7 @@ class ilSeoSitemapBuilderCronJob extends ilCronJob
         $this->removeSitemapFromRobots();
 
         return $this->result(
-            ilCronJobResult::STATUS_NO_ACTION,
+            JobResult::STATUS_NO_ACTION,
             "No sitemap written: there are no public web pages."
         );
     }
@@ -470,11 +480,11 @@ class ilSeoSitemapBuilderCronJob extends ilCronJob
     /**
      * @param int $status
      * @param string $message
-     * @return ilCronJobResult
+     * @return JobResult
      */
-    protected function result(int $status, string $message): ilCronJobResult
+    protected function result(int $status, string $message): JobResult
     {
-        $result = new ilCronJobResult();
+        $result = new JobResult();
         $result->setStatus($status);
         $result->setMessage($message);
         return $result;

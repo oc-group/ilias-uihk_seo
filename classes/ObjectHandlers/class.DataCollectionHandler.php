@@ -167,7 +167,11 @@ class DataCollectionHandler extends AbstractHandler
             return false;
         }
 
-        return \ilDclDetailedViewDefinition::isActive($tableview_id);
+        if (!\ilDclDetailedViewDefinition::exists($tableview_id)) {
+            return false;
+        }
+
+        return (new \ilDclDetailedViewDefinition($tableview_id))->isActive();
     }
 
     /**

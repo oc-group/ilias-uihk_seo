@@ -197,24 +197,4 @@ final class ilSeoSettings
     {
         $this->setString($key, $value ? "y" : "n");
     }
-
-    /**
-     * @param string $key
-     * @param int $default
-     * @return int
-     */
-    private function getInt(string $key, int $default): int
-    {
-        return (int) $this->getString($key, (string) $default);
-    }
-
-    /**
-     * @param string $key
-     * @param int $value
-     * @return void
-     */
-    private function setInt(string $key, int $value): void
-    {
-        $this->setString($key, (string) $value);
-    }
 }

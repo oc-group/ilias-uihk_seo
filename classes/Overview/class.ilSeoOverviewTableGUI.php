@@ -50,6 +50,9 @@ class ilSeoOverviewTableGUI
     /** @var string column id of the duplicate-metadata flag */
     public const COL_DUPLICATE = "duplicate";
 
+    /** @var string column id of the core-shortlink collision flag */
+    public const COL_SHORTLINK = "shortlink";
+
     /** @var \ILIAS\UI\Factory */
     private \ILIAS\UI\Factory $factory;
 
@@ -150,7 +153,7 @@ class ilSeoOverviewTableGUI
         $retrieval = new ilSeoOverviewDataRetrieval($this->db, $this->plugin, $this->lng, $filter);
         $title = sprintf($this->plugin->txt("title_admin_overview_count"), $pages_total);
 
-        return $this->factory->table()->data($title, $columns, $retrieval)
+        return $this->factory->table()->data($retrieval, $title, $columns)
             ->withId($table_id)
             ->withActions($actions)
             ->withRequest($request);
@@ -178,6 +181,11 @@ class ilSeoOverviewTableGUI
             // Same shape as the sitemap-status column: optional but shown by
             // default, and hiding it skips the two GROUP BY queries behind it.
             self::COL_DUPLICATE => $col_factory->status($this->plugin->txt("duplicate_metadata"))
+                ->withIsSortable(false)
+                ->withIsOptional(true, true),
+            // Flags a permalink a core shortlink shadows (active) or reserves
+            // (inactive); hiding it skips the one shortlink query behind it.
+            self::COL_SHORTLINK => $col_factory->status($this->plugin->txt("shortlink_column"))
                 ->withIsSortable(false)
                 ->withIsOptional(true, true),
         ];

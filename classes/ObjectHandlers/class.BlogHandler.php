@@ -51,6 +51,9 @@ class BlogHandler extends AbstractHandler
                 \ilObjBlogGUI::class,
             ]);
             $_GET["cmdClass"] = strtolower(\ilObjBlogGUI::class);
+            // ilObjBlogGUI dispatches an empty cmd literally instead of falling back to its
+            // default, so the blog's own view command is named here.
+            $_GET["cmd"] = "render";
             return;
         }
 
@@ -117,7 +120,11 @@ class BlogHandler extends AbstractHandler
      */
     public function itemTitle(int $secondary_id, string $lang): string
     {
-        return \ilBlogPosting::lookupTitle($secondary_id);
+        global $DIC;
+
+        $posting = $DIC->blog()->internal()->domain()->posting()->getById($secondary_id);
+
+        return $posting !== null ? $posting->getTitle() : "";
     }
 
     /**

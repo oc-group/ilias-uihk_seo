@@ -12,10 +12,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\Cron\CronJob;
+use ILIAS\Cron\Job\JobProvider;
+
 /**
  * Plugin main class.
  */
-class ilSeoPlugin extends ilUserInterfaceHookPlugin implements ilCronJobProvider
+class ilSeoPlugin extends ilUserInterfaceHookPlugin implements JobProvider
 {
     /** @var string */
     public const PLUGIN_ID = "seo";
@@ -250,7 +253,7 @@ class ilSeoPlugin extends ilUserInterfaceHookPlugin implements ilCronJobProvider
 
     /**
      * Get list of cron jobs.
-     * @return array<int, ilCronJob>
+     * @return list<CronJob>
      */
     public function getCronJobInstances(): array
     {
@@ -263,17 +266,17 @@ class ilSeoPlugin extends ilUserInterfaceHookPlugin implements ilCronJobProvider
 
     /**
      * Get a CronJob object given its id.
-     * @param string $job_id
-     * @return ilCronJob
+     * @param string $jobId
+     * @return CronJob
      */
-    public function getCronJobInstance(string $job_id): ilCronJob
+    public function getCronJobInstance(string $jobId): CronJob
     {
         foreach ($this->getCronJobInstances() as $cron_job) {
-            if ($job_id === $cron_job->getId()) {
+            if ($jobId === $cron_job->getId()) {
                 return $cron_job;
             }
         }
 
-        throw new OutOfBoundsException("Could not find any job for id '{$job_id}'");
+        throw new OutOfBoundsException("Could not find any job for id '{$jobId}'");
     }
 }

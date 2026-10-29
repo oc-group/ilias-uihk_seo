@@ -311,8 +311,7 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
      * exclusion picker listing only the reasons it answers completely;
      * FilterContextRenderer renders no byline, so the scope must live in the
      * label.
-     * @return
-     *     array<string,\ILIAS\UI\Component\Input\Container\Filter\FilterInput>
+     * @return array<string,\ILIAS\UI\Component\Input\Container\Filter\FilterInput>
      */
     private function buildPagesFilterInputs(): array
     {
@@ -786,8 +785,7 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
      * @param int $ref_id
      * @param int $secondary_id
      * @param string $lang
-     * @param array{permalink: string, title: string, description: string,
-     *     robots: string, priority: int, frequency: string} $values
+     * @param array{permalink: string, title: string, description: string, robots: string, priority: int, frequency: string} $values
      * @return void
      */
     private function routeToHomepageConfirmation(int $ref_id, int $secondary_id, string $lang, array $values): void
@@ -795,7 +793,6 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
         if ($this->seo->isPermalinkTaken("", $ref_id, $secondary_id)) {
             $this->tpl->setOnScreenMessage("failure", $this->plugin->txt("homepage_already_exists"), true);
             $this->ctrl->redirect($this, self::CMD_SHOW);
-            return;
         }
 
         ilSeoPendingHomepage::stash(
@@ -882,8 +879,7 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
      * @param string $follow "follow"/"nofollow", or "" to leave unchanged
      * @param string $priority new priority, or "" to leave unchanged
      * @param string $frequency new frequency, or "" to leave unchanged
-     * @return array{robots: string|null, priority: int|null, frequency:
-     *     string|null}
+     * @return array{robots: string|null, priority: int|null, frequency: string|null}
      */
     private function resolveMassEditUpdates(
         array $row,

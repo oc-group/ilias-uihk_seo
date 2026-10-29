@@ -63,6 +63,9 @@ permalink_already_exists#:#Este permalink ya lo utiliza otra página.
 permalink_deleted#:#Permalink eliminado correctamente
 permalink_info#:#El slug es el permalink de la página: la parte de una URL que identifica una página concreta, como <u>sobre-nosotros/</u> en <u>example.com/sobre-nosotros/</u>.<br/>Manténgalo breve, descriptivo y legible tanto para los usuarios como para los motores de búsqueda.
 permalink_reserved#:#El permalink elegido está reservado.
+permalink_shortlink_inactive#:#Un shortlink inactivo de ILIAS usa el alias "%s". Ahora no redirige esta dirección, pero el alias sigue reservado: no se puede asignar a otra página mientras exista el shortlink.
+permalink_shortlink_reserved#:#Esta dirección está reservada por un shortlink de ILIAS.
+permalink_shortlink_shadowed#:#Un shortlink activo de ILIAS usa el alias "%s": los visitantes de esta dirección son enviados al shortlink, no a esta página. Elija otro permalink.
 permalink_suggested#:#Todavía no hay nada guardado para esta página, por lo que el valor de arriba es solo una sugerencia elaborada a partir de su propio título. Ajústelo como desee antes de guardar.
 permalink_suggested_inherited#:#Todavía no hay nada guardado para esta página, por lo que el valor de arriba es solo una sugerencia: su propio título, colocado bajo el permalink que ya utiliza su contenedor. Ajústelo como desee antes de guardar.
 permalink_suggested_numbered#:#Todavía no hay nada guardado para esta página, y este contenido no tiene título propio, por lo que el valor de arriba se limita a colocar su número bajo el permalink que ya utiliza su contenedor. Ajústelo como desee antes de guardar.
@@ -78,7 +81,7 @@ rewrite_status_apache_content_summary#:#Contenido actual del archivo (a título 
 rewrite_status_apache_heading#:#Apache
 rewrite_status_apache_instructions#:#El contenido actual de este archivo, mostrado a título informativo (nunca tiene que pegarlo usted mismo en ningún sitio una vez realizado el paso único anterior). Apache solo lo vuelve a leer al recargarse, no en cada solicitud, así que recárguelo (por ejemplo, con apache2ctl graceful) cada vez que este contenido cambie, también después de volver a guardar este formulario.
 rewrite_status_apache_missing#:#No se ha podido escribir la configuración de Apache en disco. Compruebe que %s tiene permisos de escritura para el servidor web y vuelva a guardar este formulario.
-rewrite_status_apache_onetime_instructions#:#Paso único, necesario solo si todavía no lo ha realizado (consulte el README): añada estas dos líneas dentro del bloque Directory del vhost de Apache de esta instalación, usando la ruta absoluta mostrada. IncludeOptional resuelve una ruta relativa respecto al propio ServerRoot de Apache, no respecto a este directorio, y falla silenciosamente si la ruta indicada aquí no es absoluta.
+rewrite_status_apache_onetime_instructions#:#Paso único, necesario solo si todavía no lo ha realizado (consulte el README): añada esta línea directamente dentro del bloque VirtualHost del vhost de Apache de esta instalación, fuera de cualquier bloque Directory, usando la ruta absoluta mostrada. En este nivel las reglas del plugin se ejecutan antes que el .htaccess de ILIAS, de modo que también los enlaces permanentes de un solo segmento llegan al plugin. IncludeOptional resuelve una ruta relativa respecto al propio ServerRoot de Apache, no respecto al vhost, y falla silenciosamente si la ruta indicada aquí no es absoluta.
 rewrite_status_caveat#:#Esto solo puede confirmar que la configuración de abajo se generó en disco, no que un administrador del sistema la haya pegado realmente en el servidor web y lo haya recargado.
 rewrite_status_nginx_detected#:#Esta instalación parece estar servida por nginx.
 rewrite_status_nginx_heading#:#nginx
@@ -105,6 +108,9 @@ seo_default_language#:#Idioma predeterminado
 seo_default_language_info#:#Siempre activo, sea cual sea el estado de su propia casilla de abajo.
 seo_edit#:#Editar metadatos SEO
 seo_lang_pages_info#:#Metadatos SEO guardados para %s de %s páginas (%s%%).
+shortlink_column#:#Shortlink
+shortlink_inactive#:#Alias de shortlink (inactivo)
+shortlink_shadowed#:#Ocultado por shortlink
 sitemap_builder#:#Generador del mapa del sitio
 sitemap_builder_info#:#Genera el mapa del sitio del área pública.
 sitemap_exclusion#:#Exclusión del mapa del sitio

@@ -14,12 +14,48 @@ declare(strict_types=1);
 
 class ilSeoInitialisation extends ilInitialisation
 {
+    /** @var bool whether the component bootstrap has already been entered in this request */
+    private static bool $booted = false;
+
+    /**
+     * Run the full ILIAS initialisation. The component bootstrap's legacy entry
+     * point builds a fresh service container and then calls
+     * ilInitialisation::initILIAS() itself, so this replaces a direct call to it.
+     * Needs the working directory set to public/, and any cmdNode priming done
+     * beforehand (it is read once, during initialisation).
+     * @param string $ilias_root absolute path of the ILIAS root, the directory
+     *     holding artifacts/
+     * @return void
+     */
+    public static function bootIlias(string $ilias_root): void
+    {
+        if (self::$booted) {
+            return;
+        }
+        self::$booted = true;
+
+        require_once $ilias_root . "/artifacts/bootstrap_default.php";
+        // entry_point() is defined by the bootstrap artifact required just above.
+        /** @psalm-suppress UndefinedFunction */
+        entry_point("ILIAS Legacy Initialisation Adapter");
+    }
+
     /**
      * Initialise database object.
+     *
+     * Runs before the ILIAS bootstrap, so the service container it registers
+     * the connection in is created here when none exists yet; the bootstrap
+     * later replaces it with its own.
      * @return void
      */
     public static function initDatabase(): void
     {
+        global $DIC;
+
+        if (!$DIC instanceof \ILIAS\DI\Container) {
+            $DIC = new \ILIAS\DI\Container();
+        }
+
         $ilias_ini = new ilIniFile("./ilias.ini.php");
         $ilias_ini->read();
         $web_dir = $ilias_ini->readVariable("clients", "path");
@@ -93,7 +129,7 @@ class ilSeoInitialisation extends ilInitialisation
             [$type]
         );
         $row = $DIC->database()->fetchAssoc($res);
-        if ($row === null || $row === false || (string) $row["class_name"] === "") {
+        if ($row === null || (string) $row["class_name"] === "") {
             return null;
         }
 
@@ -111,7 +147,7 @@ class ilSeoInitialisation extends ilInitialisation
     public static function respondStaticFile(string $path): never
     {
         if (!is_file($path)) {
-            header($_SERVER["SERVER_PROTOCOL"] . " 404", true, 404);
+            header(($_SERVER["SERVER_PROTOCOL"] ?? "HTTP/1.1") . " 404", true, 404);
             exit;
         }
 

@@ -18,7 +18,7 @@ responsible for them.
 Permalink routing works under both Apache and nginx, but the two are handled differently. On
 activation, and again every time you save the configuration, the plugin writes an Apache block into
 `assets/apache.conf`, inside its own plugin directory. It does **not** write into
-`public/.htaccess`: ILIAS 10's own setup regenerates that file on every build, which would silently
+`public/.htaccess`: ILIAS's own setup regenerates that file on every build, which would silently
 discard a block written there. nginx has no equivalent managed file; its block is only generated in
 memory, for the Configuration screen's permalink-routing panel to show, and an administrator pastes
 it in by hand.
@@ -26,25 +26,31 @@ it in by hand.
 #### Apache
 
 - **A one-time vhost directive is required**, added once by an administrator to the Apache vhost
-  configuration (not `public/.htaccess`). The Configuration screen's permalink-routing panel shows
-  this exact snippet, built from this installation's own absolute path:
+  configuration (not `public/.htaccess`). Place it directly inside the `<VirtualHost>` block,
+  **outside** any `<Directory>` block. The Configuration screen's permalink-routing panel shows
+  this exact line, built from this installation's own absolute path:
 
   ```apache
-  <Directory "/path/to/ilias/public">
+  <VirtualHost *:80>
+      # ... DocumentRoot, <Directory> and the rest of your vhost ...
       IncludeOptional /path/to/ilias/public/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Seo/assets/apache.conf
-      RewriteOptions Inherit
-  </Directory>
+  </VirtualHost>
   ```
+
+  Placement matters. `public/.htaccess` ends with a catch-all shortlink rule that answers every
+  one-segment path (`/my-page/`) with an empty 404 before anything declared inside a `<Directory>`
+  block gets a chance to run. Rules at vhost level run first, so every permalink, one segment or
+  many, reaches the plugin.
 
   Use the **absolute** path shown by the panel, not a path relative to your ILIAS root:
   `IncludeOptional` resolves a relative path against Apache's `ServerRoot`, not against the
-  enclosing `<Directory>`, so a relative path here loads nothing and fails silently. This is the
+  vhost, so a relative path here loads nothing and fails silently. This is the
   only step to repeat by hand: once it is in place, every later regeneration of
   `assets/apache.conf` applies automatically on the next Apache reload.
 - **`mod_rewrite` must be enabled.** The block is wrapped in `<IfModule mod_rewrite.c>`, so without
   the module it is silently skipped and every permalink 404s.
 - **A regenerated `assets/apache.conf` is not picked up until Apache is reloaded**, since
-  `IncludeOptional` sits inside a `<Directory>` block, parsed at startup/reload rather than on every
+  `IncludeOptional` is parsed at startup/reload rather than on every
   request. This applies to any content change to the file, including an ordinary configuration save.
   The permalink-routing panel states this explicitly.
 - `assets/apache.conf` is owned entirely by the plugin and rewritten in full on every activation and
@@ -83,7 +89,7 @@ From the ILIAS directory, run:
 ```sh
 mkdir -p public/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook
 cd public/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook
-git clone -b release_10 https://github.com/oc-group/ilias-uihk_seo Seo
+git clone -b release_11 https://github.com/oc-group/ilias-uihk_seo Seo
 ```
 
 ### Install Composer dependencies

@@ -37,7 +37,7 @@ class ilSeoFormValidation
         global $DIC;
 
         return $DIC->refinery()->custom()->constraint(
-            static fn ($value): bool => trim((string) $value) !== "",
+            static fn (mixed $value): bool => trim((string) $value) !== "",
             $plugin->txt("field_required")
         );
     }

@@ -64,8 +64,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
      * Modify the page content.
      * @see ILIAS\Data\Meta\Html\OpenGraph\Factory::website
      *
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ContentModification|null
      */
     public function getContentModification(CalledContexts $screen_context_stack): ?ContentModification
@@ -131,8 +130,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
      * Ensure that the context matches the repository.
      * @see ILIAS\Repository\Provider\RepositoryOpenGraphExposer::ensureRepoContext
      *
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
      */
     protected function ensureRepoContext(CalledContexts $screen_context_stack): CalledContexts
@@ -320,9 +318,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
      * @param array{title: string, description: string, robots: string,
      *     is_publishable: bool} $row_values values read from this page's SEO
      *     row; "is_publishable" is whether that row clears the sitemap gate
-     * @param array{default_locale: string, alternative_locales: string[],
-     *     hreflang_alternates: array<int, array{hreflang: string, href:
-     *     string}>} $language_context
+     * @param array{default_locale: string, alternative_locales: string[], hreflang_alternates: array<int, array{hreflang: string, href: string}>} $language_context
      * @param \ILIAS\Data\Meta\Html\Tag[] $additional_resources
      * @return ilSeoTagCollection
      */
@@ -542,8 +538,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
 
     /**
      * Replace standard logo link with website link.
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification
      */
     public function getLogoModification(CalledContexts $screen_context_stack): ?LogoModification
@@ -566,8 +561,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
 
     /**
      * Replace mobile logo link with website link.
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification
      */
     public function getResponsiveLogoModification(CalledContexts $screen_context_stack): ?LogoModification
@@ -589,8 +583,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
      * internal "?lang=" one.
      * @see ILIAS\Init\Provider\StartUpMetaBarProvider::getMetaBarItems
      *
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification|null
      */
     public function getMetaBarModification(CalledContexts $screen_context_stack): ?MetaBarModification
@@ -683,8 +676,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
      * Edit the breadcrumbs using SEO permalinks.
      * @see ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\StandardPagePartProvider::getBreadCrumbs
      *
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification
      */
     public function getBreadCrumbsModification(CalledContexts $screen_context_stack): ?BreadCrumbsModification
@@ -695,8 +687,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
 
     /**
      * Edit the page footer.
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification|null
      */
     public function getFooterModification(CalledContexts $screen_context_stack): ?FooterModification
@@ -714,8 +705,7 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
 
     /**
      * Edit the ILIAS main title.
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
+     * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification|null
      */
     public function getTitleModification(CalledContexts $screen_context_stack): ?TitleModification
@@ -733,10 +723,8 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
 
     /**
      * Edit the first part of the ILIAS page title.
-     * @param ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts
-     *     $screen_context_stack
-     * @return
-     *     ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification|null
+     * @param CalledContexts $screen_context_stack
+     * @return ViewTitleModification|null
      */
     public function getViewTitleModification(CalledContexts $screen_context_stack): ?ViewTitleModification
     {

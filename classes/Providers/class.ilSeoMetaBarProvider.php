@@ -93,7 +93,7 @@ class ilSeoMetaBarProvider extends AbstractStaticMetaBarPluginProvider
 
         return [
             $this->meta_bar->topLegacyItem($this->if->identifier("meta_edit"))
-                ->withLegacyContent($factory->legacy($slate))
+                ->withLegacyContent($factory->legacy()->content($slate))
                 ->withSymbol($icon)
                 ->withTitle($title)
                 ->withPosition(1),

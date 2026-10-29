@@ -66,15 +66,14 @@ class ilSeoRewriteRules
      * gates which file(s) apply() writes (see the class docblock); it only
      * tells the settings screen's status panel which generated file to lead
      * with. Falls back to false under CLI/PHPUnit, where the key is simply
-     * absent, and on any value that is not the plain string a real HTTP SAPI
-     * sets it to.
+     * absent.
      * @return bool
      */
     public static function isNginx(): bool
     {
         $software = $_SERVER["SERVER_SOFTWARE"] ?? "";
 
-        return is_string($software) && stripos($software, "nginx") !== false;
+        return stripos($software, "nginx") !== false;
     }
 
     /**
@@ -115,7 +114,10 @@ class ilSeoRewriteRules
 
     /**
      * One-time vhost snippet an administrator pastes into their own Apache
-     * <Directory> block, with this installation's real absolute path. Unlike
+     * <VirtualHost> block, outside any <Directory> block, with this
+     * installation's real absolute path. At vhost level the plugin's rules
+     * run before ILIAS's public/.htaccess, whose catch-all shortlink rule
+     * would otherwise answer every one-segment permalink first. Unlike
      * apacheConfigContents()'s regenerated rule block (what apply() writes and
      * Apache re-reads), this path is stable for the life of the installation
      * and never needs re-pasting. Shown unconditionally: IncludeOptional
@@ -133,7 +135,7 @@ class ilSeoRewriteRules
     {
         $plugin_dir = realpath(ilSeoPlugin::PLUGIN_FS_DIR) ?: ilSeoPlugin::PLUGIN_FS_DIR;
 
-        return "IncludeOptional " . $plugin_dir . "/assets/apache.conf\nRewriteOptions Inherit";
+        return "IncludeOptional " . $plugin_dir . "/assets/apache.conf";
     }
 
     /**

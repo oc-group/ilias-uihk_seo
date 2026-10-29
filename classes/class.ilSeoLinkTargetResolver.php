@@ -122,8 +122,7 @@ class ilSeoLinkTargetResolver
      *
      * @api Signature is a contract for an outside consumer: do not
      * change or remove it casually.
-     * @param array{Target: string, Type: string, TargetFrame?: string, Anchor?:
-     *     string} $int_link
+     * @param array{Target: string, Type: string, TargetFrame?: string, Anchor?: string} $int_link
      * @return array{ref_id: int, secondary_id: int}|null
      */
     public static function resolveIntLinkTarget(array $int_link): ?array

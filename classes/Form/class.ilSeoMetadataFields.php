@@ -91,8 +91,7 @@ class ilSeoMetadataFields
      * not required: an empty value now means "make this page the site's
      * homepage", decided by the caller, never by this field's own constraint;
      * see ilSeoGUI::routeToHomepageConfirmation().
-     * @param array{permalink: string, title: string, description: string, note:
-     *     string} $values
+     * @param array{permalink: string, title: string, description: string, note: string} $values
      * @return ILIAS\UI\Component\Input\Field\Text
      */
     public function permalinkInput(array $values): ILIAS\UI\Component\Input\Field\Text
@@ -101,10 +100,11 @@ class ilSeoMetadataFields
 
         $factory = $DIC->ui()->factory();
         $refinery = $DIC->refinery();
+        $shortlinks = new ilSeoShortlinks($DIC->database());
 
         return $factory->input()->field()->text(
             $this->plugin->txt("slug"),
-            $this->permalinkInfo($values["note"])
+            $this->permalinkInfo($values["note"], $shortlinks->describe($values["permalink"]))
         )
             ->withDedicatedName(self::PERMALINK_KEY)
             ->withMaxLength(self::PERMALINK_MAX_LENGTH)
@@ -128,14 +128,22 @@ class ilSeoMetadataFields
                     sprintf($this->plugin->txt("permalink_too_long"), self::PERMALINK_MAX_LENGTH)
                 )
             )
+            ->withAdditionalTransformation(
+                // A shortlink owns its one-segment address; an unchanged
+                // stored value passes, so a shadowed row can still be edited.
+                $refinery->custom()->constraint(
+                    static fn (string $value): bool => ($values["note"] === "" && $value === $values["permalink"])
+                        || !$shortlinks->isReserved($value),
+                    $this->plugin->txt("permalink_shortlink_reserved")
+                )
+            )
             ->withValue($values["permalink"]);
     }
 
     /**
      * The title field, shared by every form. Mandatory: a saved row with no
      * title publishes a page search engines have nothing to name.
-     * @param array{permalink: string, title: string, description: string, note:
-     *     string} $values
+     * @param array{permalink: string, title: string, description: string, note: string} $values
      * @return ILIAS\UI\Component\Input\Field\Text
      */
     public function titleInput(array $values): ILIAS\UI\Component\Input\Field\Text
@@ -164,8 +172,7 @@ class ilSeoMetadataFields
      * value is refused on save rather than taking the screen down while the
      * form is built. ilSeoInitialValues cuts its seed to DESCRIPTION_MAX_LENGTH
      * anyway.
-     * @param array{permalink: string, title: string, description: string, note:
-     *     string} $values
+     * @param array{permalink: string, title: string, description: string, note: string} $values
      * @return ILIAS\UI\Component\Input\Field\Textarea
      */
     public function descriptionInput(array $values): ILIAS\UI\Component\Input\Field\Textarea
@@ -200,12 +207,23 @@ class ilSeoMetadataFields
      * ilSeoInitialValues picks which note.
      * @param string $note lang key from ilSeoInitialValues::initialValues(), ""
      *     for no note
+     * @param array{alias: string, active: bool}|null $shortlink the core
+     *     shortlink the value on screen collides with, null for none
      * @return string
      */
-    private function permalinkInfo(string $note): string
+    private function permalinkInfo(string $note, ?array $shortlink): string
     {
         $info = $this->plugin->txt("permalink_info");
+        if ($note !== "") {
+            $info .= "<br/>" . $this->plugin->txt($note);
+        }
+        if ($shortlink !== null) {
+            $info .= "<br/>" . sprintf(
+                $this->plugin->txt($shortlink["active"] ? "permalink_shortlink_shadowed" : "permalink_shortlink_inactive"),
+                ilSeoEscape::html($shortlink["alias"])
+            );
+        }
 
-        return $note === "" ? $info : $info . "<br/>" . $this->plugin->txt($note);
+        return $info;
     }
 }

@@ -63,6 +63,9 @@ permalink_already_exists#:#Dieser Permalink wird bereits von einer anderen Seite
 permalink_deleted#:#Permalink erfolgreich gelöscht
 permalink_info#:#Der Slug ist der Permalink der Seite: der Teil einer URL, der eine bestimmte Seite identifiziert, wie <u>ueber-uns/</u> in <u>example.com/ueber-uns/</u>.<br/>Halten Sie ihn kurz, beschreibend und sowohl für Nutzer als auch für Suchmaschinen gut lesbar.
 permalink_reserved#:#Der gewählte Permalink ist reserviert.
+permalink_shortlink_inactive#:#Ein inaktiver ILIAS-Shortlink verwendet den Alias "%s". Er leitet diese Adresse derzeit nicht um, bleibt aber reserviert: Der Alias kann keiner anderen Seite zugewiesen werden, solange der Shortlink existiert.
+permalink_shortlink_reserved#:#Dieser Permalink ist durch einen ILIAS-Shortlink reserviert.
+permalink_shortlink_shadowed#:#Ein aktiver ILIAS-Shortlink verwendet den Alias "%s": Besucher dieser Adresse werden zum Shortlink weitergeleitet, nicht zu dieser Seite. Wählen Sie einen anderen Permalink.
 permalink_suggested#:#Für diese Seite ist noch nichts gespeichert, der obige Wert ist daher nur ein aus ihrem eigenen Titel gebildeter Vorschlag. Passen Sie ihn nach Belieben an, bevor Sie speichern.
 permalink_suggested_inherited#:#Für diese Seite ist noch nichts gespeichert, der obige Wert ist daher nur ein Vorschlag: ihr eigener Titel, platziert unter dem Permalink, den ihr Container bereits verwendet. Passen Sie ihn nach Belieben an, bevor Sie speichern.
 permalink_suggested_numbered#:#Für diese Seite ist noch nichts gespeichert, und dieser Inhalt hat keinen eigenen Titel, daher platziert der obige Wert lediglich seine Nummer unter dem Permalink, den sein Container bereits verwendet. Passen Sie ihn nach Belieben an, bevor Sie speichern.
@@ -78,7 +81,7 @@ rewrite_status_apache_content_summary#:#Aktueller Dateiinhalt (zur Information)
 rewrite_status_apache_heading#:#Apache
 rewrite_status_apache_instructions#:#Der aktuelle Inhalt dieser Datei, zur Information angezeigt (Sie fügen ihn nirgendwo selbst ein, sobald der oben beschriebene einmalige Schritt erledigt ist). Apache liest diese Datei nur beim Neuladen erneut ein, nicht bei jeder Anfrage; laden Sie sie also neu (z. B. mit apache2ctl graceful), wann immer sich dieser Inhalt ändert, auch nachdem Sie dieses Formular erneut gespeichert haben.
 rewrite_status_apache_missing#:#Die Apache-Konfiguration konnte nicht auf die Festplatte geschrieben werden. Prüfen Sie, ob %s vom Webserver beschreibbar ist, und speichern Sie dieses Formular dann erneut.
-rewrite_status_apache_onetime_instructions#:#Einmaliger Schritt, nur erforderlich, wenn Sie ihn nicht bereits durchgeführt haben (siehe README): Fügen Sie diese beiden Zeilen innerhalb des Directory-Blocks Ihres Apache-vhost für diese Installation ein, unter Verwendung des angezeigten absoluten Pfads. IncludeOptional löst einen relativen Pfad gegenüber der ServerRoot von Apache auf, nicht gegenüber diesem Verzeichnis, und schlägt stillschweigend fehl, wenn der hier angegebene Pfad nicht absolut ist.
+rewrite_status_apache_onetime_instructions#:#Einmaliger Schritt, nur erforderlich, wenn Sie ihn nicht bereits durchgeführt haben (siehe README): Fügen Sie diese Zeile direkt im VirtualHost-Block Ihres Apache-vhost für diese Installation ein, außerhalb jedes Directory-Blocks, unter Verwendung des angezeigten absoluten Pfads. Auf dieser Ebene laufen die Regeln des Plugins vor der .htaccess von ILIAS, sodass auch Permalinks aus einem einzigen Segment das Plugin erreichen. IncludeOptional löst einen relativen Pfad gegenüber der ServerRoot von Apache auf, nicht gegenüber dem vhost, und schlägt stillschweigend fehl, wenn der hier angegebene Pfad nicht absolut ist.
 rewrite_status_caveat#:#Dies kann nur bestätigen, dass die untenstehende Konfiguration auf der Festplatte erzeugt wurde, nicht dass ein Systemadministrator sie tatsächlich in den Webserver eingefügt und diesen neu geladen hat.
 rewrite_status_nginx_detected#:#Diese Installation scheint von nginx bereitgestellt zu werden.
 rewrite_status_nginx_heading#:#nginx
@@ -105,6 +108,9 @@ seo_default_language#:#Standardsprache
 seo_default_language_info#:#Immer aktiv, unabhängig davon, wie ihr eigenes Kontrollkästchen unten gesetzt ist.
 seo_edit#:#SEO-Metadaten bearbeiten
 seo_lang_pages_info#:#SEO-Metadaten gespeichert für %s von %s Seiten (%s%%).
+shortlink_column#:#Shortlink
+shortlink_inactive#:#Shortlink-Alias (inaktiv)
+shortlink_shadowed#:#Von Shortlink überlagert
 sitemap_builder#:#Sitemap-Generator
 sitemap_builder_info#:#Erstellt die Website-Sitemap des öffentlichen Bereichs.
 sitemap_exclusion#:#Sitemap-Ausschluss

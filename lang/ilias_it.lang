@@ -63,6 +63,9 @@ permalink_already_exists#:#Questo permalink è già utilizzato da un'altra pagin
 permalink_deleted#:#Permalink eliminato con successo
 permalink_info#:#Lo slug è il permalink della pagina: la parte dell'indirizzo che identifica una pagina specifica, come <u>chi-siamo/</u> in <u>example.com/chi-siamo/</u>.<br/>Mantienilo breve, descrittivo e leggibile sia per gli utenti che per i motori di ricerca.
 permalink_reserved#:#Il permalink scelto è riservato.
+permalink_shortlink_inactive#:#Uno shortlink ILIAS inattivo usa l'alias "%s". Al momento non reindirizza questo indirizzo, ma l'alias resta riservato: non può essere assegnato a un'altra pagina finché lo shortlink esiste.
+permalink_shortlink_reserved#:#Questo indirizzo è riservato da uno shortlink ILIAS.
+permalink_shortlink_shadowed#:#Uno shortlink ILIAS attivo usa l'alias "%s": i visitatori di questo indirizzo vengono inviati allo shortlink, non a questa pagina. Scegli un altro permalink.
 permalink_suggested#:#Per questa pagina non è ancora stato salvato nulla: il valore qui sopra è solo un suggerimento costruito a partire dal suo titolo. Modificalo come preferisci prima di salvare.
 permalink_suggested_inherited#:#Per questa pagina non è ancora stato salvato nulla: il valore qui sopra è solo un suggerimento, ossia il suo titolo collocato sotto il permalink che il suo contenitore usa già. Modificalo come preferisci prima di salvare.
 permalink_suggested_numbered#:#Per questa pagina non è ancora stato salvato nulla e questo contenuto non ha un titolo proprio: il valore qui sopra si limita quindi a collocarne il numero sotto il permalink che il suo contenitore usa già. Modificalo come preferisci prima di salvare.
@@ -78,7 +81,7 @@ rewrite_status_apache_content_summary#:#Contenuto attuale del file (per riferime
 rewrite_status_apache_heading#:#Apache
 rewrite_status_apache_instructions#:#Il contenuto attuale di questo file, mostrato come riferimento (non va incollato da nessuna parte una volta completato il passaggio una tantum qui sopra). Apache rilegge questo file solo al riavvio, non a ogni richiesta: ricaricalo (ad esempio con apache2ctl graceful) ogni volta che questo contenuto cambia, anche dopo aver salvato di nuovo questo modulo.
 rewrite_status_apache_missing#:#Non è stato possibile scrivere la configurazione Apache su disco. Verifica che %s sia scrivibile dal web server, poi salva di nuovo questo modulo.
-rewrite_status_apache_onetime_instructions#:#Passaggio una tantum, necessario solo se non l'hai già fatto (vedi il README): aggiungi queste due righe all'interno del blocco Directory del tuo vhost Apache per questa installazione, usando il percorso assoluto mostrato. IncludeOptional risolve un percorso relativo rispetto al ServerRoot di Apache, non rispetto a questa directory, e fallisce silenziosamente se il percorso qui non è assoluto.
+rewrite_status_apache_onetime_instructions#:#Passaggio una tantum, necessario solo se non l'hai già fatto (vedi il README): aggiungi questa riga direttamente nel blocco VirtualHost del tuo vhost Apache per questa installazione, fuori da qualsiasi blocco Directory, usando il percorso assoluto mostrato. A questo livello le regole del plugin vengono eseguite prima del .htaccess di ILIAS, quindi anche i permalink di un solo segmento raggiungono il plugin. IncludeOptional risolve un percorso relativo rispetto al ServerRoot di Apache, non rispetto al vhost, e fallisce silenziosamente se il percorso qui non è assoluto.
 rewrite_status_caveat#:#Questo pannello può solo confermare che la configurazione qui sotto è stata generata su disco, non che un amministratore di sistema l'abbia effettivamente incollata nel web server e abbia ricaricato quest'ultimo.
 rewrite_status_nginx_detected#:#Questa installazione risulta essere servita da nginx.
 rewrite_status_nginx_heading#:#nginx
@@ -105,6 +108,9 @@ seo_default_language#:#Lingua predefinita
 seo_default_language_info#:#Sempre attiva, indipendentemente da come è impostata la sua casella qui sotto.
 seo_edit#:#Modifica metadati SEO
 seo_lang_pages_info#:#Metadati SEO salvati per %s pagine su %s (%s%%).
+shortlink_column#:#Shortlink
+shortlink_inactive#:#Alias shortlink (inattivo)
+shortlink_shadowed#:#Oscurato da shortlink
 sitemap_builder#:#Generatore della sitemap
 sitemap_builder_info#:#Crea la sitemap del sito web per l'area pubblica.
 sitemap_exclusion#:#Esclusione dalla sitemap

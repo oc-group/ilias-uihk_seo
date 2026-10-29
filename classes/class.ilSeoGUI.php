@@ -270,7 +270,7 @@ class ilSeoGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $secondary = $this->settings->getSecondaryLangs();
         $configured = array_values(array_unique(array_merge($default !== "" ? [$default] : [], $secondary)));
 
-        $object_langs = array_keys(ilObjectTranslation::getInstance($object->getId())->getLanguages());
+        $object_langs = array_keys($object->getObjectProperties()->getPropertyTranslations()->getLanguages());
         if (empty($object_langs)) {
             return $configured;
         }
@@ -431,8 +431,7 @@ class ilSeoGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * its async URL fills it, and the button carries the show signal. A
      * standard button, not a shy one, because Item\Standard::withMainAction()
      * accepts only a standard button or a link.
-     * @return array{0: ILIAS\UI\Component\Modal\RoundTrip, 1:
-     *     ILIAS\UI\Component\Button\Standard}
+     * @return array{0: ILIAS\UI\Component\Modal\RoundTrip, 1: ILIAS\UI\Component\Button\Standard}
      */
     private function advancedTrigger(): array
     {

@@ -58,27 +58,30 @@ it in by hand.
 
 #### nginx
 
-An administrator must:
+The plugin's block takes over the server's `location /`, and nginx accepts only one
+`location /` per server, so the block replaces what is there today. An administrator must:
 
 1. Open `Administration` -> `Plugins` -> `Seo` -> `Configure` -> `Configuration`, and copy the
    generated block shown behind the panel's nginx button.
-2. Paste it inside the site's `server {}` block, replacing the default
-   `location / { try_files $uri $uri/ =404; }` directive.
-3. Reload nginx.
-4. Repeat these steps whenever `ILIAS_HTTP_PATH` changes, or after any plugin update that changes
+2. In the site's `server {}` block, remove the existing `location /` and anything that only serves
+   it:
+   - on a default server, that is `location / { try_files $uri $uri/ =404; }`;
+   - on ILIAS 11 with the shortlink block from ILIAS's own documentation
+     (`components/ILIAS/StaticURL/CONFIGURATION.md`), remove both its `location /` and its
+     `location @shortlink`, and **keep** its `location ^~ /go/`.
+3. Paste the copied block in their place.
+4. Check and reload nginx (`nginx -t`, then `nginx -s reload`). A leftover `location /` makes
+   `nginx -t` fail with `duplicate location "/"`.
+5. Repeat these steps whenever `ILIAS_HTTP_PATH` changes, or after any plugin update that changes
    the generated block.
+
+ILIAS 11 shortlinks keep working without their own nginx block: the plugin forwards a one segment
+address that matches an active shortlink to `goto.php/shortlink/<alias>`.
 
 This requires the standard ILIAS PHP-FPM location already present in the server block. Because that
 is a regex location and the SEO block is a plain prefix location, nginx checks the regex location
 first, so a native `PATH_INFO` script (such as `goto.php/crs/128/`) is never hijacked by the
 rewrite.
-
-**ILIAS 11 shortlinks.** ILIAS documents its own nginx block for shortlinks
-(`components/ILIAS/StaticURL/CONFIGURATION.md`), which also defines `location /` together with a
-`@shortlink` fallback. The two blocks cannot be used side by side: nginx refuses a second
-`location /`. Keep the core `location ^~ /go/` block and replace the core `location /` and
-`location @shortlink` with the block above. Shortlinks keep working: the plugin forwards a one
-segment address that matches an active shortlink to `goto.php/shortlink/<alias>`.
 
 #### Both web servers
 

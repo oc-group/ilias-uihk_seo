@@ -140,6 +140,32 @@ class ilSeoPermalink
     }
 
     /**
+     * The permalink a row may be linked, redirected or published under, or null
+     * when it may not: no row, a stored permalink that is not valid, or one an
+     * active core shortlink shadows (the shortlink answers that address, so
+     * pointing at it would land on the shortlink target instead of this
+     * object). The stored row is untouched; only outgoing use is withheld.
+     * @param array<string,mixed>|null $row a data row, null when there is none
+     * @return string|null the permalink without a leading slash, "" for the
+     *     homepage
+     */
+    public static function outgoing(?array $row): ?string
+    {
+        global $DIC;
+
+        if ($row === null) {
+            return null;
+        }
+
+        $permalink = (string) $row["permalink"];
+        if (!self::isValid($permalink, $permalink === "")) {
+            return null;
+        }
+
+        return (new ilSeoShortlinks($DIC->database()))->isShadowed($permalink) ? null : $permalink;
+    }
+
+    /**
      * The three things normalize() is made of (the transliteration table, the
      * allowed character class, the separator), handed out as data, so
      * templates/js/seo-permalink.js can sanitize the field as it is typed while

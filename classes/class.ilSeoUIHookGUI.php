@@ -98,10 +98,11 @@ class ilSeoUIHookGUI extends ilUIHookPluginGUI
             return;
         }
 
-        $permalink = (string) $data["permalink"];
-        if (!ilSeoPermalink::isValid($permalink, $permalink === "")) {
-            // Broken permalink stored for this row: fall through to native
-            // ILIAS goto dispatch instead of redirecting into a dead link.
+        $permalink = ilSeoPermalink::outgoing($data);
+        if ($permalink === null) {
+            // Broken permalink stored for this row, or one an active shortlink
+            // shadows: fall through to native ILIAS goto dispatch instead of
+            // redirecting into a dead link or onto the shortlink target.
             return;
         }
 
@@ -365,10 +366,10 @@ class ilSeoUIHookGUI extends ilUIHookPluginGUI
             return null;
         }
 
-        $permalink = (string) $data["permalink"];
-        if (!ilSeoPermalink::isValid($permalink, $permalink === "")) {
-            // Broken permalink stored for this row: leave the original href
-            // untouched.
+        $permalink = ilSeoPermalink::outgoing($data);
+        if ($permalink === null) {
+            // Broken or shortlink-shadowed permalink stored for this row:
+            // leave the original href untouched.
             return null;
         }
 

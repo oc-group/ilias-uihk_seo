@@ -196,9 +196,17 @@ class ilSeoSitemapBuilderCronJob extends CronJob
             $candidates[] = $page;
         }
 
+        $shortlinks = new ilSeoShortlinks($this->db);
         $pages = [];
         foreach ((new ilSeoSitemapStatus($this->seo))->classify($candidates) as $index => $verdict) {
             if (!ilSeoSitemapStatus::isInSitemap($verdict["status"])) {
+                continue;
+            }
+
+            // An active shortlink answers a shadowed permalink's address, so
+            // listing it would publish the shortlink target under this page.
+            $shadowed = (string) $candidates[$index]["permalink"];
+            if ($shortlinks->isShadowed($shadowed)) {
                 continue;
             }
 

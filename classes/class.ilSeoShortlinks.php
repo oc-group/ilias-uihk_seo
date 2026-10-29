@@ -27,7 +27,13 @@ declare(strict_types=1);
  *
  * Aliases are compared case-insensitively here, whatever the collation of the
  * column: permalinks are always lowercase, aliases keep the case they were
- * typed in. Depends on ilDB only, so go.php can use it before ILIAS itself is
+ * typed in.
+ *
+ * The same rule applies to outgoing links: a permalink an active shortlink
+ * shadows is never pointed at (see isShadowed()), so the object stays reachable
+ * at its normal ILIAS address.
+ *
+ * Depends on ilDB only, so go.php can use it before ILIAS itself is
  * initialised.
  */
 class ilSeoShortlinks
@@ -40,6 +46,9 @@ class ilSeoShortlinks
 
     /** @var bool|null whether the table exists, memoized per request */
     private static ?bool $table_exists = null;
+
+    /** @var array<string,true>|null active aliases, lowercase, per request */
+    private static ?array $active_aliases = null;
 
     /** @var ilDBInterface */
     private ilDBInterface $db;
@@ -89,6 +98,22 @@ class ilSeoShortlinks
         $segment = self::singleSegment($permalink);
 
         return $segment !== null && $this->lookup($segment, false) !== null;
+    }
+
+    /**
+     * Whether an active shortlink shadows a permalink: a single-segment
+     * permalink equal to the alias of an active shortlink is never reached,
+     * because the shortlink answers that address first. The active aliases are
+     * read once per request, so testing every link of a page costs no further
+     * query.
+     * @param string $permalink a stored permalink such as "about/"
+     * @return bool
+     */
+    public function isShadowed(string $permalink): bool
+    {
+        $segment = self::singleSegment($permalink);
+
+        return $segment !== null && isset($this->activeAliases()[strtolower($segment)]);
     }
 
     /**
@@ -178,6 +203,27 @@ class ilSeoShortlinks
         $row = $this->db->fetchAssoc($res);
 
         return $row === null ? null : (string) $row["alias"];
+    }
+
+    /**
+     * @return array<string,true> lowercase alias => true, empty when the table
+     *     is absent
+     */
+    private function activeAliases(): array
+    {
+        if (self::$active_aliases !== null) {
+            return self::$active_aliases;
+        }
+
+        $aliases = [];
+        if ($this->tableExists()) {
+            $res = $this->db->query("SELECT alias FROM " . self::TABLE . " WHERE active = 1");
+            while ($row = $this->db->fetchAssoc($res)) {
+                $aliases[strtolower((string) $row["alias"])] = true;
+            }
+        }
+
+        return self::$active_aliases = $aliases;
     }
 
     /**

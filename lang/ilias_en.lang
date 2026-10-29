@@ -85,7 +85,7 @@ rewrite_status_apache_onetime_instructions#:#One-time step, needed only if you h
 rewrite_status_caveat#:#This can only confirm that the configuration below was generated on disk, not that a system administrator has actually pasted it into the web server and reloaded it.
 rewrite_status_nginx_detected#:#This installation appears to be served by nginx.
 rewrite_status_nginx_heading#:#nginx
-rewrite_status_nginx_instructions#:#Paste the block below inside the server {} block, replacing the default "location /" directive, then reload nginx (nginx -s reload).
+rewrite_status_nginx_instructions#:#Paste the block below inside the server {} block, replacing the default "location /" directive, then reload nginx (nginx -s reload). On ILIAS 11, also replace the shortlink "location /" and "location @shortlink" of the ILIAS block with this one (keep "location ^~ /go/"), because nginx refuses a second "location /". Shortlinks keep working.
 rewrite_status_nginx_missing#:#The nginx configuration could not be written to disk. Check that %s is writable by the web server, then save this form again.
 rewrite_status_nginx_not_detected#:#This installation does not appear to be served by nginx (Apache is assumed). Both configurations below are generated on every save regardless, in case this detection is wrong behind a reverse proxy.
 rewrite_status_nginx_port_instructions#:#Some nginx packages set HTTP_HOST from the host name alone, dropping the port. ILIAS builds login and redirect URLs from HTTP_HOST, so on a non-default port those URLs lose it. Add the line below to your php-fpm location block, after include fastcgi_params, then reload nginx.

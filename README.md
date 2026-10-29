@@ -73,6 +73,13 @@ is a regex location and the SEO block is a plain prefix location, nginx checks t
 first, so a native `PATH_INFO` script (such as `goto.php/crs/128/`) is never hijacked by the
 rewrite.
 
+**ILIAS 11 shortlinks.** ILIAS documents its own nginx block for shortlinks
+(`components/ILIAS/StaticURL/CONFIGURATION.md`), which also defines `location /` together with a
+`@shortlink` fallback. The two blocks cannot be used side by side: nginx refuses a second
+`location /`. Keep the core `location ^~ /go/` block and replace the core `location /` and
+`location @shortlink` with the block above. Shortlinks keep working: the plugin forwards a one
+segment address that matches an active shortlink to `goto.php/shortlink/<alias>`.
+
 #### Both web servers
 
 The web server user needs write access to `assets/` for the Apache file. A failed write is never

@@ -191,7 +191,10 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
             $resolved_lang = ilSeoLanguage::getDefaultLang();
         }
 
-        if ($data == null) {
+        // A permalink an active shortlink shadows is no address of this object:
+        // the page is treated as one without a row, so no canonical, og:url or
+        // history rewrite points at the shortlink target.
+        if ($data == null || ilSeoPermalink::outgoing($data) === null) {
             $meta_tags = $this->generateNoFollowMetadata();
             $this->globalScreen()->layout()->meta()->addOpenGraphMetaDatum($meta_tags);
             return;
@@ -268,10 +271,11 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
             // Map stays keyed by the literal ISO code (matched by
             // extractLangFromAction()); only the DB lookup is normalized.
             $data = $seo->fetchById($ref_id, $secondary_id, ilSeoLanguage::toDbLang($lang));
-            $permalink = $data !== null ? (string) $data["permalink"] : null;
+            $permalink = ilSeoPermalink::outgoing($data);
             // !empty() misreads a stored homepage row (permalink "") as "none
-            // configured", falling back to "?lang="; isValid() knows better.
-            $permalinks[$lang] = ($permalink !== null && ilSeoPermalink::isValid($permalink, $permalink === ""))
+            // configured", falling back to "?lang="; outgoing() knows better,
+            // and also withholds a permalink an active shortlink shadows.
+            $permalinks[$lang] = $permalink !== null
                 ? ILIAS_HTTP_PATH . "/" . $permalink
                 : ILIAS_HTTP_PATH . "/?lang=" . $lang;
         }
@@ -514,7 +518,11 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
             // x-default reuses this URL, but only while the sitemap publishes
             // this row.
             $current_row = $seo->fetchById($ref_id, $secondary_id, ilSeoLanguage::toDbLang($current_lang));
-            if ($current_row !== null && ilSeoSitemapStatus::isPublishableRow($current_row)) {
+            if (
+                $current_row !== null
+                && ilSeoSitemapStatus::isPublishableRow($current_row)
+                && ilSeoPermalink::outgoing($current_row) !== null
+            ) {
                 $alternates[] = ["hreflang" => "x-default", "href" => $canonical_url];
             }
         }
@@ -525,7 +533,12 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
                 continue;
             }
 
-            $href = ILIAS_HTTP_PATH . "/" . $data["permalink"];
+            $permalink = ilSeoPermalink::outgoing($data);
+            if ($permalink === null) {
+                continue;
+            }
+
+            $href = ILIAS_HTTP_PATH . "/" . $permalink;
             $alternates[] = ["hreflang" => $lang, "href" => $href];
 
             if ($lang === $default_lang) {

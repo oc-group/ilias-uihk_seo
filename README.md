@@ -25,10 +25,13 @@ it in by hand.
 
 #### Apache
 
-- **A one-time vhost directive is required**, added once by an administrator to the Apache vhost
-  configuration (not `public/.htaccess`). Place it directly inside the `<VirtualHost>` block,
-  **outside** any `<Directory>` block. The Configuration screen's permalink-routing panel shows
-  this exact line, built from this installation's own absolute path:
+- **A vhost directive is required, once per installation**, added by an administrator to the
+  Apache vhost configuration (not `public/.htaccess`). Place it directly inside the `<VirtualHost>`
+  block, **outside** any `<Directory>` block. If your vhost already has this line inside a
+  `<Directory>` block together with `RewriteOptions Inherit` (the placement used up to ILIAS 10),
+  it is not in place for ILIAS 11: move it to the `<VirtualHost>` block and delete the
+  `RewriteOptions Inherit` line. The Configuration screen's permalink-routing panel shows this
+  exact line, built from this installation's own absolute path:
 
   ```apache
   <VirtualHost *:80>
@@ -169,6 +172,11 @@ composer du
 - `Languages` -> `Refresh Languages`, whenever a release renames or adds translation keys. `composer du`
   does not do this. Without it the affected screens display raw key names such as
   `screen_overview_title` instead of their labels.
+
+When the update comes with a move from ILIAS 10 to ILIAS 11, also check the web server wiring
+under [Web Server Requirements](#web-server-requirements): on Apache the `IncludeOptional` line
+moves out of the `<Directory>` block, and on nginx a shortlink block from the ILIAS documentation
+has to give way to the plugin's block.
 
 ## Administration
 

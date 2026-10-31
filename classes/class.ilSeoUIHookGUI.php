@@ -98,6 +98,13 @@ class ilSeoUIHookGUI extends ilUIHookPluginGUI
             return;
         }
 
+        if (ilSeoInitialisation::isHandedToCore($handler, (int) $target_id, $secondary_id)) {
+            // go.php sent this visitor to core's goto because the permalink
+            // cannot serve them (visible, no read); redirecting back to it here
+            // would be an endless loop.
+            return;
+        }
+
         $permalink = (string) $data["permalink"];
         if (!ilSeoPermalink::isValid($permalink, $permalink === "")) {
             // Broken permalink stored for this row: fall through to native

@@ -10,8 +10,9 @@
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
 
-  # Check permalink and rewrite to the plugin. QSA keeps the visitor's own
+  # Check permalink and rewrite to the plugin. B escapes the captured path
+  # (an encoded & stays inside the page value); QSA keeps the visitor's own
   # query string (utm_source, ...) after the permalink parameter.
-  RewriteRule (.*) /Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Seo/go.php?page=$1 [QSA,L]
+  RewriteRule (.*) /Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/Seo/go.php?page=$1 [B,QSA,L]
 </IfModule>
 # END ilias-uihk_seo

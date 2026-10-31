@@ -305,7 +305,7 @@ class ilSeoUIHookGUI extends ilUIHookPluginGUI
             }
 
             [$raw_value, $value_offset] = $attribute[3];
-            $quote = ($raw_value !== "" && ($raw_value[0] === "\"" || $raw_value[0] === "'"))
+            $quote = ($raw_value[0] === "\"" || $raw_value[0] === "'")
                 ? $raw_value[0]
                 : "";
             $inner = $quote !== "" ? substr($raw_value, 1, -1) : $raw_value;
@@ -426,6 +426,7 @@ class ilSeoUIHookGUI extends ilUIHookPluginGUI
 
         $head_region = substr($html, $head_start, $head_end - $head_start);
 
+        $insert_at = null;
         if (preg_match('/<base\b[^>]*>/i', $head_region, $base, PREG_OFFSET_CAPTURE)) {
             $insert_at = $base[0][1] + strlen($base[0][0]);
         } elseif (defined("ILIAS_HTTP_PATH")) {
@@ -434,7 +435,9 @@ class ilSeoUIHookGUI extends ilUIHookPluginGUI
                 . '">';
             $head_region = $base_tag . $head_region;
             $insert_at = strlen($base_tag);
-        } else {
+        }
+
+        if ($insert_at === null) {
             // No <base> ended up on the page (ILIAS_HTTP_PATH undefined and
             // none pre-existing): nothing resolves differently, so there is
             // nothing for the guard to compensate for.
@@ -490,7 +493,7 @@ class ilSeoUIHookGUI extends ilUIHookPluginGUI
             }
 
             $raw_value = $src_match[1];
-            $quote = ($raw_value !== "" && ($raw_value[0] === "\"" || $raw_value[0] === "'"))
+            $quote = ($raw_value[0] === "\"" || $raw_value[0] === "'")
                 ? $raw_value[0]
                 : "";
             $src = $quote !== "" ? substr($raw_value, 1, -1) : $raw_value;

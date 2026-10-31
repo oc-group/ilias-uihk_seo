@@ -66,15 +66,14 @@ class ilSeoRewriteRules
      * gates which file(s) apply() writes (see the class docblock); it only
      * tells the settings screen's status panel which generated file to lead
      * with. Falls back to false under CLI/PHPUnit, where the key is simply
-     * absent, and on any value that is not the plain string a real HTTP SAPI
-     * sets it to.
+     * absent.
      * @return bool
      */
     public static function isNginx(): bool
     {
         $software = $_SERVER["SERVER_SOFTWARE"] ?? "";
 
-        return is_string($software) && stripos($software, "nginx") !== false;
+        return stripos($software, "nginx") !== false;
     }
 
     /**

@@ -91,8 +91,8 @@ class ilSeoMetadataFields
      * not required: an empty value now means "make this page the site's
      * homepage", decided by the caller, never by this field's own constraint;
      * see ilSeoGUI::routeToHomepageConfirmation().
-     * @param array{permalink: string, title: string, description: string, note:
-     *     string} $values
+     * @param array{permalink: string, title: string, description: string,
+     *     note: string} $values
      * @return ILIAS\UI\Component\Input\Field\Text
      */
     public function permalinkInput(array $values): ILIAS\UI\Component\Input\Field\Text
@@ -134,8 +134,8 @@ class ilSeoMetadataFields
     /**
      * The title field, shared by every form. Mandatory: a saved row with no
      * title publishes a page search engines have nothing to name.
-     * @param array{permalink: string, title: string, description: string, note:
-     *     string} $values
+     * @param array{permalink: string, title: string, description: string,
+     *     note: string} $values
      * @return ILIAS\UI\Component\Input\Field\Text
      */
     public function titleInput(array $values): ILIAS\UI\Component\Input\Field\Text
@@ -164,8 +164,8 @@ class ilSeoMetadataFields
      * value is refused on save rather than taking the screen down while the
      * form is built. ilSeoInitialValues cuts its seed to DESCRIPTION_MAX_LENGTH
      * anyway.
-     * @param array{permalink: string, title: string, description: string, note:
-     *     string} $values
+     * @param array{permalink: string, title: string, description: string,
+     *     note: string} $values
      * @return ILIAS\UI\Component\Input\Field\Textarea
      */
     public function descriptionInput(array $values): ILIAS\UI\Component\Input\Field\Textarea

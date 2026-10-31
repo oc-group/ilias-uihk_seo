@@ -93,11 +93,53 @@ class ilSeoInitialisation extends ilInitialisation
             [$type]
         );
         $row = $DIC->database()->fetchAssoc($res);
-        if ($row === null || $row === false || (string) $row["class_name"] === "") {
+        if ($row === null || (string) $row["class_name"] === "") {
             return null;
         }
 
         return "ilObj" . $row["class_name"] . "GUI";
+    }
+
+    /**
+     * The first occurrence of a parameter in a raw query string, urldecoded.
+     * PHP's own parsing keeps the last duplicate, which lets a visitor-supplied
+     * parameter override a value the web-server rewrite placed first.
+     * @return string|null null when the parameter does not occur
+     */
+    public static function firstQueryParam(string $query_string, string $name): ?string
+    {
+        foreach (explode("&", $query_string) as $pair) {
+            $parts = explode("=", $pair, 2);
+            if (urldecode($parts[0]) === $name) {
+                return urldecode($parts[1] ?? "");
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * The visitor's own query string for a redirect: the raw pairs of the
+     * query string without the first occurrence of the given parameter (the
+     * one the rewrite added), as "?a=b" or "" when nothing is left. Only the
+     * query is taken from the request, never a host or a path.
+     */
+    public static function queryWithoutFirstParam(string $query_string, string $name): string
+    {
+        $kept = [];
+        $skipped = false;
+        foreach (explode("&", $query_string) as $pair) {
+            if ($pair === "") {
+                continue;
+            }
+            if (!$skipped && urldecode(explode("=", $pair, 2)[0]) === $name) {
+                $skipped = true;
+                continue;
+            }
+            $kept[] = $pair;
+        }
+
+        return $kept === [] ? "" : "?" . implode("&", $kept);
     }
 
     /**
@@ -111,7 +153,7 @@ class ilSeoInitialisation extends ilInitialisation
     public static function respondStaticFile(string $path): never
     {
         if (!is_file($path)) {
-            header($_SERVER["SERVER_PROTOCOL"] . " 404", true, 404);
+            header(($_SERVER["SERVER_PROTOCOL"] ?? "HTTP/1.1") . " 404", true, 404);
             exit;
         }
 

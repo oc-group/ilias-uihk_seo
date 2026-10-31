@@ -19,6 +19,11 @@ use ilSeo\ObjectHandlers\HandlerFactory;
  */
 class ilSeo
 {
+    /** @var array<string,string> obj_type => cmd for a GUI with no "view" */
+    public const PERMALINK_CMD = [
+        "htlm" => "infoScreen",
+    ];
+
     /** @var array<string,string> obj_type => id_key */
     public const SECONDARY_ID_KEYS = [
         "blog" => "blpg",

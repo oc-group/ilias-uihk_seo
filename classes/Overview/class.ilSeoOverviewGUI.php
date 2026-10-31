@@ -12,6 +12,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
+
 /**
  * Overview screen of the SEO administration area: an entry per page the plugin
  * knows about, as a permalinks table, plus its mass-edit/mass-delete commands.
@@ -311,8 +313,7 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
      * exclusion picker listing only the reasons it answers completely;
      * FilterContextRenderer renders no byline, so the scope must live in the
      * label.
-     * @return
-     *     array<string,\ILIAS\UI\Component\Input\Container\Filter\FilterInput>
+     * @return array<string,FilterInput>
      */
     private function buildPagesFilterInputs(): array
     {
@@ -797,7 +798,6 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
         if ($this->seo->isPermalinkTaken("", $ref_id, $secondary_id)) {
             $this->tpl->setOnScreenMessage("failure", $this->plugin->txt("homepage_already_exists"), true);
             $this->ctrl->redirect($this, self::CMD_SHOW);
-            return;
         }
 
         ilSeoPendingHomepage::stash(
@@ -884,8 +884,8 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
      * @param string $follow "follow"/"nofollow", or "" to leave unchanged
      * @param string $priority new priority, or "" to leave unchanged
      * @param string $frequency new frequency, or "" to leave unchanged
-     * @return array{robots: string|null, priority: int|null, frequency:
-     *     string|null}
+     * @return array{robots: string|null, priority: int|null,
+     *     frequency: string|null}
      */
     private function resolveMassEditUpdates(
         array $row,

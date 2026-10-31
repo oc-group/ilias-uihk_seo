@@ -66,8 +66,8 @@ class ilSeoMetadataEditor
      * Position 0 is ilSeoMetadataFields::permalinkInput() directly: an empty
      * submission is a legitimate value now (see that method's own docblock),
      * not something a second field has to authorize.
-     * @param array{permalink: string, title: string, description: string, note:
-     *     string} $values
+     * @param array{permalink: string, title: string, description: string,
+     *     note: string} $values
      * @param array<string,mixed>|null $seo_data stored row, null when the
      *     target has none yet
      * @return ILIAS\UI\Component\Input\Container\Form\FormInput[]

@@ -29,6 +29,9 @@ configuration. Before that write can work:
   configuration once the file is writable installs the block.
 - The block is delimited by `# BEGIN ilias-uihk_seo` / `# END ilias-uihk_seo` and is rewritten by the
   plugin. **Do not edit it by hand**; it also sets `DirectoryIndex` and `ErrorDocument 404`.
+- The block's final rule carries `QSA`, so a permalink visited with a query string such as
+  `?utm_source=newsletter` keeps it. An installation that applied the block before this release
+  has to save the configuration once so the plugin rewrites it.
 
 ## Installation
 

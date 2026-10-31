@@ -74,10 +74,17 @@ $GLOBALS["COOKIE_PATH"] = $path;
 // Do not initialize ILIAS yet. Only the database is required.
 ilSeoInitialisation::initDatabase();
 
-$page = $_GET["page"] ?? "";
+// The rewrite puts the permalink in the FIRST "page" parameter and appends the visitor's
+// query string; PHP keeps the last duplicate, so read the first from the raw query.
+$page = ilSeoInitialisation::firstQueryParam((string) ($_SERVER["QUERY_STRING"] ?? ""), "page")
+    ?? ($_GET["page"] ?? "");
 unset($_GET["page"]);
+$visitor_query = ilSeoInitialisation::queryWithoutFirstParam(
+    (string) ($_SERVER["QUERY_STRING"] ?? ""),
+    "page"
+);
 if (!empty($page) && !preg_match("/\/$/", $page)) {
-    header("Location: {$http_path}/{$page}/", true, 301);
+    header("Location: {$http_path}/{$page}/{$visitor_query}", true, 301);
     exit;
 }
 
@@ -104,7 +111,7 @@ $data = $permalink_resolver->fetchByPermalink($page);
 if ($data == null) {
     $new_permalink = $permalink_resolver->getPermalinkFromHistory($page);
     if ($new_permalink != null) {
-        header("Location: {$http_path}/{$new_permalink}", true, 301);
+        header("Location: {$http_path}/{$new_permalink}{$visitor_query}", true, 301);
         exit;
     }
 
@@ -117,6 +124,14 @@ if ($data == null) {
 
     ilSeoInitialisation::respondNotFound();
     exit;
+}
+
+// The permalink alone decides what is rendered: drop every dispatch and sub-target
+// parameter a visitor appended, since a handler sets its own only when it has them.
+unset($_GET["cmd"], $_GET["cmdNode"], $_GET["cmdClass"]);
+unset($_GET["table_id"], $_GET["tableview_id"]);
+foreach (ilSeo::SECONDARY_ID_KEYS as $secondary_key) {
+    unset($_GET[$secondary_key]);
 }
 
 // Initialize ILIAS with ref_id and other required information.
@@ -134,7 +149,7 @@ if ($handler !== null) {
     $handler->prepareGotoDispatch((int) $data["secondary_id"]);
 } else {
     $_GET["baseClass"] = ilRepositoryGUI::class;
-    $_GET["cmd"] = "view";
+    $_GET["cmd"] = ilSeo::PERMALINK_CMD[$data["type"]] ?? "view";
 }
 
 ilInitialisation::initILIAS();

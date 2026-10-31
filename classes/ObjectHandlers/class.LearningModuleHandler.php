@@ -39,6 +39,15 @@ class LearningModuleHandler extends AbstractHandler
     }
 
     /**
+     * ilLMPresentationGUI is its own baseClass, so nothing is primed.
+     * @return class-string|null
+     */
+    protected function cmdNodeGuiClass(): ?string
+    {
+        return null;
+    }
+
+    /**
      * The same destination prepareGotoDispatch() primes above, spelled as a
      * link: the LM presentation is its own baseClass, so the chain is that
      * single class.

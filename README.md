@@ -58,6 +58,14 @@ it in by hand.
   The permalink-routing panel states this explicitly.
 - `assets/apache.conf` is owned entirely by the plugin and rewritten in full on every activation and
   configuration save. **Do not edit it by hand.**
+- The block's final rule carries `QSA`, so a permalink visited with a query string such as
+  `?utm_source=newsletter` keeps it. An installation that applied the rules before this release
+  has to regenerate `assets/apache.conf` (save the configuration) and reload Apache for the
+  parameter to reach ILIAS.
+- The same rule carries `B`, which escapes the path before Apache puts it into the `page`
+  parameter. Without it an encoded `&` in the path (`/slug%26page%3Devil/`) is decoded, splits
+  the query and makes a slug that was never requested resolve. With it such a request answers
+  404, as on nginx. The same regeneration and reload apply.
 
 #### nginx
 

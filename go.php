@@ -102,6 +102,17 @@ if ($static_file !== null) {
     ilSeoInitialisation::respondStaticFile($static_file);
 }
 
+// A permalink never contains a dot (PERMALINK_REGEXP), and neither does any other address
+// served here: the static files above are answered already, and special pages and stored or
+// historic slugs are all dot-free. A dotted path is therefore a missing file that fell into
+// the rewrite (e.g. /Customizing/x/file.min.js): answer 404 at once instead of first
+// 301-redirecting it to the same path with a trailing slash.
+if (str_contains($page, ".")) {
+    ilSeoInitialisation::bootIlias($ilias_root);
+    ilSeoInitialisation::respondNotFound();
+    exit;
+}
+
 if (!empty($page) && !preg_match("/\/$/", $page)) {
     header("Location: {$http_path}/{$page}/{$visitor_query}", true, 301);
     exit;

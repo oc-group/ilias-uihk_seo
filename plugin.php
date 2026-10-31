@@ -11,7 +11,7 @@
  */
 
 $id = "seo";
-$version = "11.2.0";
+$version = "11.2.1";
 
 $ilias_min_version = "11.0";
 $ilias_max_version = "11.999";

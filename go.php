@@ -88,8 +88,15 @@ ilSeoInitialisation::initDatabase();
 // (e.g. ilUtil::getNewContentStyleSheetLocation()), and chdir() above left it one level up.
 chdir($ilias_root . "/public");
 
-$page = $_GET["page"] ?? "";
+// The rewrite puts the permalink in the FIRST "page" parameter and appends the visitor's
+// query string; PHP keeps the last duplicate, so read the first from the raw query.
+$page = ilSeoInitialisation::firstQueryParam((string) ($_SERVER["QUERY_STRING"] ?? ""), "page")
+    ?? ($_GET["page"] ?? "");
 unset($_GET["page"]);
+$visitor_query = ilSeoInitialisation::queryWithoutFirstParam(
+    (string) ($_SERVER["QUERY_STRING"] ?? ""),
+    "page"
+);
 // Server/vhost-context mod_rewrite captures the leading slash too; strip it, downstream code
 // expects a bare slug.
 $page = ltrim($page, "/");
@@ -107,13 +114,13 @@ $shortlink_segment = ilSeoShortlinks::singleSegment($page);
 if ($shortlink_segment !== null) {
     $shortlink_alias = (new ilSeoShortlinks($DIC->database()))->findActiveAlias($shortlink_segment);
     if ($shortlink_alias !== null) {
-        header("Location: {$http_path}/goto.php/shortlink/{$shortlink_alias}", true, 302);
+        header("Location: {$http_path}/goto.php/shortlink/{$shortlink_alias}{$visitor_query}", true, 302);
         exit;
     }
 }
 
 if (!empty($page) && !preg_match("/\/$/", $page)) {
-    header("Location: {$http_path}/{$page}/", true, 301);
+    header("Location: {$http_path}/{$page}/{$visitor_query}", true, 301);
     exit;
 }
 
@@ -140,7 +147,7 @@ $data = $permalink_resolver->fetchByPermalink($page);
 if ($data == null) {
     $new_permalink = $permalink_resolver->getPermalinkFromHistory($page);
     if ($new_permalink != null) {
-        header("Location: {$http_path}/{$new_permalink}", true, 301);
+        header("Location: {$http_path}/{$new_permalink}{$visitor_query}", true, 301);
         exit;
     }
 
@@ -153,6 +160,14 @@ if ($data == null) {
 
     ilSeoInitialisation::respondNotFound();
     exit;
+}
+
+// The permalink alone decides what is rendered: drop every dispatch and sub-target
+// parameter a visitor appended, since a handler sets its own only when it has them.
+unset($_GET["cmd"], $_GET["cmdNode"], $_GET["cmdClass"]);
+unset($_GET["table_id"], $_GET["tableview_id"]);
+foreach (ilSeo::SECONDARY_ID_KEYS as $secondary_key) {
+    unset($_GET[$secondary_key]);
 }
 
 // Initialize ILIAS with ref_id and other required information.
@@ -174,7 +189,7 @@ if ($handler !== null) {
     $handler->finalizeGotoDispatch((int) $data["secondary_id"]);
 } else {
     $_GET["baseClass"] = ilRepositoryGUI::class;
-    $_GET["cmd"] = "view";
+    $_GET["cmd"] = ilSeo::PERMALINK_CMD[$data["type"]] ?? "view";
     // Without a primed cmdNode, ilCtrl finds no "next class" to dispatch to, and
     // ilRepositoryGUI::executeCommand() falls back to ilCtrl::redirectByClass(): a real
     // HTTP redirect back to this same URL with the resolved cmdClass, defeating a

@@ -49,11 +49,12 @@ class WikiHandler extends AbstractHandler
      */
     public function finalizeGotoDispatch(int $secondary_id): void
     {
+        global $DIC;
+
         $wpg_id = $secondary_id;
         if ($wpg_id === 0) {
-            global $DIC;
-
-            $ref_id = (int) ($_GET["ref_id"] ?? 0);
+            $raw_ref_id = $_GET["ref_id"] ?? 0;
+            $ref_id = is_scalar($raw_ref_id) ? (int) $raw_ref_id : 0;
             $wiki_id_row = $DIC->database()->fetchAssoc(
                 $DIC->database()->queryF(
                     "SELECT obj_id FROM object_reference WHERE ref_id = %s;",

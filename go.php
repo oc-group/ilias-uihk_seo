@@ -139,18 +139,9 @@ $_GET["ref_id"] = $data["ref_id"];
 // The "-" sentinel is a DB-only marker, not an ISO code; map it to the real default language
 // so the permalink forces that language regardless of the visitor's session/browser language.
 $_GET["lang"] = $data["lang"] !== "-" ? $data["lang"] : ilSeoLanguage::getDefaultLang();
-// Each supported type's dispatch shape is consolidated into its own handler;
-// an unsupported type falls through to the plain repository view.
-$handler = isset(ilSeo::SECONDARY_ID_KEYS[$data["type"]])
-    ? HandlerFactory::forType($data["type"])
-    : null;
-
-if ($handler !== null) {
-    $handler->prepareGotoDispatch((int) $data["secondary_id"]);
-} else {
-    $_GET["baseClass"] = ilRepositoryGUI::class;
-    $_GET["cmd"] = ilSeo::PERMALINK_CMD[$data["type"]] ?? "view";
-}
+// Each object type's dispatch shape lives in its own handler.
+$handler = HandlerFactory::forType($data["type"]);
+$handler->prepareGotoDispatch((int) $data["secondary_id"]);
 
 ilInitialisation::initILIAS();
 
@@ -162,11 +153,9 @@ if (!ilSeoReachability::isReachable($DIC->database(), $DIC->repositoryTree(), (i
     ilSeoInitialisation::respondGone();
 }
 
-if ($handler !== null) {
-    // $_GET["cmd"] is frozen in ilCtrl's context at initILIAS() time; only ilCtrl::setCmd() can
-    // override it: finalizeGotoDispatch() (blog/dcl) uses that to prime the nested ilCtrl forward.
-    $handler->finalizeGotoDispatch((int) $data["secondary_id"]);
-}
+// ilCtrl freezes $_GET["cmd"] at initILIAS(); only ilCtrl::setCmd() can
+// override it, so the handler primes the nested forward here.
+$handler->finalizeGotoDispatch((int) $data["secondary_id"]);
 
 $DIC->ctrl()->callBaseClass($_GET["baseClass"]);
 

@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace ilSeo\ObjectHandlers;
 
 /**
- * Generic fallback per-object-type behavior: a raw GET-superglobal secondary_id
- * write against ilRepositoryGUI, no ilCtrl priming, and a generic screen-id
- * content rule. Used for any object type with no dedicated handler, including
- * every type outside SECONDARY_ID_KEYS (e.g. a course or category), all reached
- * via HandlerFactory's default case. It also serves as the base class the
- * dedicated handlers extend.
+ * Generic per-object-type behavior: dispatch through ilRepositoryGUI with a
+ * plain command, and a generic screen-id content rule. Serves every object
+ * type with no dedicated handler (e.g. a course or category) and is the base
+ * class the dedicated handlers extend. A type that differs overrides
+ * dispatchCmd() or the dispatch methods themselves.
  */
 class AbstractHandler
 {
@@ -46,14 +45,14 @@ class AbstractHandler
     }
 
     /**
-     * Populate the GET superglobal before ilInitialisation::initILIAS(): flat
-     * assignment, no ilCtrl priming.
+     * Populate the GET superglobal before ilInitialisation::initILIAS().
      * @param int $secondary_id
      * @return void
      */
     public function prepareGotoDispatch(int $secondary_id): void
     {
         $_GET["baseClass"] = \ilRepositoryGUI::class;
+        $_GET["cmd"] = $this->dispatchCmd();
 
         $param = $this->getSecondaryIdParam();
         if ($param === null || $secondary_id === 0) {
@@ -64,13 +63,22 @@ class AbstractHandler
     }
 
     /**
-     * No ilCtrl priming needed by default: the dispatch above already reaches
-     * the content via a flat cmd/param, with no nested ilCtrl hop to prime.
+     * Prime ilCtrl after ilInitialisation::initILIAS(), once the cmd is frozen.
+     * Nothing by default: the flat cmd above already reaches the content.
      * @param int $secondary_id
      * @return void
      */
     public function finalizeGotoDispatch(int $secondary_id): void
     {
+    }
+
+    /**
+     * The command a permalink dispatches to on the type's own GUI class.
+     * @return string
+     */
+    protected function dispatchCmd(): string
+    {
+        return "view";
     }
 
     /**

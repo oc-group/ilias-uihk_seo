@@ -209,6 +209,55 @@ class ilSeoInitialisation extends ilInitialisation
     }
 
     /**
+     * Gate a resolved permalink on the visitor's access, before the core dispatch.
+     *
+     * Access granted by the handler: nothing happens. Otherwise a visitor who
+     * can still see the object (visible) is dispatched as before, because core
+     * answers that case itself. With neither, a logged-in user gets the 403
+     * page, and an anonymous visitor is sent to the login with the target
+     * preserved, the way core's goto does it (a 403 would leave no way to log
+     * in and come back).
+     * @param \ilSeo\ObjectHandlers\AbstractHandler $handler
+     * @param string $type object type of the permalink
+     * @param int $ref_id
+     * @param int $secondary_id
+     * @return void
+     */
+    public static function enforceAccess(
+        \ilSeo\ObjectHandlers\AbstractHandler $handler,
+        string $type,
+        int $ref_id,
+        int $secondary_id
+    ): void {
+        global $DIC;
+
+        $logger = $DIC->logger()->root();
+        $user_id = (int) $DIC->user()->getId();
+
+        if ($handler->isAccessGranted($ref_id, $secondary_id)) {
+            $logger->debug("Seo: permalink access granted, user {$user_id}, ref_id {$ref_id}");
+            return;
+        }
+
+        if ($DIC->access()->checkAccess("visible", "", $ref_id)) {
+            $logger->debug("Seo: permalink without read but visible, left to core, user {$user_id}, ref_id {$ref_id}");
+            return;
+        }
+
+        if (!$DIC->user()->isAnonymous() && $user_id !== ANONYMOUS_USER_ID) {
+            $logger->info("Seo: permalink refused with 403, user {$user_id}, ref_id {$ref_id}");
+            self::respondForbidden();
+        }
+
+        $logger->info("Seo: permalink needs a login, anonymous visitor redirected, ref_id {$ref_id}");
+        $DIC->ctrl()->redirectToURL(
+            "login.php?target=" . rawurlencode($type . "_" . $ref_id)
+            . "&cmd=force_login&lang=" . rawurlencode($DIC->user()->getCurrentLanguage())
+        );
+        exit;
+    }
+
+    /**
      * Return error 403 Forbidden.
      * @return never
      */

@@ -175,6 +175,15 @@ if (!ilSeoReachability::isReachable($DIC->database(), $DIC->repositoryTree(), (i
     ilSeoInitialisation::respondGone();
 }
 
+// Last gate before the core dispatch: the permalink must not hand an object to a visitor who
+// cannot read it. A user who can only see it is left to core; see enforceAccess().
+ilSeoInitialisation::enforceAccess(
+    $handler,
+    (string) $data["type"],
+    (int) $data["ref_id"],
+    (int) $data["secondary_id"]
+);
+
 $DIC->ctrl()->callBaseClass($_GET["baseClass"]);
 
 $DIC["ilBench"]->save();

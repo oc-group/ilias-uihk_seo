@@ -35,11 +35,11 @@ class HandlerFactory
             "blog" => new BlogHandler($obj_type),
             "dcl" => new DataCollectionHandler($obj_type),
             "frm" => new ForumHandler($obj_type),
+            "htlm" => new HtlmHandler($obj_type),
             "impr" => new ImprintHandler($obj_type),
             "lm" => new LearningModuleHandler($obj_type),
             "wiki" => new WikiHandler($obj_type),
-            // Reached by every obj_type outside SECONDARY_ID_KEYS (e.g. course,
-            // category): AbstractHandler is the generic fallback, not dead code
+            // Every other type uses the generic AbstractHandler
             default => new AbstractHandler($obj_type),
         };
     }

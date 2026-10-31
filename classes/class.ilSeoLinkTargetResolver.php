@@ -12,6 +12,9 @@
 
 declare(strict_types=1);
 
+use ilSeo\ObjectHandlers\AbstractSpecialPageHandler;
+use ilSeo\ObjectHandlers\HandlerFactory;
+
 /**
  * Resolves an anchor href to a SEO-relevant object target. Shared by
  * ilSeoUIHookGUI::rewritePermalinks() (rewrites the anchor) and the graph
@@ -75,6 +78,50 @@ class ilSeoLinkTargetResolver
         return self::resolveGotoTarget($href)
             ?? self::resolveSecondaryIdTarget($href)
             ?? self::resolveListingRowTarget($href);
+    }
+
+    /**
+     * Resolve a href to the permalink path that replaces it, with a leading
+     * slash ("/slug/", "/" for the homepage), or null when the href must stay
+     * as it is: it names no SEO-relevant object, the object has no SEO row
+     * for the language, or the stored permalink is broken or shadowed by a
+     * core shortlink (see ilSeoPermalink::outgoing()). Shared by the page-HTML
+     * rewrite (ilSeoUIHookGUI) and the footer modification
+     * (ilSeoLayoutProvider).
+     * @param string $href decoded href
+     * @param ilSeo $seo
+     * @param string $lang DB language key (ilSeoLanguage::toDbLang())
+     * @return string|null
+     */
+    public static function resolvePermalinkPath(string $href, ilSeo $seo, string $lang): ?string
+    {
+        $target = self::resolveTarget($href);
+        if ($target === null) {
+            return null;
+        }
+
+        $special_handler = HandlerFactory::forType($target["type"]);
+        if ($special_handler instanceof AbstractSpecialPageHandler) {
+            // Special page (e.g. imprint) has no ref id.
+            return "/" . $special_handler->getGotoRedirectTarget();
+        }
+
+        // Normalize to the "-" sentinel for the default-language row; a
+        // literal language code would miss it.
+        $data = $seo->fetchById($target["ref_id"], $target["secondary_id"], $lang);
+        if ($data === null) {
+            // Not handled by SEO plugin.
+            return null;
+        }
+
+        $permalink = ilSeoPermalink::outgoing($data);
+        if ($permalink === null) {
+            // Broken or shortlink-shadowed permalink stored for this row:
+            // leave the original href untouched.
+            return null;
+        }
+
+        return "/" . $permalink;
     }
 
     /**
@@ -348,7 +395,7 @@ class ilSeoLinkTargetResolver
      * @param string $href
      * @return bool
      */
-    private static function isSameSiteHref(string $href): bool
+    public static function isSameSiteHref(string $href): bool
     {
         $host = parse_url($href, PHP_URL_HOST);
         if ($host === null || $host === false) {

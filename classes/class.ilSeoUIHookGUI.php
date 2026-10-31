@@ -354,33 +354,7 @@ class ilSeoUIHookGUI extends ilUIHookPluginGUI
      */
     private function resolveHrefTarget(string $href, ilSeo $seo, string $lang): ?string
     {
-        $target = ilSeoLinkTargetResolver::resolveTarget($href);
-        if ($target === null) {
-            return null;
-        }
-
-        $special_handler = HandlerFactory::forType($target["type"]);
-        if ($special_handler instanceof AbstractSpecialPageHandler) {
-            // Special page (e.g. imprint) has no ref id.
-            return "/" . $special_handler->getGotoRedirectTarget();
-        }
-
-        // Normalize to the "-" sentinel for the default-language row; a
-        // literal language code would miss it.
-        $data = $seo->fetchById($target["ref_id"], $target["secondary_id"], $lang);
-        if ($data === null) {
-            // Not handled by SEO plugin.
-            return null;
-        }
-
-        $permalink = ilSeoPermalink::outgoing($data);
-        if ($permalink === null) {
-            // Broken or shortlink-shadowed permalink stored for this row:
-            // leave the original href untouched.
-            return null;
-        }
-
-        return "/" . $permalink;
+        return ilSeoLinkTargetResolver::resolvePermalinkPath($href, $seo, $lang);
     }
 
     /**

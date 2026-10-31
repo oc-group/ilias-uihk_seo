@@ -175,43 +175,12 @@ $_GET["ref_id"] = $data["ref_id"];
 // The "-" sentinel is a DB-only marker, not an ISO code; map it to the real default language
 // so the permalink forces that language regardless of the visitor's session/browser language.
 $_GET["lang"] = $data["lang"] !== "-" ? $data["lang"] : ilSeoLanguage::getDefaultLang();
-// Each supported type's dispatch shape is consolidated into its own handler;
-// an unsupported type falls through to the plain repository view.
-$handler = isset(ilSeo::SECONDARY_ID_KEYS[$data["type"]])
-    ? HandlerFactory::forType($data["type"])
-    : null;
-
-if ($handler !== null) {
-    $handler->prepareGotoDispatch((int) $data["secondary_id"]);
-    // ilCtrlContext::adoptRequestParameters() reads $_GET["cmdNode"] only once, while
-    // ilSeoInitialisation::bootIlias() below is building the ilCtrl context; priming it any
-    // later has no effect. finalizeGotoDispatch() (blog/dcl) sets it here for that reason.
-    $handler->finalizeGotoDispatch((int) $data["secondary_id"]);
-} else {
-    $_GET["baseClass"] = ilRepositoryGUI::class;
-    $_GET["cmd"] = ilSeo::PERMALINK_CMD[$data["type"]] ?? "view";
-    // Without a primed cmdNode, ilCtrl finds no "next class" to dispatch to, and
-    // ilRepositoryGUI::executeCommand() falls back to ilCtrl::redirectByClass(): a real
-    // HTTP redirect back to this same URL with the resolved cmdClass, defeating a
-    // permalink's whole purpose of a direct 200 render. Prime it the same way the object
-    // handlers above already do for their own fixed class chains; here the target class is
-    // not fixed, so it is resolved from the object type via objectGuiClassFor() instead.
-    $object_gui_class = ilSeoInitialisation::objectGuiClassFor($data["type"]);
-    if ($object_gui_class !== null) {
-        try {
-            $_GET["cmdNode"] = ilSeoInitialisation::buildCidPath([
-                ilRepositoryGUI::class,
-                $object_gui_class,
-            ]);
-            $_GET["cmdClass"] = strtolower($object_gui_class);
-        } catch (ilCtrlException) {
-            // Class exists in il_object_def but not in the ilCtrl structure artifact (should
-            // not happen for a real ilRepositoryGUI child); fall back to the pre-fix behavior
-            // rather than fail the whole request.
-            unset($_GET["cmdNode"], $_GET["cmdClass"]);
-        }
-    }
-}
+// Each object type's dispatch shape lives in its own handler.
+$handler = HandlerFactory::forType($data["type"]);
+$handler->prepareGotoDispatch((int) $data["secondary_id"]);
+// ilCtrl reads cmdNode once, while bootIlias() below builds its context, so
+// the handler primes it here.
+$handler->finalizeGotoDispatch((int) $data["secondary_id"]);
 
 ilSeoInitialisation::bootIlias($ilias_root);
 

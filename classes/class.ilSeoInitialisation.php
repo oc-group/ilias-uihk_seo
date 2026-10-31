@@ -135,6 +135,48 @@ class ilSeoInitialisation extends ilInitialisation
     }
 
     /**
+     * The first occurrence of a parameter in a raw query string, urldecoded.
+     * PHP's own parsing keeps the last duplicate, which lets a visitor-supplied
+     * parameter override a value the web-server rewrite placed first.
+     * @return string|null null when the parameter does not occur
+     */
+    public static function firstQueryParam(string $query_string, string $name): ?string
+    {
+        foreach (explode("&", $query_string) as $pair) {
+            $parts = explode("=", $pair, 2);
+            if (urldecode($parts[0]) === $name) {
+                return urldecode($parts[1] ?? "");
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * The visitor's own query string for a redirect: the raw pairs of the
+     * query string without the first occurrence of the given parameter (the
+     * one the rewrite added), as "?a=b" or "" when nothing is left. Only the
+     * query is taken from the request, never a host or a path.
+     */
+    public static function queryWithoutFirstParam(string $query_string, string $name): string
+    {
+        $kept = [];
+        $skipped = false;
+        foreach (explode("&", $query_string) as $pair) {
+            if ($pair === "") {
+                continue;
+            }
+            if (!$skipped && urldecode(explode("=", $pair, 2)[0]) === $name) {
+                $skipped = true;
+                continue;
+            }
+            $kept[] = $pair;
+        }
+
+        return $kept === [] ? "" : "?" . implode("&", $kept);
+    }
+
+    /**
      * Redirect to a permanent link.
      * @param string $permalink
      * @return never

@@ -74,10 +74,17 @@ $GLOBALS["COOKIE_PATH"] = $path;
 // Do not initialize ILIAS yet. Only the database is required.
 ilSeoInitialisation::initDatabase();
 
-$page = $_GET["page"] ?? "";
+// The rewrite puts the permalink in the FIRST "page" parameter and appends the visitor's
+// query string; PHP keeps the last duplicate, so read the first from the raw query.
+$page = ilSeoInitialisation::firstQueryParam((string) ($_SERVER["QUERY_STRING"] ?? ""), "page")
+    ?? ($_GET["page"] ?? "");
 unset($_GET["page"]);
+$visitor_query = ilSeoInitialisation::queryWithoutFirstParam(
+    (string) ($_SERVER["QUERY_STRING"] ?? ""),
+    "page"
+);
 if (!empty($page) && !preg_match("/\/$/", $page)) {
-    header("Location: {$http_path}/{$page}/", true, 301);
+    header("Location: {$http_path}/{$page}/{$visitor_query}", true, 301);
     exit;
 }
 
@@ -104,7 +111,7 @@ $data = $permalink_resolver->fetchByPermalink($page);
 if ($data == null) {
     $new_permalink = $permalink_resolver->getPermalinkFromHistory($page);
     if ($new_permalink != null) {
-        header("Location: {$http_path}/{$new_permalink}", true, 301);
+        header("Location: {$http_path}/{$new_permalink}{$visitor_query}", true, 301);
         exit;
     }
 
@@ -119,23 +126,22 @@ if ($data == null) {
     exit;
 }
 
+// The permalink alone decides what is rendered: drop every dispatch and sub-target
+// parameter a visitor appended, since a handler sets its own only when it has them.
+unset($_GET["cmd"], $_GET["cmdNode"], $_GET["cmdClass"]);
+unset($_GET["table_id"], $_GET["tableview_id"]);
+foreach (ilSeo::SECONDARY_ID_KEYS as $secondary_key) {
+    unset($_GET[$secondary_key]);
+}
+
 // Initialize ILIAS with ref_id and other required information.
 $_GET["ref_id"] = $data["ref_id"];
 // The "-" sentinel is a DB-only marker, not an ISO code; map it to the real default language
 // so the permalink forces that language regardless of the visitor's session/browser language.
 $_GET["lang"] = $data["lang"] !== "-" ? $data["lang"] : ilSeoLanguage::getDefaultLang();
-// Each supported type's dispatch shape is consolidated into its own handler;
-// an unsupported type falls through to the plain repository view.
-$handler = isset(ilSeo::SECONDARY_ID_KEYS[$data["type"]])
-    ? HandlerFactory::forType($data["type"])
-    : null;
-
-if ($handler !== null) {
-    $handler->prepareGotoDispatch((int) $data["secondary_id"]);
-} else {
-    $_GET["baseClass"] = ilRepositoryGUI::class;
-    $_GET["cmd"] = "view";
-}
+// Each object type's dispatch shape lives in its own handler.
+$handler = HandlerFactory::forType($data["type"]);
+$handler->prepareGotoDispatch((int) $data["secondary_id"]);
 
 ilInitialisation::initILIAS();
 
@@ -147,11 +153,9 @@ if (!ilSeoReachability::isReachable($DIC->database(), $DIC->repositoryTree(), (i
     ilSeoInitialisation::respondGone();
 }
 
-if ($handler !== null) {
-    // $_GET["cmd"] is frozen in ilCtrl's context at initILIAS() time; only ilCtrl::setCmd() can
-    // override it: finalizeGotoDispatch() (blog/dcl) uses that to prime the nested ilCtrl forward.
-    $handler->finalizeGotoDispatch((int) $data["secondary_id"]);
-}
+// ilCtrl freezes $_GET["cmd"] at initILIAS(); only ilCtrl::setCmd() can
+// override it, so the handler primes the nested forward here.
+$handler->finalizeGotoDispatch((int) $data["secondary_id"]);
 
 $DIC->ctrl()->callBaseClass($_GET["baseClass"]);
 

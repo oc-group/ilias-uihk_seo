@@ -29,6 +29,11 @@ configuration. Before that write can work:
   configuration once the file is writable installs the block.
 - The block is delimited by `# BEGIN ilias-uihk_seo` / `# END ilias-uihk_seo` and is rewritten by the
   plugin. **Do not edit it by hand**; it also sets `DirectoryIndex` and `ErrorDocument 404`.
+- The block's final rule carries `B,QSA,L`. `QSA` keeps a query string such as
+  `?utm_source=newsletter` on a permalink visit. `B` escapes the captured path, so an encoded `&`
+  in a URL (`/slug%26page%3Dx/`) cannot split the query string handed to `go.php`; such a URL
+  answers 404. An installation that applied the block before this release has to save the
+  configuration once so the plugin rewrites it.
 
 ## Installation
 

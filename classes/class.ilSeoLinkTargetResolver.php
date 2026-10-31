@@ -83,9 +83,10 @@ class ilSeoLinkTargetResolver
     /**
      * Resolve a href to the permalink path that replaces it, with a leading
      * slash ("/slug/", "/" for the homepage), or null when the href must stay
-     * as it is: it names no SEO-relevant object, the object has no SEO row
-     * for the language, or the stored permalink is broken or shadowed by a
-     * core shortlink (see ilSeoPermalink::outgoing()). Shared by the page-HTML
+     * as it is: it points to another host, it names no SEO-relevant object,
+     * the object has no SEO row for the language, or the stored permalink is
+     * broken or shadowed by a core shortlink (see ilSeoPermalink::outgoing()).
+     * Shared by the page-HTML
      * rewrite (ilSeoUIHookGUI) and the footer modification
      * (ilSeoLayoutProvider).
      * @param string $href decoded href
@@ -95,6 +96,12 @@ class ilSeoLinkTargetResolver
      */
     public static function resolvePermalinkPath(string $href, ilSeo $seo, string $lang): ?string
     {
+        // An external href such as example.org/goto.php/blog/5 names another
+        // site's object, never this one's: leave it untouched.
+        if (!self::isSameSiteHref($href)) {
+            return null;
+        }
+
         $target = self::resolveTarget($href);
         if ($target === null) {
             return null;

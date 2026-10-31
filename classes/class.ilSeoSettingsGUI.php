@@ -44,7 +44,6 @@ class ilSeoSettingsGUI implements ilCtrlSecurityInterface
     private const KEY_WEB_TITLE = "web_title";
 
     /** @var string form key and input name of the sitemap submission flag */
-    private const KEY_SUBMIT_SITEMAP = "submit_sitemap";
 
     /** @var string form key of the default language, and the key ilSeoSettings stores it under */
     private const KEY_DEFAULT_LANG = "default";
@@ -194,7 +193,6 @@ class ilSeoSettingsGUI implements ilCtrlSecurityInterface
         $languages = (array) $data[self::KEY_LANGUAGES];
 
         $this->settings->setWebTitle((string) $settings[self::KEY_WEB_TITLE]);
-        $this->settings->setSubmitSitemap((bool) $settings[self::KEY_SUBMIT_SITEMAP]);
         $this->settings->setLanguages(
             (string) $languages[self::KEY_DEFAULT_LANG],
             (array) $languages[self::KEY_SECONDARY_LANGS]
@@ -369,17 +367,9 @@ class ilSeoSettingsGUI implements ilCtrlSecurityInterface
             // screen down: bytes, via mb_strcut(), not mb_substr().
             ->withValue(mb_strcut($this->settings->getWebTitle(), 0, self::WEB_TITLE_MAX_LENGTH));
 
-        $submit_sitemap = $field->checkbox(
-            $this->plugin->txt("submit_sitemap"),
-            $this->plugin->txt("submit_sitemap_info")
-        )
-            ->withDedicatedName(self::KEY_SUBMIT_SITEMAP)
-            ->withValue($this->settings->isSubmitSitemap());
-
         return $field->section(
             [
                 self::KEY_WEB_TITLE => $web_title,
-                self::KEY_SUBMIT_SITEMAP => $submit_sitemap,
             ],
             $this->plugin->txt("section_settings")
         );

@@ -229,7 +229,11 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
         // Remove footer permalink.
         PageContentProvider::setPermaLink("");
 
-        $script = "history.replaceState({},'','{$permalink}');";
+        // JSON string literal, tag/quote/ampersand-hex-escaped: the permalink
+        // path is a stored, admin-editable value interpolated into JavaScript.
+        $script = "history.replaceState({},'',"
+            . json_encode($permalink, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)
+            . ");";
         $this->dic->ui()->mainTemplate()->addJavaScript("data:application/javascript;base64," . base64_encode($script));
 
         $meta_tags = $this->generateSeoMetadata(

@@ -1065,7 +1065,10 @@ class ilSeoGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             return;
         }
 
-        $values = $this->editor->decode($data);
+        // Fetch existing data so decode() can preserve priority/frequency while
+        // the index group is off, instead of resetting them to defaults.
+        $existing = $this->seo->fetchById($ref_id, $secondary_value, $lang);
+        $values = $this->editor->decode($data, $existing);
 
         if (ilSeoPermalink::isReserved($values["permalink"])) {
             $this->rejectSave($page_url, $this->plugin->txt("permalink_reserved"));

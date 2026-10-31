@@ -47,6 +47,10 @@ index_page#:#Indicizza
 index_page_info#:#Indica se la pagina è visibile ai motori di ricerca (indicizzata). Se abilitata, puoi scegliere di impostare i valori di frequenza e priorità, che fanno parte solo della <b>sitemap</b>.
 language#:#Lingue
 mass_edit#:#Modificare massive
+mass_edit_follow#:#Segui i link
+mass_edit_index#:#Indicizza
+mass_edit_nofollow#:#Non seguire i link
+mass_edit_noindex#:#Non indicizzare
 mass_edit_rows_skipped#:#%s pagina(e) selezionata(e) sono state saltate perché non esistono più; le altre sono state aggiornate.
 mass_edit_unchanged#:#Lascia invariato
 mass_edit_unchanged_info#:#Lascia vuoto per mantenere il valore attuale di ogni pagina selezionata.
@@ -128,8 +132,6 @@ status_indexed#:#SEO: attivo
 status_no_access#:#SEO: nessun accesso pubblico
 status_noindex#:#SEO: escluso dall'indice
 status_unsaved#:#SEO: metadati non salvati
-submit_sitemap#:#Pubblica sitemap
-submit_sitemap_info#:#Invia un ping della sitemap generata a Yandex (l'unico motore contattato, perché la libreria della sitemap non prevede altri endpoint). Quell'endpoint non è documentato e il suo effetto non è verificabile, quindi conviene lasciare l'opzione disattivata se non serve espressamente. I motori di ricerca trovano la sitemap tramite la riga "Sitemap:" che il plugin mantiene in robots.txt, e questo funziona anche con l'impostazione disattivata.
 target_missing#:#Non più disponibile nel repository. I dati SEO possono comunque essere modificati o eliminati da qui.
 target_missing_label#:#Oggetto del repository
 title#:#Titolo

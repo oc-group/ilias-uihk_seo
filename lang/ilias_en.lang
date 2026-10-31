@@ -47,6 +47,10 @@ index_page#:#Index
 index_page_info#:#Indicates whether the page is visible to search engines (indexed). If enabled, you can choose to set the frequency and priority values, which are part of the <b>sitemap</b> only.
 language#:#Languages
 mass_edit#:#Edit All
+mass_edit_follow#:#Follow
+mass_edit_index#:#Index
+mass_edit_nofollow#:#Nofollow
+mass_edit_noindex#:#Noindex
 mass_edit_rows_skipped#:#%s selected page(s) no longer existed and were skipped; the rest were updated.
 mass_edit_unchanged#:#Leave unchanged
 mass_edit_unchanged_info#:#Leave empty to keep each selected page's current value.
@@ -128,8 +132,6 @@ status_indexed#:#SEO: active
 status_no_access#:#SEO: no public access
 status_noindex#:#SEO: excluded from index
 status_unsaved#:#SEO: metadata not saved
-submit_sitemap#:#Submit sitemap
-submit_sitemap_info#:#Pings the generated sitemap to Yandex (the only engine contacted, as the sitemap library ships no other endpoint). That endpoint is undocumented and its effect cannot be verified, so leave this off unless you specifically want it. Search engines find the sitemap through the "Sitemap:" line the plugin maintains in robots.txt, which works with this setting disabled.
 target_missing#:#No longer available in the repository. Its SEO data can still be edited or deleted here.
 target_missing_label#:#Repository object
 title#:#Title

@@ -31,11 +31,15 @@ use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\UI\Component\Button\Bulky as UIBulkyButton;
+use ILIAS\UI\Component\Button\Shy as UIShy;
 use ILIAS\UI\Component\Divider\Horizontal as UIHorizontalDivider;
 use ILIAS\UI\Component\Link\Bulky as UIBulkyLink;
+use ILIAS\UI\Component\Link\Standard as UIStandardLink;
+use ILIAS\UI\Component\MainControls\Footer as UIFooter;
 use ILIAS\UI\Component\MainControls\MetaBar as UIMetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined as CombinedSlate;
 use ILIAS\UI\Component\MainControls\Slate\Slate as UISlate;
+use ILIAS\UI\Implementation\Component\MainControls\Footer as ImplFooter;
 use ILIAS\UICore\PageContentProvider;
 use ilSeo\ObjectHandlers\HandlerFactory;
 
@@ -692,13 +696,181 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
     }
 
     /**
-     * Edit the page footer.
+     * Show the permalink instead of the native ILIAS link for every footer
+     * link whose target object has SEO metadata. Render-time only: the URL the
+     * admin stored in gs_footer_items is never written to. Applies on every
+     * page (the footer is site-wide), not only on web-intended content screens.
+     * @see StandardPagePartProvider::getFooter (core builds the footer there)
+     *
      * @param CalledContexts $screen_context_stack
      * @return ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification|null
      */
     public function getFooterModification(CalledContexts $screen_context_stack): ?FooterModification
     {
-        return null;
+        if (!$this->plugin->isActive()) {
+            return null;
+        }
+
+        $ui_factory = $this->dic->ui()->factory();
+        $logger = $this->dic->logger()->root();
+        $lang = ilSeoLanguage::toDbLang($this->dic->language()->getLangKey());
+
+        return $this->globalScreen()->layout()->factory()->footer()->withModification(
+            static function (?UIFooter $footer) use ($ui_factory, $lang, $logger): UIFooter {
+                if ($footer === null) {
+                    // A footer modification must return a footer;
+                    // core never passes null here.
+                    return $ui_factory->mainControls()->footer();
+                }
+
+                try {
+                    return self::rewriteFooterLinks($footer, $ui_factory, new ilSeo(), $lang, $logger);
+                } catch (\Throwable $e) {
+                    // Defensive: a footer the plugin cannot rewrite
+                    // is served as core built it.
+                    $logger->error("Seo: footer permalink rewrite failed, serving the core footer: " . $e->getMessage());
+                    return $footer;
+                }
+            }
+        )->withPriority(20);
+    }
+
+    /**
+     * Rebuild a footer with the permalink in place of each rewritable link.
+     * The footer component has no remove or replace operation, so every part
+     * is carried over into a fresh footer. Returns the given footer itself
+     * when no link changes. Reads the parts through the implementation class:
+     * the UI interface declares no getters, only core's own renderer uses them.
+     * @param UIFooter $footer
+     * @param ILIAS\UI\Factory $ui_factory
+     * @param ilSeo $seo
+     * @param string $lang DB language key
+     * @param ilLogger $logger
+     * @return UIFooter
+     */
+    public static function rewriteFooterLinks(
+        UIFooter $footer,
+        ILIAS\UI\Factory $ui_factory,
+        ilSeo $seo,
+        string $lang,
+        ilLogger $logger
+    ): UIFooter {
+        if (!$footer instanceof ImplFooter) {
+            return $footer;
+        }
+
+        $changed = 0;
+        $rewrite = static function (UIShy|UIStandardLink $entry) use ($ui_factory, $seo, $lang, &$changed): UIShy|UIStandardLink {
+            $rewritten = $entry instanceof UIStandardLink
+                ? self::rewriteFooterLink($entry, $ui_factory, $seo, $lang)
+                : null;
+            if ($rewritten === null) {
+                return $entry;
+            }
+
+            $changed++;
+            return $rewritten;
+        };
+
+        $groups = [];
+        foreach ($footer->getAdditionalLinkGroups() as [$title, $actions]) {
+            $groups[] = [$title, array_map($rewrite, $actions)];
+        }
+        $links = array_map($rewrite, $footer->getAdditionalLinks());
+
+        if ($changed === 0) {
+            return $footer;
+        }
+
+        $logger->debug("Seo: footer links shown as permalinks: " . $changed);
+
+        return self::carryOverFooterParts($footer, $ui_factory->mainControls()->footer(), $groups, $links);
+    }
+
+    /**
+     * One footer link with its permalink, or null when it keeps its action.
+     * Core builds footer links with a label, an action and the new-window
+     * flag only, so those are the three things carried over.
+     * @param UIStandardLink $link
+     * @param ILIAS\UI\Factory $ui_factory
+     * @param ilSeo $seo
+     * @param string $lang DB language key
+     * @return UIStandardLink|null
+     */
+    private static function rewriteFooterLink(
+        UIStandardLink $link,
+        ILIAS\UI\Factory $ui_factory,
+        ilSeo $seo,
+        string $lang
+    ): ?UIStandardLink {
+        $permalink_url = self::footerPermalinkUrl($link->getAction(), $seo, $lang);
+        if ($permalink_url === null) {
+            return null;
+        }
+
+        $rewritten = $ui_factory->link()->standard($link->getLabel(), $permalink_url);
+        $new_window = $link->getOpenInNewViewport();
+
+        return $new_window !== null ? $rewritten->withOpenInNewViewport($new_window) : $rewritten;
+    }
+
+    /**
+     * Fill an empty footer with the rewritten link groups and links plus
+     * everything else of the original footer.
+     * @param ImplFooter $original
+     * @param UIFooter $target
+     * @param array<int, array{0: string, 1: array<mixed>}> $groups
+     * @param array<UIShy|UIStandardLink> $links
+     * @return UIFooter
+     */
+    private static function carryOverFooterParts(
+        ImplFooter $original,
+        UIFooter $target,
+        array $groups,
+        array $links
+    ): UIFooter {
+        foreach ($groups as [$title, $actions]) {
+            $target = $target->withAdditionalLinkGroup($title, $actions);
+        }
+        if ($links !== []) {
+            $target = $target->withAdditionalLink(...$links);
+        }
+        foreach ($original->getAdditionalIcons() as [$icon, $action]) {
+            $target = $target->withAdditionalIcon($icon, $action);
+        }
+        $texts = $original->getAdditionalTexts();
+        if ($texts !== []) {
+            $target = $target->withAdditionalText(...$texts);
+        }
+        $permanent_url = $original->getPermanentURL();
+        if ($permanent_url !== null) {
+            $target = $target->withPermanentURL($permanent_url);
+        }
+        foreach ($original->getModals() as $modal) {
+            $target = $target->withAdditionalModal($modal);
+        }
+
+        return $target;
+    }
+
+    /**
+     * The absolute permalink URL for a footer link's action, or null to keep
+     * the action: an external host, a target without SEO metadata, a
+     * broken permalink.
+     * @param string $action
+     * @param ilSeo $seo
+     * @param string $lang DB language key
+     * @return string|null
+     */
+    public static function footerPermalinkUrl(string $action, ilSeo $seo, string $lang): ?string
+    {
+        if (!ilSeoLinkTargetResolver::isSameSiteHref($action)) {
+            return null;
+        }
+
+        $path = ilSeoLinkTargetResolver::resolvePermalinkPath($action, $seo, $lang);
+
+        return $path === null ? null : ILIAS_HTTP_PATH . $path;
     }
 
     /**

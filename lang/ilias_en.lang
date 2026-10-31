@@ -55,6 +55,8 @@ metadata_deleted#:#SEO metadata deleted in %s.
 metadata_not_saved#:#Could not save SEO metadata.
 metadata_not_saved_invalid#:#Could not save SEO metadata. %s
 metadata_saved#:#SEO metadata saved.
+nofollow#:#Nofollow
+noindex#:#Noindex
 not_enabled#:#SEO metadata are not yet active.
 page_not_public#:#This page is not public accessible.
 page_public#:#This page is public accessible.
@@ -108,8 +110,6 @@ status_indexed#:#SEO: active
 status_no_access#:#SEO: no public access
 status_noindex#:#SEO: excluded from index
 status_unsaved#:#SEO: metadata not saved
-submit_sitemap#:#Submit sitemap
-submit_sitemap_info#:#Pings the generated sitemap to Yandex. It is the only engine contacted, as the sitemap library ships no other endpoint. That endpoint is undocumented and its effect cannot be verified, so leave this off unless you specifically want it. Search engines find the sitemap through the "Sitemap:" line the plugin maintains in robots.txt, which works with this setting disabled.
 target_missing#:#No longer available in the repository. Its SEO data can still be edited or deleted here.
 target_missing_label#:#Repository object
 title#:#Title

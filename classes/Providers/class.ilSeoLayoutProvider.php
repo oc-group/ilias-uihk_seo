@@ -229,7 +229,15 @@ class ilSeoLayoutProvider extends AbstractModificationPluginProvider
         // Remove footer permalink.
         PageContentProvider::setPermaLink("");
 
-        $script = "history.replaceState({},'','{$permalink}');";
+        // The permalink is data, not code: encoded as a JS string literal so no
+        // character of it can close the string or the script.
+        // A value json_encode() cannot encode (malformed UTF-8) becomes an
+        // empty string: replaceState() then keeps the current URL.
+        $literal = json_encode(
+            $permalink,
+            JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES
+        ) ?: "\"\"";
+        $script = "history.replaceState({},'',{$literal});";
         $this->dic->ui()->mainTemplate()->addJavaScript("data:application/javascript;base64," . base64_encode($script));
 
         $meta_tags = $this->generateSeoMetadata(

@@ -165,10 +165,11 @@ class AbstractHandler
      */
     public function isContentScreen(string $screen_id): bool
     {
-        [, $scr] = array_pad(explode("/", $screen_id, 3), 2, "");
+        [$component, $scr] = array_pad(explode("/", $screen_id, 3), 2, "");
 
         if (
             in_array($scr, ["content", "view_content", "forums_threads"], true)
+            || ($component === "repository" && $scr !== "")
             || (bool) preg_match("/\/(\/(?!login|logout))/", $screen_id)
         ) {
             return true;

@@ -55,6 +55,8 @@ metadata_deleted#:#Dati SEO eliminati in %s.
 metadata_not_saved#:#Non è stato possibile salvare i metadati SEO.
 metadata_not_saved_invalid#:#Non è stato possibile salvare i metadati SEO. %s
 metadata_saved#:#Metadati SEO salvati.
+nofollow#:#Nofollow
+noindex#:#Noindex
 not_enabled#:#Matadati SEO non ancora attivi.
 page_not_public#:#Questa pagina non è accessibile senza login.
 page_public#:#Questa pagina è accessibile senza login.
@@ -108,8 +110,6 @@ status_indexed#:#SEO: attivo
 status_no_access#:#SEO: nessun accesso pubblico
 status_noindex#:#SEO: escluso dall'indice
 status_unsaved#:#SEO: metadati non salvati
-submit_sitemap#:#Pubblica sitemap
-submit_sitemap_info#:#Invia un ping della sitemap generata a Yandex. È l'unico motore contattato, perché la libreria della sitemap non prevede altri endpoint. Quell'endpoint non è documentato e il suo effetto non è verificabile, quindi conviene lasciare l'opzione disattivata se non serve espressamente. I motori di ricerca trovano la sitemap tramite la riga "Sitemap:" che il plugin mantiene in robots.txt, e questo funziona anche con l'impostazione disattivata.
 target_missing#:#Non più disponibile nel repository. I dati SEO possono comunque essere modificati o eliminati da qui.
 target_missing_label#:#Oggetto del repository
 title#:#Titolo

@@ -626,13 +626,19 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
 
         $index = new ilSelectInputGUI($this->plugin->txt("index"), "index");
         $index->setOptions($this->withUnchangedOption(
-            array_combine(self::MASS_EDIT_INDEX_OPTIONS, self::MASS_EDIT_INDEX_OPTIONS)
+            array_combine(
+                self::MASS_EDIT_INDEX_OPTIONS,
+                array_map(fn (string $option): string => $this->plugin->txt($option), self::MASS_EDIT_INDEX_OPTIONS)
+            )
         ));
         $form->addItem($index);
 
         $follow = new ilSelectInputGUI($this->plugin->txt("follow"), "follow");
         $follow->setOptions($this->withUnchangedOption(
-            array_combine(self::MASS_EDIT_FOLLOW_OPTIONS, self::MASS_EDIT_FOLLOW_OPTIONS)
+            array_combine(
+                self::MASS_EDIT_FOLLOW_OPTIONS,
+                array_map(fn (string $option): string => $this->plugin->txt($option), self::MASS_EDIT_FOLLOW_OPTIONS)
+            )
         ));
         $form->addItem($follow);
 

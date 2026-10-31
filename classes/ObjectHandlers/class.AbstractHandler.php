@@ -73,6 +73,24 @@ class AbstractHandler
     }
 
     /**
+     * Whether the current user may be handed the object a permalink resolved
+     * to, decided by go.php after ILIAS is initialised and before the core
+     * dispatch. Read permission on the object by default; a type whose
+     * permalink addresses something with its own access rule overrides it.
+     * A user without it who can still see the object (visible) is dispatched
+     * anyway: core answers that case itself.
+     * @param int $ref_id
+     * @param int $secondary_id 0 for the object itself
+     * @return bool
+     */
+    public function isAccessGranted(int $ref_id, int $secondary_id): bool
+    {
+        global $DIC;
+
+        return (bool) $DIC->access()->checkAccess("read", "", $ref_id);
+    }
+
+    /**
      * The command a permalink dispatches to on the type's own GUI class.
      * @return string
      */

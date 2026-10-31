@@ -53,6 +53,10 @@ it in by hand.
   `?utm_source=newsletter` keeps it. An installation that applied the rules before this release
   has to regenerate `assets/apache.conf` (save the configuration) and reload Apache for the
   parameter to reach ILIAS.
+- The same rule carries `B`, which escapes the path before it becomes the `page` value, so an
+  encoded `&` or `=` in a URL stays inside the slug and answers 404 instead of splitting the
+  query. An installation that applied the rules before this release has to regenerate
+  `assets/apache.conf` and reload Apache to get it.
 
 #### nginx
 

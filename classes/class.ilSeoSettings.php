@@ -31,9 +31,6 @@ final class ilSeoSettings
     /** @var string site name published in the og:site_name tag */
     private const KEY_WEB_TITLE = "web_title";
 
-    /** @var string whether the sitemap cron job pings the search engines after a successful build */
-    private const KEY_SUBMIT_SITEMAP = "submit_sitemap";
-
     /** @var string JSON object: {"default": string, "secondary": string[]} */
     private const KEY_LANGUAGES = "seo_langs";
 
@@ -80,23 +77,6 @@ final class ilSeoSettings
     public function setWebTitle(string $web_title): void
     {
         $this->setString(self::KEY_WEB_TITLE, $web_title);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSubmitSitemap(): bool
-    {
-        return $this->getBool(self::KEY_SUBMIT_SITEMAP);
-    }
-
-    /**
-     * @param bool $submit
-     * @return void
-     */
-    public function setSubmitSitemap(bool $submit): void
-    {
-        $this->setBool(self::KEY_SUBMIT_SITEMAP, $submit);
     }
 
     /**
@@ -176,27 +156,5 @@ final class ilSeoSettings
     private function setString(string $key, string $value): void
     {
         $this->store->set($key, $value);
-    }
-
-    /**
-     * Stored as the "y"/"n" strings existing installations already hold, so no
-     * migration is needed. Reading is case-insensitive and anything that is not
-     * "y" is false.
-     * @param string $key
-     * @return bool
-     */
-    private function getBool(string $key): bool
-    {
-        return strtolower($this->getString($key, "n")) === "y";
-    }
-
-    /**
-     * @param string $key
-     * @param bool $value
-     * @return void
-     */
-    private function setBool(string $key, bool $value): void
-    {
-        $this->setString($key, $value ? "y" : "n");
     }
 }

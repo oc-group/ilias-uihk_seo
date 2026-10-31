@@ -73,6 +73,45 @@ class AbstractHandler
     }
 
     /**
+     * Whether the current user may be handed the object a permalink resolved
+     * to, decided by go.php after ILIAS is initialised and before the core
+     * dispatch. Read permission on the object by default; a type whose
+     * permalink addresses something with its own access rule overrides it.
+     * A user without it who can still see the object (visible) is dispatched
+     * anyway: core answers that case itself.
+     * @param int $ref_id
+     * @param int $secondary_id 0 for the object itself
+     * @return bool
+     */
+    public function isAccessGranted(int $ref_id, int $secondary_id): bool
+    {
+        global $DIC;
+
+        return (bool) $DIC->access()->checkAccess("read", "", $ref_id);
+    }
+
+    /**
+     * The URL of core's own permalink for what this ref_id and secondary_id
+     * address, which go.php hands a visitor over to when that visitor cannot
+     * be served the plugin's view (no read, but visible): core's goto then
+     * applies its own rule for the type (info screen, join form, login, error).
+     * Built with core's static-link API, so the shape is whatever the running
+     * version produces. It is a core URL on purpose: it must not be a
+     * permalink of this plugin, or the visitor would be sent round in a circle.
+     *
+     * The object's own core link by default; a type with a sub-item core can
+     * address overrides this, and falls back to this when it cannot build the
+     * exact target.
+     * @param int $ref_id
+     * @param int $secondary_id 0 for the object itself
+     * @return string
+     */
+    public function coreGotoUrl(int $ref_id, int $secondary_id): string
+    {
+        return \ilLink::_getStaticLink($ref_id, $this->obj_type);
+    }
+
+    /**
      * The command a permalink dispatches to on the type's own GUI class.
      * @return string
      */
@@ -165,10 +204,11 @@ class AbstractHandler
      */
     public function isContentScreen(string $screen_id): bool
     {
-        [, $scr] = array_pad(explode("/", $screen_id, 3), 2, "");
+        [$component, $scr] = array_pad(explode("/", $screen_id, 3), 2, "");
 
         if (
             in_array($scr, ["content", "view_content", "forums_threads"], true)
+            || ($component === "repository" && $scr !== "")
             || (bool) preg_match("/\/(\/(?!login|logout))/", $screen_id)
         ) {
             return true;

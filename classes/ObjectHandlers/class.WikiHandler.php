@@ -99,4 +99,27 @@ class WikiHandler extends AbstractHandler
         return ($component === "copgwpg" && !str_starts_with($scr, "edit"))
             || parent::isContentScreen($screen_id);
     }
+
+    /**
+     * Core's own page link, the one ilObjWikiGUI::getGotoLink() builds:
+     * goto.php?target=wiki_<ref_id>_<page title>. It is not the wpage_<id>_<ref>
+     * permalink the wiki page manager builds, because ilObjWikiGUI::_goto() cannot
+     * serve that one to a visitor without read access (it ends in a TypeError, an
+     * error page, instead of the info screen), and a visitor without read is
+     * exactly who gets here. With the title form core answers them with the
+     * wiki's info screen. The wiki root, and a page that no longer resolves,
+     * take the object's link.
+     * @param int $ref_id
+     * @param int $secondary_id
+     * @return string
+     */
+    public function coreGotoUrl(int $ref_id, int $secondary_id): string
+    {
+        $title = $secondary_id === 0 ? null : \ilWikiPage::lookupTitle($secondary_id);
+        if ($title === null || $title === "") {
+            return parent::coreGotoUrl($ref_id, $secondary_id);
+        }
+
+        return \ilObjWikiGUI::getGotoLink($ref_id, $title);
+    }
 }

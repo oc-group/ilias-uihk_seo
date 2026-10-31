@@ -29,14 +29,120 @@ class ilSeoLinkTargetResolver
     ];
 
     /**
+     * obj_type => the one non-empty command a listing row uses to open that
+     * type's default view on ILIAS 9 (the "default" entry of
+     * ilObj<Type>Access::_getCommands()). The command alone is ambiguous: a
+     * "render" opens a data collection but is the Edit action of a blog. An
+     * empty command opens any type's default view and needs no entry. A type
+     * missing here is rewritten only for an empty command.
+     * @var array<string,string>
+     */
+    private const LISTING_VIEW_CMD = [
+        "blog" => "preview",
+        "cat" => "render",
+        "dcl" => "render",
+        "fold" => "view",
+        "glo" => "view",
+        "htlm" => "view",
+        "lm" => "view",
+        "poll" => "preview",
+        "root" => "render",
+        "sahs" => "view",
+        "wiki" => "view",
+    ];
+
+    /**
+     * The only query keys a listing-row link may carry. Any other key (rtoken,
+     * item_ref_id, sort_by, a secondary-id key, ...) carries state or targets
+     * something finer than the default view, so the link is left alone.
+     * @var string[]
+     */
+    private const LISTING_QUERY_KEYS = ["baseclass", "cmdclass", "cmdnode", "ref_id", "cmd"];
+
+    /** @var string[] base classes under which a listing row opens a view */
+    private const LISTING_BASE_CLASSES = ["ilrepositorygui", "ilwikihandlergui"];
+
+    /**
      * Resolve a href to a SEO target, trying the goto scheme first, then an
-     * in-page ilCtrl link.
+     * in-page ilCtrl link carrying a secondary-id key, then a plain
+     * repository-listing row.
      * @param string $href
      * @return array{type: string, ref_id: int, secondary_id: int}|null
      */
     public static function resolveTarget(string $href): ?array
     {
-        return self::resolveGotoTarget($href) ?? self::resolveSecondaryIdTarget($href);
+        return self::resolveGotoTarget($href)
+            ?? self::resolveSecondaryIdTarget($href)
+            ?? self::resolveListingRowTarget($href);
+    }
+
+    /**
+     * Match a repository-listing row link: a same-site ilias.php link that
+     * opens one object's default view and nothing finer. All required:
+     *  - the path is ilias.php, on this host or relative, with no fragment;
+     *  - the base class, when present, is ilrepositorygui or
+     *    ilwikihandlergui;
+     *  - the query holds only baseClass, cmdClass, cmdNode, ref_id and cmd;
+     *  - ref_id is one positive integer;
+     *  - cmd is empty or the type's own default-view command in
+     *    LISTING_VIEW_CMD (case-insensitive).
+     * The secondary id is always 0: the row names the object itself.
+     * @param string $href
+     * @return array{type: string, ref_id: int, secondary_id: int}|null
+     */
+    public static function resolveListingRowTarget(string $href): ?array
+    {
+        $parts = parse_url($href);
+        if (
+            $parts === false
+            || isset($parts["fragment"])
+            || !isset($parts["query"])
+            || !self::isSameSiteHref($href)
+            || !self::isIliasEntryPointPath((string) ($parts["path"] ?? ""))
+        ) {
+            return null;
+        }
+
+        parse_str($parts["query"], $query);
+        foreach ($query as $key => $value) {
+            if (!is_string($value) || !in_array(strtolower((string) $key), self::LISTING_QUERY_KEYS, true)) {
+                return null;
+            }
+        }
+
+        $query = array_change_key_case($query);
+        if (!isset($query["ref_id"]) || !ctype_digit($query["ref_id"]) || (int) $query["ref_id"] < 1) {
+            return null;
+        }
+
+        if (isset($query["baseclass"]) && !in_array(strtolower($query["baseclass"]), self::LISTING_BASE_CLASSES, true)) {
+            return null;
+        }
+
+        $ref_id = (int) $query["ref_id"];
+        $type = (string) ilObject::_lookupType($ref_id, true);
+        $cmd = strtolower($query["cmd"] ?? "");
+        if ($cmd !== "" && $cmd !== (self::LISTING_VIEW_CMD[$type] ?? null)) {
+            return null;
+        }
+
+        return ["type" => $type, "ref_id" => $ref_id, "secondary_id" => 0];
+    }
+
+    /**
+     * Whether a URL path is this installation's ilias.php entry point,
+     * relative or under the configured base path.
+     * @param string $path
+     * @return bool
+     */
+    private static function isIliasEntryPointPath(string $path): bool
+    {
+        $base_path = defined("ILIAS_HTTP_PATH") ? (string) parse_url((string) ILIAS_HTTP_PATH, PHP_URL_PATH) : "";
+        if ($base_path !== "" && str_starts_with($path, $base_path)) {
+            $path = substr($path, strlen($base_path));
+        }
+
+        return preg_match('#^(?:\./|/)?ilias\.php$#', $path) === 1;
     }
 
     /**

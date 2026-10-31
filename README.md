@@ -188,7 +188,7 @@ message rather than seeing either screen's content.
 `Administration` -> `Extending ILIAS` -> `Plugins` -> `Seo` -> `Configure` -> **Configuration**
 tab. One screen, one form, two sections:
 
-- **Settings**: website title and sitemap submission to search engines. Saving this form is also
+- **Settings**: website title. Saving this form is also
   what regenerates the permalink rewrite files (see Web Server Requirements above).
 - **Language**: the active SEO languages, one default (master) plus any secondary ones, with
   a page count and translation percentage per language. Stored as JSON under the `seo_langs`
@@ -201,7 +201,7 @@ One cron job ships with the plugin; it is **inactive by default** and must be ac
 
 | Job | What it does |
 |---|---|
-| **Sitemap builder** | Writes `sitemap.xml` in the ILIAS root and adds the `Sitemap:` line to `robots.txt`. When no page is publishable it removes the file and the `robots.txt` line again. Optionally pings search engines (see Settings). |
+| **Sitemap builder** | Writes `sitemap.xml` in the ILIAS root and adds the `Sitemap:` line to `robots.txt`. When no page is publishable it removes the file and the `robots.txt` line again. |
 
 Without it no `sitemap.xml` is ever produced.
 

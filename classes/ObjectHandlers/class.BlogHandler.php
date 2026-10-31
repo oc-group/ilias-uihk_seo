@@ -135,4 +135,20 @@ class BlogHandler extends AbstractHandler
     {
         return [\ilBlogPostingGUI::class, "previewFullscreen"];
     }
+
+    /**
+     * Core's own posting permalink, handled by core's blog static-URL handler:
+     * blog/<ref_id>/<posting_id>.
+     * @param int $ref_id
+     * @param int $secondary_id
+     * @return string
+     */
+    public function coreGotoUrl(int $ref_id, int $secondary_id): string
+    {
+        if ($secondary_id === 0) {
+            return parent::coreGotoUrl($ref_id, $secondary_id);
+        }
+
+        return \ilLink::_getStaticLink($ref_id, "blog", true, (string) $secondary_id);
+    }
 }

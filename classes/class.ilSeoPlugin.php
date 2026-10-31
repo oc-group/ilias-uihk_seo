@@ -118,27 +118,55 @@ class ilSeoPlugin extends ilUserInterfaceHookPlugin implements ilCronJobProvider
     }
 
     /**
-     * Procedure that is called when uninstalling the plugin. Drops the tables
-     * this plugin owns.
+     * Procedure that is called when uninstalling the plugin. Removes everything
+     * the plugin created outside its own source tree: the rewrite rules, the
+     * settings, the cron job rows, the generated sitemap files and robots.txt
+     * line, and the tables.
+     *
+     * Every step is independent and logged: one failing never leaves the
+     * remaining ones undone, and an exception here would abort the uninstall
+     * with the plugin's own tables still in the database.
      * @return void
      */
     protected function afterUninstall(): void
     {
+        global $DIC;
+
         if (!$this->rules->remove()) {
-            // Reported, never thrown: an exception here would abort the
-            // uninstall with the plugin's own tables still in the database.
             $this->reportRulesNotRemoved();
         }
 
-        (new ilSetting(ilSeoSettings::MODULE))->deleteAll();
+        try {
+            (new ilSetting(ilSeoSettings::MODULE))->deleteAll();
+            $this->logger->info("Seo: uninstall removed the settings");
+        } catch (Throwable $e) {
+            $this->logger->error("Seo: uninstall could not remove the settings: {$e->getMessage()}");
+        }
 
-        $tables = [
-            self::TABLE_DATA,
-            self::TABLE_HISTORY,
-        ];
-        foreach ($tables as $table) {
-            if ($this->db->tableExists($table)) {
-                $this->db->dropTable($table);
+        try {
+            $DIC->cron()->repository()->unregisterJob($this->getPluginName(), []);
+            $this->logger->info("Seo: uninstall removed the cron job rows");
+        } catch (Throwable $e) {
+            $this->logger->error("Seo: uninstall could not remove the cron job rows: {$e->getMessage()}");
+        }
+
+        try {
+            $sitemap = new ilSeoSitemapBuilderCronJob($this);
+            $sitemap->removeSitemapFiles();
+            $sitemap->removeSitemapFromRobots();
+            $this->logger->info("Seo: uninstall removed the generated sitemap files and the robots.txt line");
+        } catch (Throwable $e) {
+            $this->logger->error("Seo: uninstall could not remove the generated sitemap files: {$e->getMessage()}");
+        }
+
+        foreach ([self::TABLE_DATA, self::TABLE_HISTORY] as $table) {
+            try {
+                if ($this->db->tableExists($table)) {
+                    $this->db->dropTable($table);
+                    $this->logger->info("Seo: uninstall dropped table {$table}");
+                }
+            } catch (Throwable $e) {
+                $this->logger->error("Seo: uninstall could not drop table {$table}: {$e->getMessage()}");
             }
         }
     }

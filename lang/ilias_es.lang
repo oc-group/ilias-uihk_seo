@@ -47,6 +47,10 @@ index_page#:#Indexar
 index_page_info#:#Indica si la página es visible para los motores de búsqueda (indexada). Si se activa, puede establecer los valores de frecuencia y prioridad, que forman parte únicamente del <b>mapa del sitio</b>.
 language#:#Idiomas
 mass_edit#:#Editar todo
+mass_edit_follow#:#Follow (seguir los enlaces)
+mass_edit_index#:#Index (permitir la indexación)
+mass_edit_nofollow#:#Nofollow (no seguir los enlaces)
+mass_edit_noindex#:#Noindex (bloquear la indexación)
 mass_edit_rows_skipped#:#%s página(s) seleccionada(s) ya no existían y se omitieron; el resto se actualizaron.
 mass_edit_unchanged#:#Dejar sin cambios
 mass_edit_unchanged_info#:#Déjelo vacío para mantener el valor actual de cada página seleccionada.
@@ -122,8 +126,6 @@ status_indexed#:#SEO: activo
 status_no_access#:#SEO: sin acceso público
 status_noindex#:#SEO: excluido del índice
 status_unsaved#:#SEO: metadatos no guardados
-submit_sitemap#:#Enviar mapa del sitio
-submit_sitemap_info#:#Envía un ping del mapa del sitio generado a Yandex (el único motor contactado, ya que la biblioteca del mapa del sitio no incluye ningún otro endpoint). Ese endpoint no está documentado y su efecto no se puede verificar, así que déjelo desactivado a menos que lo desee expresamente. Los motores de búsqueda encuentran el mapa del sitio a través de la línea "Sitemap:" que el plugin mantiene en robots.txt, lo cual funciona aunque esta opción esté desactivada.
 target_missing#:#Ya no está disponible en el repositorio. Sus datos SEO todavía se pueden editar o eliminar aquí.
 target_missing_label#:#Objeto del repositorio
 title#:#Título

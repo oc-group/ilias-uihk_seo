@@ -154,4 +154,23 @@ class LearningModuleHandler extends AbstractHandler
     {
         return $this->copageLastChanges($this->obj_type, $secondary_ids, $lang);
     }
+
+    /**
+     * Core's own page or chapter permalink, the shape the presentation's
+     * permanent link uses: pg/<page_id>_<ref_id> and st/<chapter_id>_<ref_id>.
+     * The addressed id can be either, so its type decides; anything else takes
+     * the object's link.
+     * @param int $ref_id
+     * @param int $secondary_id
+     * @return string
+     */
+    public function coreGotoUrl(int $ref_id, int $secondary_id): string
+    {
+        $type = $secondary_id === 0 ? "" : \ilLMObject::_lookupType($secondary_id);
+        if ($type !== "pg" && $type !== "st") {
+            return parent::coreGotoUrl($ref_id, $secondary_id);
+        }
+
+        return \ilLink::_getStaticLink(null, $type, true, $secondary_id . "_" . $ref_id);
+    }
 }

@@ -47,6 +47,10 @@ index_page#:#Indexer
 index_page_info#:#Indique si la page est visible pour les moteurs de recherche (indexée). Si activé, vous pouvez définir les valeurs de fréquence et de priorité, qui ne concernent que le <b>plan du site</b>.
 language#:#Langues
 mass_edit#:#Tout modifier
+mass_edit_follow#:#Follow (suivre les liens)
+mass_edit_index#:#Index (autoriser l'indexation)
+mass_edit_nofollow#:#Nofollow (ne pas suivre les liens)
+mass_edit_noindex#:#Noindex (bloquer l'indexation)
 mass_edit_rows_skipped#:#%s page(s) sélectionnée(s) n'existaient plus et ont été ignorées ; les autres ont été mises à jour.
 mass_edit_unchanged#:#Laisser inchangé
 mass_edit_unchanged_info#:#Laissez vide pour conserver la valeur actuelle de chaque page sélectionnée.
@@ -122,8 +126,6 @@ status_indexed#:#SEO : actif
 status_no_access#:#SEO : aucun accès public
 status_noindex#:#SEO : exclu de l'index
 status_unsaved#:#SEO : métadonnées non enregistrées
-submit_sitemap#:#Soumettre le plan du site
-submit_sitemap_info#:#Envoie un ping du plan du site généré à Yandex (le seul moteur contacté, car la bibliothèque de plan du site ne fournit aucun autre point d'accès). Ce point d'accès n'est pas documenté et son effet ne peut pas être vérifié ; laissez donc cette option désactivée sauf si vous le souhaitez expressément. Les moteurs de recherche trouvent le plan du site grâce à la ligne « Sitemap: » que le plugin maintient dans robots.txt, ce qui fonctionne même avec cette option désactivée.
 target_missing#:#N'est plus disponible dans le répertoire. Ses données SEO peuvent toujours être modifiées ou supprimées ici.
 target_missing_label#:#Objet du répertoire
 title#:#Titre

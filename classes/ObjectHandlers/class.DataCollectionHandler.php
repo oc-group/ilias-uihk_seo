@@ -233,4 +233,28 @@ class DataCollectionHandler extends AbstractHandler
         return $DIC->ctrl()->getCmdClass() === strtolower(\ilDclRecordListGUI::class)
             && $DIC->ctrl()->getCmd() === "listRecords";
     }
+
+    /**
+     * Core's own record link, the target ilObjDataCollectionGUI::_goto() reads:
+     * dcl_<ref_id>_<table_id>_<tableview_id>_<record_id>. The table and table
+     * view come from getPageParams(); a record that no longer resolves takes
+     * the object's link.
+     * @param int $ref_id
+     * @param int $secondary_id
+     * @return string
+     */
+    public function coreGotoUrl(int $ref_id, int $secondary_id): string
+    {
+        $params = $secondary_id === 0 ? [] : $this->getPageParams($secondary_id);
+        if (!isset($params["table_id"])) {
+            return parent::coreGotoUrl($ref_id, $secondary_id);
+        }
+
+        return \ilLink::_getStaticLink(
+            $ref_id,
+            "dcl",
+            true,
+            $params["table_id"] . "_" . ($params["tableview_id"] ?? 0) . "_" . $secondary_id
+        );
+    }
 }

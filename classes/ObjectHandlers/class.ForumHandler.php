@@ -110,4 +110,20 @@ class ForumHandler extends AbstractHandler
 
         return self::toDateMap($db, $res, "pos_thr_fk");
     }
+
+    /**
+     * Core's own thread link, the legacy target frm_<ref_id>_<thread_id> that
+     * ilObjForumGUI::_goto() reads.
+     * @param int $ref_id
+     * @param int $secondary_id
+     * @return string
+     */
+    public function coreGotoUrl(int $ref_id, int $secondary_id): string
+    {
+        if ($secondary_id === 0) {
+            return parent::coreGotoUrl($ref_id, $secondary_id);
+        }
+
+        return \ilLink::_getStaticLink($ref_id, "frm", true, (string) $secondary_id);
+    }
 }

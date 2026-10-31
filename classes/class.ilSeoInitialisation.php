@@ -245,14 +245,39 @@ class ilSeoInitialisation extends ilInitialisation
     }
 
     /**
+     * Whether the visitor is one go.php hands over to core's own goto: no
+     * access by the handler's rule, but the object is visible. Shared by
+     * enforceAccess() and ilSeoUIHookGUI::gotoHook(), so the two cannot
+     * disagree and send the visitor back and forth.
+     * @param \ilSeo\ObjectHandlers\AbstractHandler $handler
+     * @param int $ref_id
+     * @param int $secondary_id
+     * @return bool
+     */
+    public static function isHandedToCore(
+        \ilSeo\ObjectHandlers\AbstractHandler $handler,
+        int $ref_id,
+        int $secondary_id
+    ): bool {
+        global $DIC;
+
+        return !$handler->isAccessGranted($ref_id, $secondary_id)
+            && (bool) $DIC->access()->checkAccess("visible", "", $ref_id);
+    }
+
+    /**
      * Gate a resolved permalink on the visitor's access, before the core dispatch.
      *
      * Access granted by the handler: nothing happens. Otherwise a visitor who
-     * can still see the object (visible) is dispatched as before, because core
-     * answers that case itself. With neither, a logged-in user gets the 403
-     * page, and an anonymous visitor is sent to the login with the target
-     * preserved, the way core's goto does it (a 403 would leave no way to log
-     * in and come back).
+     * can still see the object (visible), logged in or anonymous, is redirected
+     * (302) to core's own permalink for the same target (the handler's
+     * coreGotoUrl()), so that ILIAS applies its standard behaviour for the type
+     * and version. With neither, a logged-in user gets the 403 page, and an
+     * anonymous visitor is sent to the login with the target preserved, the way
+     * core's goto does it (a 403 would leave no way to log in and come back).
+     * ilSeoUIHookGUI::gotoHook() leaves the visible-only case alone for the
+     * same reason (see isHandedToCore()); otherwise core's goto would send the
+     * visitor straight back to the permalink.
      * @param \ilSeo\ObjectHandlers\AbstractHandler $handler
      * @param string $type object type of the permalink
      * @param int $ref_id
@@ -276,8 +301,13 @@ class ilSeoInitialisation extends ilInitialisation
         }
 
         if ($DIC->access()->checkAccess("visible", "", $ref_id)) {
-            $logger->debug("Seo: permalink without read but visible, left to core, user {$user_id}, ref_id {$ref_id}");
-            return;
+            $core_url = $handler->coreGotoUrl($ref_id, $secondary_id);
+            $logger->info(
+                "Seo: permalink without read but visible, handed to core goto, user {$user_id}, "
+                . "ref_id {$ref_id}, secondary_id {$secondary_id}, target {$core_url}"
+            );
+            $DIC->ctrl()->redirectToURL($core_url);
+            exit;
         }
 
         if (!$DIC->user()->isAnonymous() && $user_id !== ANONYMOUS_USER_ID) {

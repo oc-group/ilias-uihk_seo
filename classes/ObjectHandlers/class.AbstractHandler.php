@@ -118,6 +118,27 @@ class AbstractHandler
     }
 
     /**
+     * The URL of core's own permalink for what this ref_id and secondary_id
+     * address, which go.php hands a visitor over to when that visitor cannot
+     * be served the plugin's view (no read, but visible): core's goto then
+     * applies its own rule for the type (info screen, join form, login, error).
+     * Built with core's static-link API, so the shape is whatever the running
+     * version produces. It is a core URL on purpose: it must not be a
+     * permalink of this plugin, or the visitor would be sent round in a circle.
+     *
+     * The object's own core link by default; a type with a sub-item core can
+     * address overrides this, and falls back to this when it cannot build the
+     * exact target.
+     * @param int $ref_id
+     * @param int $secondary_id 0 for the object itself
+     * @return string
+     */
+    public function coreGotoUrl(int $ref_id, int $secondary_id): string
+    {
+        return \ilLink::_getStaticLink($ref_id, $this->obj_type);
+    }
+
+    /**
      * The command a permalink dispatches to on the type's own GUI class.
      * @return string
      */

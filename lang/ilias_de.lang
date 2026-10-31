@@ -47,6 +47,10 @@ index_page#:#Indexieren
 index_page_info#:#Gibt an, ob die Seite für Suchmaschinen sichtbar ist (indexiert). Wenn aktiviert, können Sie die Werte für Häufigkeit und Priorität festlegen, die ausschließlich Teil der <b>Sitemap</b> sind.
 language#:#Sprachen
 mass_edit#:#Alle bearbeiten
+mass_edit_follow#:#Links folgen
+mass_edit_index#:#Indexieren
+mass_edit_nofollow#:#Links nicht folgen
+mass_edit_noindex#:#Nicht indexieren
 mass_edit_rows_skipped#:#%s ausgewählte Seite(n) existierten nicht mehr und wurden übersprungen; die übrigen wurden aktualisiert.
 mass_edit_unchanged#:#Unverändert lassen
 mass_edit_unchanged_info#:#Leer lassen, um den aktuellen Wert jeder ausgewählten Seite beizubehalten.
@@ -128,8 +132,6 @@ status_indexed#:#SEO: aktiv
 status_no_access#:#SEO: kein öffentlicher Zugriff
 status_noindex#:#SEO: von der Indexierung ausgeschlossen
 status_unsaved#:#SEO: Metadaten nicht gespeichert
-submit_sitemap#:#Sitemap übermitteln
-submit_sitemap_info#:#Sendet einen Ping der erzeugten Sitemap an Yandex (die einzige kontaktierte Suchmaschine, da die Sitemap-Bibliothek keinen anderen Endpunkt bereitstellt). Dieser Endpunkt ist nicht dokumentiert, und seine Wirkung lässt sich nicht überprüfen; lassen Sie dies daher deaktiviert, sofern Sie es nicht ausdrücklich wünschen. Suchmaschinen finden die Sitemap über die vom Plugin gepflegte "Sitemap:"-Zeile in robots.txt, was auch bei deaktivierter Einstellung funktioniert.
 target_missing#:#Im Repository nicht mehr verfügbar. Die SEO-Daten können hier weiterhin bearbeitet oder gelöscht werden.
 target_missing_label#:#Repository-Objekt
 title#:#Titel

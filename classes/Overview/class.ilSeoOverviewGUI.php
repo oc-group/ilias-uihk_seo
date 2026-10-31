@@ -142,8 +142,8 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
         // with cmd=configure, and ilCtrl carries that command through the
         // forward into this screen, which has no command by that name. The
         // entry command cannot be rewritten before the forward either:
-        // ilCtrl::setCmd() exists on ILIAS 9 but was removed from the public
-        // interface on 10, so it is normalised here, where both majors agree.
+        // ilCtrl::setCmd() was removed from the public interface in ILIAS 10,
+        // so the command is normalised here instead.
         if ($cmd === ilSeoConfigGUI::CMD_CONFIGURE) {
             $cmd = self::CMD_SHOW;
         }
@@ -220,14 +220,9 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
 
         $filter_action = $this->ctrl->getLinkTarget($this, self::CMD_SHOW);
         /**
-         * ilUIFilterService.php's own docblock imports
-         * `ILIAS\UI\Component\Input\Field\FilterInput`, which does not exist
-         * anywhere in ILIAS 9 core; the real interface is
-         * `ILIAS\UI\Component\Input\Container\Filter\FilterInput` (implemented
-         * by `Select` and every other filterable field). A core `use`-import
-         * typo, not a real type mismatch: buildPagesFilterInputs() returns
-         * `Select` instances, which do implement the real (Container\Filter)
-         * FilterInput.
+         * buildPagesFilterInputs() returns `Select` instances, which implement
+         * `ILIAS\UI\Component\Input\Container\Filter\FilterInput`, the type
+         * ilUIFilterService::standard() takes in ILIAS 11.
          * @psalm-suppress InvalidArgument
          */
         $ks_filter = $this->ui_service->filter()->standard(
@@ -611,6 +606,23 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
     }
 
     /**
+     * Option value => translated label for a mass-edit select. The posted value
+     * stays the directive keyword the validation compares against; only the
+     * label is translated.
+     * @param string[] $options
+     * @return array<string,string>
+     */
+    protected function massEditOptionLabels(array $options): array
+    {
+        $labels = [];
+        foreach ($options as $option) {
+            $labels[$option] = $this->plugin->txt("mass_edit_" . $option);
+        }
+
+        return $labels;
+    }
+
+    /**
      * Initialize mass edit form for selected pages.
      * @param string[] $ids
      * @return ilPropertyFormGUI
@@ -624,13 +636,13 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
 
         $index = new ilSelectInputGUI($this->plugin->txt("index"), "index");
         $index->setOptions($this->withUnchangedOption(
-            array_combine(self::MASS_EDIT_INDEX_OPTIONS, self::MASS_EDIT_INDEX_OPTIONS)
+            $this->massEditOptionLabels(self::MASS_EDIT_INDEX_OPTIONS)
         ));
         $form->addItem($index);
 
         $follow = new ilSelectInputGUI($this->plugin->txt("follow"), "follow");
         $follow->setOptions($this->withUnchangedOption(
-            array_combine(self::MASS_EDIT_FOLLOW_OPTIONS, self::MASS_EDIT_FOLLOW_OPTIONS)
+            $this->massEditOptionLabels(self::MASS_EDIT_FOLLOW_OPTIONS)
         ));
         $form->addItem($follow);
 
@@ -714,9 +726,11 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
         // what withRequest() validates against is what the admin was shown.
         $this->primeRowParameters($seo_ref_id, $secondary_id, $lang);
 
+        $existing = $this->seo->fetchById($seo_ref_id, $secondary_id, $lang);
+
         $form = $this->factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, self::CMD_PAGE_UPDATE),
-            $this->editor->inputsForRow($this->seo->fetchById($seo_ref_id, $secondary_id, $lang))
+            $this->editor->inputsForRow($existing)
         )->withRequest($request);
 
         $data = $form->getData();
@@ -733,8 +747,9 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
         }
 
         // An empty permalink is now a legitimate decode() result, resolved
-        // below rather than by any rule inside the field or the form itself.
-        $values = $this->editor->decode($data);
+        // below rather than by any rule inside the field or the form itself;
+        // $existing lets decode() keep priority/frequency when the group is off.
+        $values = $this->editor->decode($data, $existing);
 
         if (ilSeoPermalink::isReserved($values["permalink"])) {
             $this->tpl->setOnScreenMessage("failure", $this->plugin->txt("permalink_reserved"), true);

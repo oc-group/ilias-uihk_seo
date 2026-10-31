@@ -33,9 +33,6 @@ class ilSeoSitemapBuilderCronJob extends CronJob
     /** @var string */
     public const ROBOTS_FILE_NAME = "robots.txt";
 
-    /** @var string */
-    private const PING_UNCONFIRMED_NOTE = "The search engine ping was not confirmed; the sitemap itself is published. Check logs for details.";
-
     /** @var ilSeoPlugin */
     protected ilSeoPlugin $plugin;
 
@@ -144,7 +141,6 @@ class ilSeoSitemapBuilderCronJob extends CronJob
 
         $this->db = $DIC->database();
         $this->seo = new ilSeo();
-        $settings = new ilSeoSettings();
 
         $pages = $this->fetchPublishablePages();
         $this->logRunSummary($pages);
@@ -165,11 +161,7 @@ class ilSeoSitemapBuilderCronJob extends CronJob
         }
 
         $pages_count = count($pages);
-        if (!$settings->isSubmitSitemap()) {
-            return $this->result(JobResult::STATUS_OK, "Sitemap successfully generated with {$pages_count} urls.");
-        }
-
-        return $this->submitSitemap($generator, $pages_count);
+        return $this->result(JobResult::STATUS_OK, "Sitemap successfully generated with {$pages_count} urls.");
     }
 
     /**
@@ -365,89 +357,61 @@ class ilSeoSitemapBuilderCronJob extends CronJob
     }
 
     /**
-     * Ping the finalized sitemap to the endpoint the generator knows about,
-     * then report the run as the success it already is. The file is written
-     * before this method is reached, so no outcome here can fail the job:
-     * whether a third-party endpoint acknowledges a ping says nothing about the
-     * work performed, and engines discover the sitemap from robots.txt anyway.
-     * @param \Icamys\SitemapGenerator\SitemapGenerator $generator
-     * @param int $pages_count
-     * @return JobResult
-     */
-    protected function submitSitemap(\Icamys\SitemapGenerator\SitemapGenerator $generator, int $pages_count): JobResult
-    {
-        $message = "Sitemap successfully generated with {$pages_count} urls.";
-
-        try {
-            // Accepted limitation: the generator sets only
-            // CURLOPT_RETURNTRANSFER, so a stuck endpoint stalls this cron run.
-            $submission_results = $generator->submitSitemap();
-        } catch (Throwable $e) {
-            $this->plugin->logger->notice("Sitemap ping could not be sent: " . $e->getMessage());
-            return $this->result(JobResult::STATUS_OK, $message . " " . self::PING_UNCONFIRMED_NOTE);
-        }
-
-        if (!$this->isSubmissionConfirmed($submission_results)) {
-            return $this->result(JobResult::STATUS_OK, $message . " " . self::PING_UNCONFIRMED_NOTE);
-        }
-
-        return $this->result(JobResult::STATUS_OK, $message);
-    }
-
-    /**
-     * Record what each endpoint answered and report whether every one of them
-     * acknowledged. An empty result set, or a code outside 2xx, is a notice
-     * rather than an error: the ping is a side effect on an endpoint nobody
-     * here controls, so its refusal is not a plugin failure. The codes are
-     * logged either way, so an admin chasing an indexing problem has the trace.
-     * @param array<int, array<string, mixed>> $submission_results
-     * @return bool
-     */
-    protected function isSubmissionConfirmed(array $submission_results): bool
-    {
-        if ($submission_results === []) {
-            $this->plugin->logger->notice("Sitemap ping: the generator contacted no endpoint at all.");
-            return false;
-        }
-
-        $confirmed = true;
-
-        foreach ($submission_results as $submission_result) {
-            $endpoint = (string) ($submission_result["fullsite"] ?? $submission_result["site"] ?? "unknown endpoint");
-            $http_code = (int) ($submission_result["http_code"] ?? 0);
-
-            if ($http_code >= 200 && $http_code < 300) {
-                $this->plugin->logger->info("Sitemap ping accepted by {$endpoint} with HTTP {$http_code}.");
-                continue;
-            }
-
-            $this->plugin->logger->notice("Sitemap ping not confirmed by {$endpoint}, HTTP {$http_code}.");
-            $confirmed = false;
-        }
-
-        return $confirmed;
-    }
-
-    /**
      * Remove the generated sitemap and stop announcing it in robots.txt. Having
      * no publishable page is a legitimate configuration, not a failure.
      * @return JobResult
      */
     protected function deleteSitemap(): JobResult
     {
-        // Removed, not emptied: a zero-byte file at the well-known URL is
-        // invalid XML.
-        $sitemap_path = self::storageDir() . "/" . self::SITEMAP_FILE_NAME;
-        if (is_file($sitemap_path) && !unlink($sitemap_path)) {
-            $this->plugin->logger->error("Cannot remove {$sitemap_path}.");
-        }
-
-        $this->removeSitemapFromRobots();
+        $this->removeGeneratedFiles();
 
         return $this->result(
             JobResult::STATUS_NO_ACTION,
             "No sitemap written: there are no public web pages."
         );
+    }
+
+    /**
+     * Every sitemap file the generator may have written: the single file, the
+     * numbered parts (sitemap1.xml, sitemap2.xml, ...) a run above the
+     * per-file URL limit produces, and the index that lists them.
+     * @return string[] absolute paths of the files that exist
+     */
+    public static function existingSitemapFiles(): array
+    {
+        $dir = self::storageDir();
+        $files = [];
+        foreach (glob($dir . "/sitemap*.xml") ?: [] as $path) {
+            $name = basename($path);
+            if (
+                $name === self::SITEMAP_FILE_NAME
+                || $name === self::SITEMAP_INDEX_FILE_NAME
+                || preg_match('/^sitemap\d+\.xml$/', $name) === 1
+            ) {
+                $files[] = $path;
+            }
+        }
+
+        return $files;
+    }
+
+    /**
+     * Remove every generated sitemap file and stop announcing the sitemap in
+     * robots.txt. Used when no page is publishable any more and on uninstall.
+     * The files are removed, not emptied: a zero-byte file at the well-known
+     * URL is invalid XML. A file that cannot be removed is logged and does not
+     * stop the others or the robots.txt cleanup.
+     * @return void
+     */
+    public function removeGeneratedFiles(): void
+    {
+        foreach (self::existingSitemapFiles() as $path) {
+            if (!unlink($path)) {
+                $this->plugin->logger->error("Cannot remove {$path}.");
+            }
+        }
+
+        $this->removeSitemapFromRobots();
     }
 
     /**

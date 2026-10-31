@@ -93,21 +93,31 @@ class ilSeoMetadataEditor
      * back to the hardcoded defaults only when nothing is stored yet.
      * @param array<int|string,mixed> $data as returned by getData() on the form
      *     or the modal
+     * @param array<string,mixed>|null $existing_seo_data stored row, null when
+     *     the target has none yet, used only as the priority/frequency fallback
+     *     while the index group is off
      * @return array{permalink: string, title: string, description: string, robots: string, priority: int, frequency: string}
      */
-    public function decode(array $data): array
+    public function decode(array $data, ?array $existing_seo_data): array
     {
         // null: index group switched off; otherwise [frequency, priority].
         $index = $data[3] ?? null;
         $follow = (bool) ($data[4] ?? false);
+
+        $priority = $index !== null
+            ? (int) ($index[1] ?? ilSeoPriority::DEFAULT_VALUE)
+            : (int) ($existing_seo_data["priority"] ?? ilSeoPriority::DEFAULT_VALUE);
+        $frequency = $index !== null
+            ? (string) ($index[0] ?? "")
+            : (string) ($existing_seo_data["frequency"] ?? "");
 
         return [
             "permalink" => trim((string) ($data[0] ?? "")),
             "title" => trim((string) ($data[1] ?? "")),
             "description" => trim((string) ($data[2] ?? "")),
             "robots" => ($index === null ? "noindex" : "index") . "," . ($follow ? "follow" : "nofollow"),
-            "priority" => ilSeoPriority::normalize((int) ($index[1] ?? ilSeoPriority::DEFAULT_VALUE)),
-            "frequency" => ilSeoFrequency::normalize((string) ($index[0] ?? "")),
+            "priority" => ilSeoPriority::normalize($priority),
+            "frequency" => ilSeoFrequency::normalize($frequency),
         ];
     }
 

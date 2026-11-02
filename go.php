@@ -108,7 +108,7 @@ if ($static_file !== null) {
 // the rewrite (e.g. /Customizing/x/file.min.js): answer 404 at once instead of first
 // 301-redirecting it to the same path with a trailing slash.
 if (str_contains($page, ".")) {
-    ilSeoInitialisation::bootIlias($ilias_root);
+    ilInitialisation::initILIAS();
     ilSeoInitialisation::respondNotFound();
     exit;
 }

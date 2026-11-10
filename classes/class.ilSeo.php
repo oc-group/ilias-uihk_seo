@@ -595,6 +595,9 @@ class ilSeo
             $this->plugin->txt("page_{$not}public")
         );
 
+        // cont_public_access belongs to the content module, not loaded in plugin configuration context.
+        $this->lng->loadLanguageModule("content");
+
         return [
             $this->plugin->txt("metadata") => $enabled_icon,
             $this->lng->txt("cont_public_access") => $public_icon,

@@ -24,7 +24,7 @@ err_no_permission#:#Lo sentimos, no tiene permiso para acceder a esta página.
 err_not_found#:#Lo sentimos, no se ha encontrado la página que busca.
 err_redirection#:#No se han podido escribir las reglas de redirección en el archivo .htaccess de ILIAS. Los permalinks no funcionarán hasta que se solucione esto. Compruebe que el archivo existe y que el servidor web tiene permisos de escritura sobre él.
 field_required#:#Este campo es obligatorio.
-follow#:#Follow
+follow#:#Seguir
 follow_links#:#Seguir
 follow_links_info#:#Indica si los motores de búsqueda deben seguir los enlaces de esta página.
 frequency#:#Frecuencia
@@ -42,15 +42,15 @@ homepage_confirm_expired#:#No hay nada pendiente de confirmar para esta página.
 homepage_confirm_message#:#¿Usar "%s" como página de inicio de su sitio, servida en la dirección raíz (por ejemplo, example.com/) en lugar de un permalink? Solo una página puede ser la página de inicio a la vez.
 homepage_confirm_title#:#Usar como página de inicio
 homepage_pending_notice#:#Estos valores no están guardados. Dejó sin confirmar un cambio de página de inicio; guarde de nuevo para volver a la confirmación, o introduzca un permalink para descartarlo.
-index#:#Index
+index#:#Indexar
 index_page#:#Indexar
 index_page_info#:#Indica si la página es visible para los motores de búsqueda (indexada). Si se activa, puede establecer los valores de frecuencia y prioridad, que forman parte únicamente del <b>mapa del sitio</b>.
-language#:#Idiomas
+language#:#Idioma
 mass_edit#:#Editar todo
-mass_edit_follow#:#Follow (seguir los enlaces)
-mass_edit_index#:#Index (permitir la indexación)
-mass_edit_nofollow#:#Nofollow (no seguir los enlaces)
-mass_edit_noindex#:#Noindex (bloquear la indexación)
+mass_edit_follow#:#Seguir enlaces
+mass_edit_index#:#Indexar
+mass_edit_nofollow#:#No seguir enlaces
+mass_edit_noindex#:#No indexar
 mass_edit_rows_skipped#:#%s página(s) seleccionada(s) ya no existían y se omitieron; el resto se actualizaron.
 mass_edit_unchanged#:#Dejar sin cambios
 mass_edit_unchanged_info#:#Déjelo vacío para mantener el valor actual de cada página seleccionada.
@@ -97,11 +97,11 @@ robots_index_follow#:#Index, Follow
 robots_index_nofollow#:#Index, Nofollow
 robots_noindex_follow#:#Noindex, Follow
 robots_noindex_nofollow#:#Noindex, Nofollow
-screen_config_desc#:#La configuración SEO de la instalación: el título del sitio web, el envío del mapa del sitio, y para qué idiomas se publican los metadatos SEO.
+screen_config_desc#:#La configuración SEO de la instalación: el título del sitio web, para qué idiomas se publican los metadatos SEO y la configuración del enrutamiento de los enlaces permanentes.
 screen_config_title#:#Configuración SEO
 screen_overview_desc#:#Todas las páginas que conoce el plugin, con el permalink, los metadatos y las directivas para motores de búsqueda guardados para cada una.
 screen_overview_title#:#Resumen SEO
-section_languages#:#Idioma
+section_languages#:#Idiomas
 section_languages_info#:#Para cuáles de los idiomas instalados publica el plugin metadatos SEO. Marque un idioma para activarlo; la nota bajo cada uno cuenta las páginas que ya tienen metadatos en ese idioma.
 section_settings#:#Configuración
 seo#:#SEO

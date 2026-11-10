@@ -24,7 +24,7 @@ err_no_permission#:#Entschuldigung, Sie haben keinen Zugriff auf diese Seite.
 err_not_found#:#Entschuldigung, die gesuchte Seite konnte nicht gefunden werden.
 err_redirection#:#Die Weiterleitungsregeln konnten nicht in die .htaccess-Datei von ILIAS geschrieben werden. Permalinks funktionieren erst, wenn dies behoben ist. Prüfen Sie, ob die Datei existiert und vom Webserver beschreibbar ist.
 field_required#:#Dieses Feld ist ein Pflichtfeld.
-follow#:#Follow
+follow#:#Folgen
 follow_links#:#Folgen
 follow_links_info#:#Gibt an, ob Suchmaschinen den Links auf dieser Seite folgen sollen.
 frequency#:#Häufigkeit
@@ -42,15 +42,15 @@ homepage_confirm_expired#:#Für diese Seite wartet nichts auf Bestätigung. Wenn
 homepage_confirm_message#:#"%s" als Startseite Ihrer Website verwenden, ausgeliefert unter der Root-Adresse (z. B. example.com/) statt unter einem Permalink? Es kann jeweils nur eine Seite die Startseite sein.
 homepage_confirm_title#:#Als Startseite verwenden
 homepage_pending_notice#:#Diese Werte werden nicht gespeichert. Sie haben eine Änderung an der Startseite unbestätigt gelassen; speichern Sie erneut, um zur Bestätigung zurückzukehren, oder geben Sie einen Permalink ein, um sie zu verwerfen.
-index#:#Index
+index#:#Indexieren
 index_page#:#Indexieren
 index_page_info#:#Gibt an, ob die Seite für Suchmaschinen sichtbar ist (indexiert). Wenn aktiviert, können Sie die Werte für Häufigkeit und Priorität festlegen, die ausschließlich Teil der <b>Sitemap</b> sind.
-language#:#Sprachen
+language#:#Sprache
 mass_edit#:#Alle bearbeiten
-mass_edit_follow#:#Follow (Links folgen)
-mass_edit_index#:#Index (Indexierung erlauben)
-mass_edit_nofollow#:#Nofollow (Links nicht folgen)
-mass_edit_noindex#:#Noindex (Indexierung sperren)
+mass_edit_follow#:#Links folgen
+mass_edit_index#:#Indexieren
+mass_edit_nofollow#:#Links nicht folgen
+mass_edit_noindex#:#Nicht indexieren
 mass_edit_rows_skipped#:#%s ausgewählte Seite(n) existierten nicht mehr und wurden übersprungen; die übrigen wurden aktualisiert.
 mass_edit_unchanged#:#Unverändert lassen
 mass_edit_unchanged_info#:#Leer lassen, um den aktuellen Wert jeder ausgewählten Seite beizubehalten.
@@ -97,11 +97,11 @@ robots_index_follow#:#Index, Follow
 robots_index_nofollow#:#Index, Nofollow
 robots_noindex_follow#:#Noindex, Follow
 robots_noindex_nofollow#:#Noindex, Nofollow
-screen_config_desc#:#Die SEO-Einstellungen der Installation: der Website-Titel, die Sitemap-Übermittlung und für welche Sprachen SEO-Metadaten veröffentlicht werden.
+screen_config_desc#:#Die SEO-Einstellungen der Installation: der Website-Titel, für welche Sprachen SEO-Metadaten veröffentlicht werden und die Konfiguration des Permalink-Routings.
 screen_config_title#:#SEO-Konfiguration
 screen_overview_desc#:#Alle dem Plugin bekannten Seiten, mit dem für sie gespeicherten Permalink, den Metadaten und den Suchmaschinen-Direktiven.
 screen_overview_title#:#SEO-Übersicht
-section_languages#:#Sprache
+section_languages#:#Sprachen
 section_languages_info#:#Für welche der installierten Sprachen das Plugin SEO-Metadaten veröffentlicht. Aktivieren Sie eine Sprache, um sie einzuschalten; der Hinweis unter jeder Sprache zählt die Seiten, die bereits Metadaten in dieser Sprache haben.
 section_settings#:#Einstellungen
 seo#:#SEO

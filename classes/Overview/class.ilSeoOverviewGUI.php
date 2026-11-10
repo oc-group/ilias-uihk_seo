@@ -250,7 +250,7 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
             $ids = $this->retrieveRowIds($bulk_row_token->getName());
 
             if (count($ids) === 0) {
-                $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox_selected"), true);
+                $this->tpl->setOnScreenMessage("failure", $this->lng->txt("select_at_least_one_object"), true);
                 $this->ctrl->redirect($this, self::CMD_SHOW);
             }
 
@@ -386,7 +386,7 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
         $ids = $this->retrieveCommaJoinedIds();
 
         if (count($ids) === 0) {
-            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox_selected"), true);
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("select_at_least_one_object"), true);
             $this->ctrl->redirect($this, self::CMD_SHOW);
         }
 
@@ -404,7 +404,7 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
         $ids = $this->retrieveCommaJoinedIds();
 
         if (count($ids) === 0) {
-            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox_selected"), true);
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("select_at_least_one_object"), true);
             $this->ctrl->redirect($this, self::CMD_SHOW);
         }
 
@@ -437,7 +437,7 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
             : [];
 
         if (count($ids) === 0) {
-            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox_selected"), true);
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("select_at_least_one_object"), true);
             $this->ctrl->redirect($this, self::CMD_SHOW);
         }
 
@@ -974,7 +974,7 @@ class ilSeoOverviewGUI implements ilCtrlSecurityInterface
         if (count($ids) === 0) {
             $this->tpl->setOnScreenMessage(
                 "failure",
-                $this->lng->txt("no_checkbox_selected"),
+                $this->lng->txt("select_at_least_one_object"),
                 true
             );
             $this->ctrl->redirect($this, self::CMD_SHOW);

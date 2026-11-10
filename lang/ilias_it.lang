@@ -17,14 +17,14 @@ duplicate_metadata#:#Metadati duplicati
 duplicate_metadata_both#:#Titolo e descrizione duplicati
 duplicate_metadata_description#:#Descrizione duplicata
 duplicate_metadata_title#:#Titolo duplicato
-enabled#:#Matadati SEO attivi.
+enabled#:#Metadati SEO attivi.
 err_gone#:#Spiacente, questa pagina non è più disponibile.
 err_internal#:#Si è verificato un errore inatteso.
 err_no_permission#:#Spiacente, non puoi accedere a questo contenuto.
 err_not_found#:#Spiacente, la pagina che cerchi non è stata trovata.
 err_redirection#:#Non è stato possibile scrivere le regole di reindirizzamento nel file .htaccess di ILIAS. I permalink non funzioneranno finché il problema non sarà risolto. Verifica che il file esista e sia scrivibile dal web server.
 field_required#:#Questo campo è obbligatorio.
-follow#:#Follow
+follow#:#Segui
 follow_links#:#Segui
 follow_links_info#:#Indica se i motori di ricerca dovrebbero seguire i link presenti sulla pagina.
 frequency#:#Frequenza
@@ -42,11 +42,11 @@ homepage_confirm_expired#:#Non c'è nulla in attesa di conferma per questa pagin
 homepage_confirm_message#:#Usare "%s" come homepage del sito, pubblicata all'indirizzo radice (ad es. example.com/) invece che su un permalink? Solo una pagina alla volta può essere la homepage.
 homepage_confirm_title#:#Usa come homepage
 homepage_pending_notice#:#Questi valori non sono salvati. Hai lasciato senza risposta una modifica per impostare questa pagina come homepage; salva di nuovo per tornare alla conferma, oppure inserisci un permalink per annullarla.
-index#:#Index
+index#:#Indicizza
 index_page#:#Indicizza
 index_page_info#:#Indica se la pagina è visibile ai motori di ricerca (indicizzata). Se abilitata, puoi scegliere di impostare i valori di frequenza e priorità, che fanno parte solo della <b>sitemap</b>.
-language#:#Lingue
-mass_edit#:#Modificare massive
+language#:#Lingua
+mass_edit#:#Modifica in blocco
 mass_edit_rows_skipped#:#%s pagina(e) selezionata(e) sono state saltate perché non esistono più; le altre sono state aggiornate.
 mass_edit_unchanged#:#Lascia invariato
 mass_edit_unchanged_info#:#Lascia vuoto per mantenere il valore attuale di ogni pagina selezionata.
@@ -55,9 +55,9 @@ metadata_deleted#:#Dati SEO eliminati in %s.
 metadata_not_saved#:#Non è stato possibile salvare i metadati SEO.
 metadata_not_saved_invalid#:#Non è stato possibile salvare i metadati SEO. %s
 metadata_saved#:#Metadati SEO salvati.
-nofollow#:#Nofollow
-noindex#:#Noindex
-not_enabled#:#Matadati SEO non ancora attivi.
+nofollow#:#Non seguire
+noindex#:#Non indicizzare
+not_enabled#:#Metadati SEO non ancora attivi.
 page_not_public#:#Questa pagina non è accessibile senza login.
 page_public#:#Questa pagina è accessibile senza login.
 permalink#:#Permalink
@@ -81,7 +81,7 @@ robots_index_follow#:#Index, Follow
 robots_index_nofollow#:#Index, Nofollow
 robots_noindex_follow#:#Noindex, Follow
 robots_noindex_nofollow#:#Noindex, Nofollow
-screen_config_desc#:#Le impostazioni SEO dell'installazione: il titolo del sito, la pubblicazione della sitemap e le lingue per cui vengono pubblicati i metadati SEO.
+screen_config_desc#:#Le impostazioni SEO dell'installazione: il titolo del sito e le lingue per cui vengono pubblicati i metadati SEO.
 screen_config_title#:#Configurazione SEO
 screen_overview_desc#:#Tutte le pagine note al plugin, con il permalink, i metadati e le direttive per i motori di ricerca salvati per ciascuna.
 screen_overview_title#:#Panoramica SEO

@@ -45,7 +45,7 @@ homepage_pending_notice#:#These values are not saved. You left a homepage change
 index#:#Index
 index_page#:#Index
 index_page_info#:#Indicates whether the page is visible to search engines (indexed). If enabled, you can choose to set the frequency and priority values, which are part of the <b>sitemap</b> only.
-language#:#Languages
+language#:#Language
 mass_edit#:#Edit All
 mass_edit_rows_skipped#:#%s selected page(s) no longer existed and were skipped; the rest were updated.
 mass_edit_unchanged#:#Leave unchanged
@@ -81,11 +81,11 @@ robots_index_follow#:#Index, Follow
 robots_index_nofollow#:#Index, Nofollow
 robots_noindex_follow#:#Noindex, Follow
 robots_noindex_nofollow#:#Noindex, Nofollow
-screen_config_desc#:#The installation's SEO settings: the website title, sitemap submission, and which languages SEO metadata is published for.
+screen_config_desc#:#The installation's SEO settings: the website title and which languages SEO metadata is published for.
 screen_config_title#:#SEO Configuration
 screen_overview_desc#:#Every page the plugin knows about, with the permalink, metadata and search-engine directives saved for it.
 screen_overview_title#:#SEO Overview
-section_languages#:#Language
+section_languages#:#Languages
 section_languages_info#:#Which of the installed languages the plugin publishes SEO metadata for. Tick a language to activate it; the note under each one counts the pages that already carry metadata in it.
 section_settings#:#Settings
 seo#:#SEO

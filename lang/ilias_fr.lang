@@ -24,7 +24,7 @@ err_no_permission#:#Désolé, vous n'êtes pas autorisé à accéder à cette pa
 err_not_found#:#Désolé, la page que vous recherchez est introuvable.
 err_redirection#:#Les règles de redirection n'ont pas pu être écrites dans le fichier .htaccess d'ILIAS. Les permaliens ne fonctionneront pas tant que ce problème n'est pas résolu. Vérifiez que le fichier existe et qu'il est modifiable par le serveur web.
 field_required#:#Ce champ est obligatoire.
-follow#:#Follow
+follow#:#Suivre
 follow_links#:#Suivre
 follow_links_info#:#Indique si les moteurs de recherche doivent suivre les liens présents sur cette page.
 frequency#:#Fréquence
@@ -42,10 +42,10 @@ homepage_confirm_expired#:#Rien n'est en attente de confirmation pour cette page
 homepage_confirm_message#:#Utiliser « %s » comme page d'accueil de votre site, servie à l'adresse racine (par ex. example.com/) plutôt que sur un permalien ? Une seule page peut être la page d'accueil à la fois.
 homepage_confirm_title#:#Utiliser comme page d'accueil
 homepage_pending_notice#:#Ces valeurs ne sont pas enregistrées. Vous avez laissé une modification de page d'accueil sans confirmation ; enregistrez à nouveau pour revenir à la confirmation, ou saisissez un permalien pour l'abandonner.
-index#:#Index
+index#:#Indexer
 index_page#:#Indexer
 index_page_info#:#Indique si la page est visible pour les moteurs de recherche (indexée). Si activé, vous pouvez définir les valeurs de fréquence et de priorité, qui ne concernent que le <b>plan du site</b>.
-language#:#Langues
+language#:#Langue
 mass_edit#:#Tout modifier
 mass_edit_follow#:#Suivre les liens
 mass_edit_index#:#Indexer
@@ -100,11 +100,11 @@ robots_index_follow#:#Index, Follow
 robots_index_nofollow#:#Index, Nofollow
 robots_noindex_follow#:#Noindex, Follow
 robots_noindex_nofollow#:#Noindex, Nofollow
-screen_config_desc#:#Les paramètres SEO de l'installation : le titre du site, la soumission du plan du site, et pour quelles langues les métadonnées SEO sont publiées.
+screen_config_desc#:#Les paramètres SEO de l'installation : le titre du site, pour quelles langues les métadonnées SEO sont publiées et la configuration du routage des permaliens.
 screen_config_title#:#Configuration SEO
 screen_overview_desc#:#Toutes les pages connues du plugin, avec le permalien, les métadonnées et les directives pour moteurs de recherche enregistrés pour chacune.
 screen_overview_title#:#Vue d'ensemble SEO
-section_languages#:#Langue
+section_languages#:#Langues
 section_languages_info#:#Les langues installées pour lesquelles le plugin publie des métadonnées SEO. Cochez une langue pour l'activer ; la note sous chacune compte les pages qui ont déjà des métadonnées dans cette langue.
 section_settings#:#Paramètres
 seo#:#SEO

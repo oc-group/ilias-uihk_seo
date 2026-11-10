@@ -43,8 +43,6 @@ class ilSeoSettingsGUI implements ilCtrlSecurityInterface
     /** @var string form key and input name of the website title */
     private const KEY_WEB_TITLE = "web_title";
 
-    /** @var string form key and input name of the sitemap submission flag */
-
     /** @var string form key of the default language, and the key ilSeoSettings stores it under */
     private const KEY_DEFAULT_LANG = "default";
 

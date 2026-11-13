@@ -20,6 +20,7 @@ duplicate_metadata_title#:#Titolo duplicato
 enabled#:#Metadati SEO attivi.
 err_gone#:#Spiacente, questa pagina non è più disponibile.
 err_internal#:#Si è verificato un errore inatteso.
+err_invalid_token#:#La richiesta non ha potuto essere verificata (token di sicurezza mancante o non valido). Nulla è stato modificato. Riapri la pagina e riprova.
 err_no_permission#:#Spiacente, non puoi accedere a questo contenuto.
 err_not_found#:#Spiacente, la pagina che cerchi non è stata trovata.
 err_redirection#:#Non è stato possibile scrivere le regole di reindirizzamento nel file .htaccess di ILIAS. I permalink non funzioneranno finché il problema non sarà risolto. Verifica che il file esista e sia scrivibile dal web server.

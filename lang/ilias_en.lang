@@ -20,6 +20,7 @@ duplicate_metadata_title#:#Duplicate title
 enabled#:#SEO metadata are active.
 err_gone#:#Sorry, this page is no longer available.
 err_internal#:#An unexpected error occurred.
+err_invalid_token#:#The request could not be verified (security token missing or invalid). Nothing was changed. Please reopen the page and try again.
 err_no_permission#:#Sorry, you cannot access this page.
 err_not_found#:#Sorry, cannot find the page you are looking for.
 err_redirection#:#The redirection rules could not be written to the ILIAS .htaccess file. Permalinks will not work until this is fixed. Check that the file exists and is writable by the web server.

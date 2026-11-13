@@ -20,6 +20,7 @@ duplicate_metadata_title#:#Título duplicado
 enabled#:#Los metadatos SEO están activos.
 err_gone#:#Lo sentimos, esta página ya no está disponible.
 err_internal#:#Se ha producido un error inesperado.
+err_invalid_token#:#No se pudo verificar la solicitud (falta el token de seguridad o no es válido). No se ha modificado nada. Vuelva a abrir la página e inténtelo de nuevo.
 err_no_permission#:#Lo sentimos, no tiene permiso para acceder a esta página.
 err_not_found#:#Lo sentimos, no se ha encontrado la página que busca.
 err_redirection#:#No se han podido escribir las reglas de redirección en el archivo .htaccess de ILIAS. Los permalinks no funcionarán hasta que se solucione esto. Compruebe que el archivo existe y que el servidor web tiene permisos de escritura sobre él.

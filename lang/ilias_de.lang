@@ -20,6 +20,7 @@ duplicate_metadata_title#:#Doppelter Titel
 enabled#:#Die SEO-Metadaten sind aktiv.
 err_gone#:#Entschuldigung, diese Seite ist nicht mehr verfügbar.
 err_internal#:#Es ist ein unerwarteter Fehler aufgetreten.
+err_invalid_token#:#Die Anfrage konnte nicht verifiziert werden (Sicherheits-Token fehlt oder ist ungültig). Es wurde nichts geändert. Bitte öffnen Sie die Seite erneut und versuchen Sie es noch einmal.
 err_no_permission#:#Entschuldigung, Sie haben keinen Zugriff auf diese Seite.
 err_not_found#:#Entschuldigung, die gesuchte Seite konnte nicht gefunden werden.
 err_redirection#:#Die Weiterleitungsregeln konnten nicht in die .htaccess-Datei von ILIAS geschrieben werden. Permalinks funktionieren erst, wenn dies behoben ist. Prüfen Sie, ob die Datei existiert und vom Webserver beschreibbar ist.

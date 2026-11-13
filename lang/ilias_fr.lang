@@ -20,6 +20,7 @@ duplicate_metadata_title#:#Titre dupliqué
 enabled#:#Les métadonnées SEO sont actives.
 err_gone#:#Désolé, cette page n'est plus disponible.
 err_internal#:#Une erreur inattendue s'est produite.
+err_invalid_token#:#La requête n'a pas pu être vérifiée (jeton de sécurité manquant ou invalide). Rien n'a été modifié. Veuillez rouvrir la page et réessayer.
 err_no_permission#:#Désolé, vous n'êtes pas autorisé à accéder à cette page.
 err_not_found#:#Désolé, la page que vous recherchez est introuvable.
 err_redirection#:#Les règles de redirection n'ont pas pu être écrites dans le fichier .htaccess d'ILIAS. Les permaliens ne fonctionneront pas tant que ce problème n'est pas résolu. Vérifiez que le fichier existe et qu'il est modifiable par le serveur web.

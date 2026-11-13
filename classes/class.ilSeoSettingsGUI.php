@@ -134,6 +134,11 @@ class ilSeoSettingsGUI implements ilCtrlSecurityInterface
                 throw new ilException("Unknown command: '$cmd'");
         }
 
+        if (ilSeoRequestGuard::refuses($cmd, $this->getUnsafeGetCommands())) {
+            $this->tpl->setOnScreenMessage("failure", $this->plugin->txt("err_invalid_token"), true);
+            $this->ctrl->redirect($this, self::CMD_SHOW);
+        }
+
         $this->$cmd();
     }
 

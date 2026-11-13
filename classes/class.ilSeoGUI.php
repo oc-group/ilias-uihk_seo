@@ -133,6 +133,13 @@ class ilSeoGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $cmd = $this->ctrl->getCmd();
 
+        // Before the command runs: a request that omits cmdClass is not
+        // token-checked by ilCtrl (see ilSeoRequestGuard).
+        if (ilSeoRequestGuard::refuses($cmd, $this->getUnsafeGetCommands())) {
+            $this->redirectWithoutCommand("err_invalid_token");
+            return;
+        }
+
         switch ($cmd) {
             case self::CMD_QUICK_SAVE:
             case self::CMD_CONFIGURE:
@@ -145,7 +152,7 @@ class ilSeoGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 break;
 
             case "":
-                $this->redirectWithoutCommand();
+                $this->redirectWithoutCommand("request_not_processed");
                 break;
 
             default:
@@ -197,10 +204,11 @@ class ilSeoGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * modal fragment for JS to consume, so the quiet degrade is a redirect back
      * to the object with a notice, the same landing every other failure path
      * here uses, rather than an error screen for a rejected token.
+     * @param string $message_key language key of the notice to show
      * @throws ilException if the request carries no ref_id either
      * @return void
      */
-    private function redirectWithoutCommand(): void
+    private function redirectWithoutCommand(string $message_key): void
     {
         global $DIC;
 
@@ -210,7 +218,7 @@ class ilSeoGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         }
 
         $ref_id = $query->retrieve("ref_id", $DIC->refinery()->kindlyTo()->int());
-        $this->tpl->setOnScreenMessage("failure", $this->plugin->txt("request_not_processed"), true);
+        $this->tpl->setOnScreenMessage("failure", $this->plugin->txt($message_key), true);
         $this->ctrl->redirectToUrl(ilLink::_getLink($ref_id));
     }
 

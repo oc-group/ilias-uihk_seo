@@ -20,13 +20,25 @@ class ilSeoInitialisation extends ilInitialisation
      */
     public static function initDatabase(): void
     {
-        $ilias_ini = new ilIniFile("./ilias.ini.php");
-        $ilias_ini->read();
-        $web_dir = $ilias_ini->readVariable("clients", "path");
+        // classes/ sits 9 levels below the ILIAS root, see go.php.
+        $ilias_root = realpath(dirname(__DIR__, 9));
+        if ($ilias_root === false) {
+            throw new RuntimeException("Cannot resolve the ILIAS root directory");
+        }
+
+        $ilias_ini = new ilIniFile($ilias_root . "/ilias.ini.php");
+        if (!$ilias_ini->read() || $ilias_ini->getError() !== "") {
+            throw new RuntimeException("Cannot read ilias.ini.php at " . $ilias_root . "/ilias.ini.php");
+        }
+        // Like core: strip "public/" from the web dir, read below public/.
+        $web_dir = str_replace("public/", "", $ilias_ini->readVariable("clients", "path"));
         $default_client_id = $ilias_ini->readVariable("clients", "default");
 
-        $client_ini = new ilIniFile("./{$web_dir}/{$default_client_id}/client.ini.php");
-        $client_ini->read();
+        $client_ini_path = $ilias_root . "/public/" . $web_dir . "/" . $default_client_id . "/client.ini.php";
+        $client_ini = new ilIniFile($client_ini_path);
+        if (!$client_ini->read() || $client_ini->getError() !== "") {
+            throw new RuntimeException("Cannot read client.ini.php at " . $client_ini_path);
+        }
 
         $db_type = $client_ini->readVariable("db", "type");
         if ($db_type === "") {

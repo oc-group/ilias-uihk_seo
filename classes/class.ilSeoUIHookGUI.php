@@ -464,7 +464,8 @@ class ilSeoUIHookGUI extends ilUIHookPluginGUI
      */
     private function headRegionHasFragmentGuard(string $head_region): bool
     {
-        if (!preg_match_all(self::SCRIPT_OPEN_TAG_PATTERN, $head_region, $script_tags)) {
+        $script_tag_count = preg_match_all(self::SCRIPT_OPEN_TAG_PATTERN, $head_region, $script_tags);
+        if ($script_tag_count === false || $script_tag_count === 0) {
             return false;
         }
 

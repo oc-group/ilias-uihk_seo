@@ -193,7 +193,12 @@ class ilSeoSitemapBuilderCronJob extends ilCronJob
                 continue;
             }
 
-            $pages[] = array_merge($candidates[$index], $verdict);
+            $row = $candidates[$index] ?? null;
+            if ($row === null) {
+                continue;
+            }
+
+            $pages[] = array_merge($row, $verdict);
         }
 
         return $pages;

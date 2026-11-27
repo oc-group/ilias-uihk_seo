@@ -197,12 +197,17 @@ class ilSeoSitemapBuilderCronJob extends CronJob
 
             // An active shortlink answers a shadowed permalink's address, so
             // listing it would publish the shortlink target under this page.
-            $shadowed = (string) $candidates[$index]["permalink"];
+            $row = $candidates[$index] ?? null;
+            if ($row === null) {
+                continue;
+            }
+
+            $shadowed = (string) $row["permalink"];
             if ($shortlinks->isShadowed($shadowed)) {
                 continue;
             }
 
-            $pages[] = array_merge($candidates[$index], $verdict);
+            $pages[] = array_merge($row, $verdict);
         }
 
         return $pages;
